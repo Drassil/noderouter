@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  node-router:
+    image: node:12-slim
+    restart: unless-stopped
+    command: npm run start
+    working_dir: /usr/src/service
+    volumes:
+      - type: bind
+        source: .
+        target: /usr/src/service
+    environment:
+      - NODE_ENV=development
+      - HTTPS=0
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - DOCKER_CONTAINER=1
+    networks:
+      - local-shared-net
+    ports:
+      - "80:80"
+      - "443:443"
+      - "60001:60001"
+networks:
+  local-shared-net:
+    driver: bridge
