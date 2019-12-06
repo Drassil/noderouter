@@ -22,6 +22,10 @@ class Router {
     return this.srvHandler.address().port;
   }
 
+  getRouterHost() {
+    return this.srvHandler.address().address;
+  }
+
   /**
    * Get list of registered clients on source host
    * @param {string} srcHost

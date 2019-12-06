@@ -93,7 +93,7 @@ class ApiServer {
           let clientTcp = new ClientInfo({
             ...info,
             dstPort: this.httpsRouter.getRouterPort(),
-            dstHost: info.srcHost,
+            dstHost: this.httpsRouter.getRouterHost(),
             signature: body
           });
 
@@ -151,7 +151,7 @@ class ApiServer {
           let clientTcp = new ClientInfo({
             ...info,
             dstPort: this.httpsRouter.getRouterPort(),
-            dstHost: info.srcHost,
+            dstHost: this.httpsRouter.getRouterHost(),
             signature: body
           });
 
