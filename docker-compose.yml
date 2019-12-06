@@ -3,7 +3,7 @@ services:
   node-router:
     image: node:12-slim
     restart: unless-stopped
-    command: npm run start
+    command: node src/index.js
     working_dir: /usr/src/service
     volumes:
       - type: bind
