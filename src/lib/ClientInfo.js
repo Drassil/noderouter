@@ -10,18 +10,45 @@ class ClientInfo {
    *
    * @param {ClientInfoObj} info
    */
-  constructor({ isLocal, isSSL, srcHost, dstHost, dstPort }) {
-    assert(typeof isLocal === "boolean");
-    assert(typeof isSSL === "boolean");
-    assert(srcHost && typeof srcHost === "string");
-    assert(dstHost && typeof dstHost === "string");
-    assert(dstPort && typeof srcHost === "number");
+  constructor({
+    isLocal,
+    connType,
+    srcHost,
+    dstHost,
+    dstPort,
+    srcPath,
+    dstPath,
+    signature
+  }) {
+    // Following assertion are needed to validate network data
+    assert(typeof isLocal === "boolean", "isLocal must be a boolean");
+    assert(typeof connType === "number", "connType must be a number");
+    assert(srcHost && typeof srcHost === "string", "srcHost must be a string");
+    assert(dstHost && typeof dstHost === "string", "dstHost must be a string");
+    assert(dstPort && typeof dstPort === "number", "dstPort must be a number");
+    assert(
+      signature && typeof signature === "string",
+      "Signature must be a string"
+    );
+    assert(!srcPath || typeof srcPath === "string", "srcPath must be a string");
+    assert(!dstPath || typeof dstPath === "string", "dstPath must be a string");
 
     this.isLocal = isLocal;
-    this.isSSL = isSSL;
+    this.connType = connType;
     this.srcHost = srcHost;
     this.dstHost = dstHost;
     this.dstPort = dstPort;
+    this.srcPath = srcPath && dstPath ? srcPath : "(.*)";
+    this.dstPath = srcPath && dstPath ? dstPath : "$1";
+    this.signature = signature;
+  }
+
+  /**
+   *
+   * @param {string} url
+   */
+  getDestPathByUrl(url) {
+    return url.replace(this.srcPath, this.dstPath);
   }
 }
 

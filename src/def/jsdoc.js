@@ -1,9 +1,11 @@
 /**
  * Information sent by clients to create the connection tunnel
  * @typedef {Object} ClientInfoObj
+ * @property {number} connType
  * @property {boolean} isLocal
- * @property {boolean} isSSL
  * @property {string} srcHost
  * @property {string} dstHost
  * @property {number} dstPort
+ * @property {string} srcPath
+ * @property {string} dstPath
  */

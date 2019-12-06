@@ -1,15 +1,16 @@
 require("./def/jsdoc");
 const net = require("net");
 const sniReader = require("./lib/sniReader");
-const ClientInfo = require("./lib/ClientInfo").default;
+const ClientInfo = require("./lib/ClientInfo");
+const Router = require("./lib/Router");
 
-class TCPRouter {
+class TCPRouter extends Router {
   /**
    * Initialize the router
    * @param {number} localport
    */
   constructor(localport) {
-    this.clients = {};
+    super(localport, "TCP");
 
     var server = net.createServer(serverSocket => {
       sniReader(serverSocket, (err, sniName) => {
@@ -37,13 +38,13 @@ class TCPRouter {
       });
     });
 
-    const srvHandler = server.listen(localport);
-    if (srvHandler) console.log("TCP Router listening on " + localport);
+    this.srvHandler = server.listen(this.localport);
+    if (this.srvHandler)
+      console.log("TCP Router listening on " + this.srvHandler.address().port);
   }
 
   initSession(serverSocket, sniName) {
-    /**@type {ClientInfo} */
-    const client = this.clients[sniName];
+    const client = this.getFirstClient(sniName);
 
     if (!client) return;
 
@@ -54,7 +55,7 @@ class TCPRouter {
 
     clientSocket.on("connect", function() {
       serverSocket.pipe(clientSocket).pipe(serverSocket);
-      console.info(
+      console.debug(
         serverSocket.remoteAddress,
         sniName,
         "connected",
@@ -76,15 +77,13 @@ class TCPRouter {
   }
 
   /**
-   * Register a socket on router
-   * @param {ClientInfo} clientInfo
+   * Get first client for a registered host
+   * @param {string} srcHost
+   * @returns {ClientInfo} - clients information
    */
-  register(clientInfo) {
-    this.clients[clientInfo.srcHost] = clientInfo;
-
-    console.log(
-      `Registered TLS tunnel: ${clientInfo.srcHost} <==> ${clientInfo.dstHost}:${clientInfo.dstPort}`
-    );
+  getFirstClient(srcHost) {
+    let keys = Object.keys(this.clients[srcHost]);
+    return this.clients[srcHost][keys[0]];
   }
 }
 
