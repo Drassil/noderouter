@@ -62,7 +62,8 @@ class TCPRouter extends Router {
         client.dstHost
       );
     });
-    clientSocket.on("error", function(err) {
+    clientSocket.on("error", err => {
+      this.unregister(client);
       console.error(sniName, "Client socket reported", err.code);
       serverSocket.end();
     });
