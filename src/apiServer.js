@@ -113,7 +113,7 @@ class ApiServer {
 
       res.writeHead(statusCode);
 
-      res.end("ok");
+      res.end();
     });
   }
 
@@ -171,7 +171,7 @@ class ApiServer {
 
       res.writeHead(statusCode);
 
-      res.end("ok");
+      res.end();
     });
   }
 }
