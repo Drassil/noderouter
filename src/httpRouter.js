@@ -47,6 +47,12 @@ class HTTPRouter extends Router {
 
     if (!client) return;
 
+    if (client.isExpired()) {
+      console.log("Client expired! Unregistering...");
+      this.unregister(client);
+      return;
+    }
+
     let dstPath = client.getDestPathByUrl(client_req.url);
 
     var options = {

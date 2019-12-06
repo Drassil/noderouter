@@ -1,6 +1,8 @@
 require("../def/jsdoc");
 var assert = require("assert");
 
+const EXPIRE_TIME = 6000;
+
 /**
  * This class is used to ensure that data retrieved from clients
  * are valid.
@@ -41,6 +43,15 @@ class ClientInfo {
     this.srcPath = srcPath && dstPath ? srcPath : "(.*)";
     this.dstPath = srcPath && dstPath ? dstPath : "$1";
     this.signature = signature;
+    this.timer = Date.now();
+  }
+
+  refreshTimer() {
+    this.timer = Date.now();
+  }
+
+  isExpired() {
+    return this.timer + EXPIRE_TIME < Date.now();
   }
 
   /**

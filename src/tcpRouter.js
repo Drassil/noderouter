@@ -18,7 +18,6 @@ class TCPRouter extends Router {
           console.trace(err);
           serverSocket.end();
         } else if (sniName) {
-          console.debug(serverSocket.remoteAddress, sniName);
           serverSocket.on("error", function(err) {
             if (err.code == "EPIPE") {
               console.debug(
@@ -47,6 +46,12 @@ class TCPRouter extends Router {
     const client = this.getFirstClient(sniName);
 
     if (!client) return;
+
+    if (client.isExpired()) {
+      console.log("Client expired! Unregistering...");
+      this.unregister(client);
+      return;
+    }
 
     var clientSocket = net.connect({
       port: client.dstPort,

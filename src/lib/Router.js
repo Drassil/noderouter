@@ -104,7 +104,10 @@ class Router {
       clientInfo.signature
     );
 
-    if (client) return 200;
+    if (client) {
+      client.refreshTimer();
+      return 200;
+    }
 
     this.setClient(clientInfo);
 
