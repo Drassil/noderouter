@@ -48,7 +48,8 @@ class ClientInfo {
    * @param {string} url
    */
   getDestPathByUrl(url) {
-    return url.replace(this.srcPath, this.dstPath);
+    const r = new RegExp(this.srcPath);
+    return url.replace(r, this.dstPath);
   }
 }
 
