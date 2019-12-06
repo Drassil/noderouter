@@ -83,6 +83,8 @@ class TCPRouter extends Router {
    * @returns {ClientInfo} - clients information
    */
   getFirstClient(srcHost) {
+    if (!this.clients[srcHost]) return null;
+
     let keys = Object.keys(this.clients[srcHost]);
     return this.clients[srcHost][keys[0]];
   }
