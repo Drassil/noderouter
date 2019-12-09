@@ -78,6 +78,9 @@ class TCPRouter extends Router {
   }
 
   createTunnel(serverSocket, sniName, dstHost, dstPort, client = null) {
+    if (sniName === dstHost && this.localport === dstPort)
+      return; // avoid infinite loops
+
     var clientSocket = net.connect({
       port: dstPort,
       host: dstHost

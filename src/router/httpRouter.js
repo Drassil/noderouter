@@ -87,6 +87,9 @@ class HTTPRouter extends Router {
     dstPath,
     client = null
   ) {
+    if (srcHost === dstHost && this.localport === dstPort)
+      return; // avoid infinite loops
+
     var options = {
       hostname: dstHost,
       port: dstPort,
