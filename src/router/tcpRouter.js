@@ -1,8 +1,9 @@
-require("./def/jsdoc");
+require("../def/jsdoc");
 const net = require("net");
-const sniReader = require("./lib/sniReader");
-const ClientInfo = require("./lib/ClientInfo");
-const Router = require("./lib/Router");
+const sniReader = require("../lib/sniReader");
+const ClientInfo = require("../lib/ClientInfo");
+const Router = require("../lib/Router");
+const { TLS_ROUTER_PORT } = require("../def/const");
 
 class TCPRouter extends Router {
   /**
@@ -45,17 +46,31 @@ class TCPRouter extends Router {
   initSession(serverSocket, sniName) {
     const client = this.getFirstClient(sniName);
 
-    if (!client) return;
+    if (!client) {
+      TCPRouter.createTunnel(serverSocket, sniName, sniName, TLS_ROUTER_PORT);
+      return false;
+    }
 
     if (client.isExpired()) {
       console.log("Client expired! Unregistering...");
       this.unregister(client);
-      return;
+      TCPRouter.createTunnel(serverSocket, sniName, sniName, TLS_ROUTER_PORT); // trying with external connection
+      return false;
     }
 
+    TCPRouter.createTunnel(
+      serverSocket,
+      sniName,
+      client.dstHost,
+      client.dstPort
+    );
+    return true;
+  }
+
+  static createTunnel(serverSocket, sniName, dstHost, dstPort) {
     var clientSocket = net.connect({
-      port: client.dstPort,
-      host: client.dstHost
+      port: dstPort,
+      host: dstHost
     });
 
     clientSocket.on("connect", function() {
@@ -64,7 +79,7 @@ class TCPRouter extends Router {
         serverSocket.remoteAddress,
         sniName,
         "connected",
-        client.dstHost
+        dstHost
       );
     });
     clientSocket.on("error", err => {
@@ -80,6 +95,8 @@ class TCPRouter extends Router {
       );
       clientSocket.end();
     });
+
+    return clientSocket;
   }
 
   /**

@@ -1,0 +1,17 @@
+{
+  "hosts": [
+    {
+      "connType": 1,
+      "srcHost": "",
+      "dstHost": "",
+      "dstPort": 80,
+      "isLocal": true,
+      "srcPath": null,
+      "dstPath": null
+    }
+  ],
+  "options": {
+    "httpsApi": false,
+    "debug": false
+  }
+}

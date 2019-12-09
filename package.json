@@ -5,8 +5,22 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx nodemon src/index.js"
+    "start:router:nodemon": "npx nodemon src/router",
+    "start:router:pm2": "npx pm2 start src/router",
+    "start:router": "node src/router",
+    "docker:build:router": "docker build -t drassil/noderouter -f NR.Dockerfile . && docker tag drassil/noderouter drassil/noderouter:latest",
+    "docker:push:router": "npm run docker:build:router && docker push drassil/noderouter:latest",
+    "docker:start:router": "docker run -p 80:80 -p 443:443 -p 60001:60001 --rm --name noderouter --pid=host drassil/noderouter",
+    "start:client:nodemon": "npx nodemon src/client/run",
+    "start:client:pm2": "npx pm2 start src/client/run",
+    "start:client": "node src/client/run",
+    "docker:build:client": "docker build -t drassil/noderouter-client -f NRClient.Dockerfile . && docker tag drassil/noderouter-client drassil/noderouter-client:latest",
+    "docker:push:client": "npm run docker:build:client && docker push drassil/noderouter-client:latest",
+    "docker:start:client": "docker run --rm --name noderouter-client --pid=host drassil/noderouter-client"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "dotenv": "^8.2.0"
+  }
 }

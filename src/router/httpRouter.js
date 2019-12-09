@@ -1,10 +1,11 @@
-require("./def/jsdoc");
+require("../def/jsdoc");
 const http = require("http");
 const https = require("https");
 const fs = require("fs");
 const path = require("path");
-const ClientInfo = require("./lib/ClientInfo");
-const Router = require("./lib/Router");
+const ClientInfo = require("../lib/ClientInfo");
+const Router = require("../lib/Router");
+const { HTTP_ROUTER_PORT } = require("../def/const");
 
 class HTTPRouter extends Router {
   /**
@@ -22,10 +23,10 @@ class HTTPRouter extends Router {
       .createServer(
         {
           key: fs.readFileSync(
-            path.join(__dirname, "conf", "dist", "server.pkey")
+            path.join(__dirname, "..", "conf", "dist", "server.pkey")
           ),
           cert: fs.readFileSync(
-            path.join(__dirname, "conf", "dist", "server.crt")
+            path.join(__dirname, "..", "conf", "dist", "server.crt")
           )
         },
         this.onRequest.bind(this)
@@ -45,34 +46,48 @@ class HTTPRouter extends Router {
       client_req.url
     );
 
-    if (!client) return;
+    if (!client || client.isExpired()) {
+      if (client.isExpired()) {
+        console.log("Client expired! Unregistering...");
+        this.unregister(client);
+      }
 
-    if (client.isExpired()) {
-      console.log("Client expired! Unregistering...");
-      this.unregister(client);
+      this.createTunnel(
+        client_req,
+        client_req.headers.host,
+        client_req.headers.host,
+        this.isSSL ? 443 : HTTP_ROUTER_PORT, // https should never happen here
+        client_req.url
+      );
+
       return;
     }
 
     let dstPath = client.getDestPathByUrl(client_req.url);
 
+    this.createTunnel(
+      client_req,
+      client.srcHost,
+      client.dstHost,
+      client.dstPort,
+      dstPath,
+      client
+    );
+  }
+
+  createTunnel(client_req, srcHost, dstHost, dstPort, dstPath, client = null) {
     var options = {
-      hostname: client.dstHost,
-      port: client.dstPort,
+      hostname: dstHost,
+      port: dstPort,
       path: dstPath,
       method: client_req.method,
       headers: client_req.headers
     };
 
     var proxy = http.request(options, res => {
-      if (res.statusCode != 200) this.unregister(client);
+      if (res.statusCode != 200 && client) this.unregister(client);
 
-      console.debug(
-        client.srcHost,
-        "connected",
-        client.dstHost,
-        client.dstPort,
-        dstPath
-      );
+      console.debug(srcHost, "connected", dstHost, dstPort, dstPath);
 
       client_res.writeHead(res.statusCode, res.headers);
       res.pipe(client_res, {

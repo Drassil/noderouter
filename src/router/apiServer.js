@@ -1,15 +1,15 @@
-require("./def/jsdoc");
+require("../def/jsdoc");
 const http = require("http");
 const https = require("https");
 const TCPRouter = require("./tcpRouter");
 const HTTPRouter = require("./httpRouter");
-const ClientInfo = require("./lib/ClientInfo");
+const ClientInfo = require("../lib/ClientInfo");
 const {
   API_PORT,
   TLS_ROUTER_PORT,
   HTTP_ROUTER_PORT,
   CONN_TYPE
-} = require("./def/const");
+} = require("../def/const");
 
 /**
  * Class to create a router service
@@ -53,7 +53,9 @@ class ApiServer {
             break;
         }
       })
-      .listen(apiPort);
+      .listen(apiPort, () => {
+        console.log("API server listening on " + apiPort)
+      });
   }
 
   register(req, res) {

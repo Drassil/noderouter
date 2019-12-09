@@ -67,3 +67,7 @@ package-lock.json
 .eslintcache
 .env
 
+
+src/conf/*
+!src/conf/dist
+
