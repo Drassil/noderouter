@@ -1,4 +1,5 @@
 require("../def/jsdoc");
+const { CONN_TYPE } = require("../def/const");
 const ClientInfo = require("./ClientInfo");
 var assert = require("assert");
 
@@ -29,7 +30,7 @@ class Router {
   /**
    * Get list of registered clients on source host
    * @param {string} srcHost
-   * @returns {Object.<string,ClientInfo>} - clients information
+   * @returns {Object.<string,ClientInfo>[]} - clients information
    */
   getClients(srcHost) {
     return this.clients[srcHost];

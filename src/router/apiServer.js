@@ -30,9 +30,9 @@ class ApiServer {
     httpRouterPort = HTTP_ROUTER_PORT
   }) {
     const server = ssl ? https : http;
-    this.tcpRouter = new TCPRouter(tlsRouterPort);
     this.httpRouter = new HTTPRouter(httpRouterPort);
     this.httpsRouter = new HTTPRouter(0, true);
+    this.tcpRouter = new TCPRouter(tlsRouterPort, this.httpsRouter);
 
     server
       .createServer((req, res) => {
@@ -54,7 +54,7 @@ class ApiServer {
         }
       })
       .listen(apiPort, () => {
-        console.log("API server listening on " + apiPort)
+        console.log("API server listening on " + apiPort);
       });
   }
 

@@ -9,10 +9,14 @@ class TCPRouter extends Router {
   /**
    * Initialize the router
    * @param {number} localport
+   * @param {import("./httpRouter")} httpsRouter
    */
-  constructor(localport) {
+  constructor(localport, httpsRouter) {
     super(localport, "TCP");
 
+    this.httpsRouter = httpsRouter;
+
+    // TODO: replace with native tls module (sniReader can be removed then)
     var server = net.createServer(serverSocket => {
       sniReader(serverSocket, (err, sniName) => {
         if (err) {
@@ -44,6 +48,17 @@ class TCPRouter extends Router {
   }
 
   initSession(serverSocket, sniName) {
+    let httpsClients = this.httpsRouter.getClients(sniName);
+    if (httpsClients && httpsClients.length) {
+      TCPRouter.createTunnel(
+        serverSocket,
+        sniName,
+        this.httpsRouter.getRouterHost(),
+        this.httpsRouter.getRouterPort()
+      );
+      return false;
+    }
+
     const client = this.getFirstClient(sniName);
 
     if (!client) {
@@ -78,8 +93,9 @@ class TCPRouter extends Router {
       console.debug(
         serverSocket.remoteAddress,
         sniName,
-        "connected",
-        dstHost
+        " TLS connected",
+        dstHost,
+        dstPort
       );
     });
     clientSocket.on("error", err => {

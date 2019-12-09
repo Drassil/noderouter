@@ -87,7 +87,13 @@ class HTTPRouter extends Router {
     var proxy = http.request(options, res => {
       if (res.statusCode != 200 && client) this.unregister(client);
 
-      console.debug(srcHost, "connected", dstHost, dstPort, dstPath);
+      console.debug(
+        srcHost,
+        ` ${this.isSSL ? "HTTPS" : "HTTP"} connected`,
+        dstHost,
+        dstPort,
+        dstPath
+      );
 
       client_res.writeHead(res.statusCode, res.headers);
       res.pipe(client_res, {
