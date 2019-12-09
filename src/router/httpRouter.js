@@ -48,7 +48,7 @@ class HTTPRouter extends Router {
     );
 
     if (!client || client.isExpired()) {
-      if (client.isExpired()) {
+      if (client && client.isExpired()) {
         console.log("Client expired! Unregistering...");
         this.unregister(client);
       }

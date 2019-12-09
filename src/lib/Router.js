@@ -118,7 +118,7 @@ class Router {
         clientInfo.srcHost
       }:${this.getRouterPort()} <==> ${clientInfo.dstHost}:${
         clientInfo.dstPort
-      }`
+      } ${clientInfo.srcPath} <==> ${clientInfo.dstPath}`
     );
 
     //return client ? 205 : 201;
