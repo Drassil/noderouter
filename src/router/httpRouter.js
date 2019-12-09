@@ -18,21 +18,21 @@ class HTTPRouter extends Router {
 
     this.isSSL = isSSL;
 
-    let server = this.isSSL ? https : http;
-
-    this.srvHandler = server
-      .createServer(
-        {
-          key: fs.readFileSync(
-            path.join(__dirname, "..", "conf", "dist", "server.pkey")
-          ),
-          cert: fs.readFileSync(
-            path.join(__dirname, "..", "conf", "dist", "server.crt")
+    this.srvHandler = this.isSSL
+      ? https
+          .createServer(
+            {
+              key: fs.readFileSync(
+                path.join(__dirname, "..", "conf", "dist", "server.pkey")
+              ),
+              cert: fs.readFileSync(
+                path.join(__dirname, "..", "conf", "dist", "server.crt")
+              )
+            },
+            this.onRequest.bind(this)
           )
-        },
-        this.onRequest.bind(this)
-      )
-      .listen(this.localport);
+          .listen(this.localport)
+      : http.createServer(this.onRequest.bind(this)).listen(this.localport);
 
     if (this.srvHandler)
       console.log(
@@ -87,8 +87,7 @@ class HTTPRouter extends Router {
     dstPath,
     client = null
   ) {
-    if (srcHost === dstHost && this.localport === dstPort)
-      return; // avoid infinite loops
+    if (srcHost === dstHost && this.localport === dstPort) return; // avoid infinite loops
 
     var options = {
       hostname: dstHost,
