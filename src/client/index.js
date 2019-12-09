@@ -1,3 +1,4 @@
+// @ts-ignore
 require("../def/jsdoc");
 try {
   require("dotenv").config();
@@ -17,7 +18,7 @@ const { API_PORT, CONN_TYPE } = require("../def/const");
 const readFileAsync = promisify(fs.readFile);
 
 function initLogger(debug = false) {
-  return process.env.NODEROUTER_CLIENT_DEBUG === true || debug === true
+  return process.env.NODEROUTER_CLIENT_DEBUG || debug === true
     ? console.debug
     : () => {};
 }
@@ -26,7 +27,7 @@ async function readJson(path) {
   const data = await readFileAsync(
     require.resolve(__dirname + "/../../" + path)
   );
-  return JSON.parse(data);
+  return JSON.parse(data.toString());
 }
 
 async function registerHostsWithFile(
@@ -82,10 +83,9 @@ function registerHost(
   });
 
   const sendRequest = () => {
-    /**@type {http} */
     const client = httpsApi ? https : http;
 
-    var request = new client.request(
+    var request = client.request(
       {
         hostname: "localhost",
         port: API_PORT,
@@ -115,7 +115,7 @@ function registerHost(
     );
 
     request.on("error", e => {
-      console.error("Cannot reach the router", e.code);
+      console.error("Cannot reach the router", e);
     });
 
     request.end(signature, () => log("ping"));
@@ -131,14 +131,13 @@ function registerHost(
 function unregisterHost(
   signature,
   { httpsApi = false, debug = false },
-  cb = () => {}
+  cb = statusCode => {}
 ) {
-  /**@type {http} */
   const client = httpsApi ? https : http;
 
   const log = initLogger(debug);
 
-  var request = new client.request(
+  var request = client.request(
     {
       hostname: "localhost",
       port: API_PORT,
@@ -164,7 +163,7 @@ function unregisterHost(
   );
 
   request.on("error", e => {
-    console.error("Cannot reach the noderouter", e.code);
+    console.error("Cannot reach the noderouter", e);
   });
 
   request.end(signature, () => log("Unregistering..."));

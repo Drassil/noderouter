@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "linter": "npm install --no-save @types/node && npx typescript -p jsconfig.json --allowJs --preserveSymlinks --maxNodeModuleJsDepth 0",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:router:nodemon": "npx nodemon src/router",
     "start:router:pm2": "npx pm2 start src/router",

@@ -8,4 +8,5 @@
  * @property {number} dstPort
  * @property {string} srcPath
  * @property {string} dstPath
+ * @property {string} signature
  */

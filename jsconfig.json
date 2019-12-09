@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "target": "ES6",
+    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "module": "commonjs",
+    "checkJs": true,
     "noEmit": true,
     "skipLibCheck": true,
     "moduleResolution": "node",

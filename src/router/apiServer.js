@@ -1,3 +1,4 @@
+// @ts-ignore
 require("../def/jsdoc");
 const http = require("http");
 const https = require("https");

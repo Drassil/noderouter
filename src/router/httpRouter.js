@@ -1,3 +1,4 @@
+// @ts-ignore
 require("../def/jsdoc");
 const http = require("http");
 const https = require("https");
@@ -35,7 +36,7 @@ class HTTPRouter extends Router {
 
     if (this.srvHandler)
       console.log(
-        this.type + " Router listening on " + this.srvHandler.address().port
+        this.type + " Router listening on " + this.srvHandler.address()
       );
   }
 
@@ -54,6 +55,7 @@ class HTTPRouter extends Router {
 
       this.createTunnel(
         client_req,
+        client_res,
         client_req.headers.host,
         client_req.headers.host,
         this.isSSL ? 443 : HTTP_ROUTER_PORT, // https should never happen here
@@ -67,6 +69,7 @@ class HTTPRouter extends Router {
 
     this.createTunnel(
       client_req,
+      client_res,
       client.srcHost,
       client.dstHost,
       client.dstPort,
@@ -75,7 +78,15 @@ class HTTPRouter extends Router {
     );
   }
 
-  createTunnel(client_req, srcHost, dstHost, dstPort, dstPath, client = null) {
+  createTunnel(
+    client_req,
+    client_res,
+    srcHost,
+    dstHost,
+    dstPort,
+    dstPath,
+    client = null
+  ) {
     var options = {
       hostname: dstHost,
       port: dstPort,

@@ -1,3 +1,4 @@
+// @ts-ignore
 require("../def/jsdoc");
 const net = require("net");
 const sniReader = require("../lib/sniReader");
@@ -24,14 +25,7 @@ class TCPRouter extends Router {
           serverSocket.end();
         } else if (sniName) {
           serverSocket.on("error", function(err) {
-            if (err.code == "EPIPE") {
-              console.debug(
-                serverSocket.remoteAddress,
-                "Client disconnected before the pipe was connected."
-              );
-            } else {
-              console.error(err);
-            }
+            console.error(err);
             serverSocket.end();
           });
           this.initSession(serverSocket, sniName);
@@ -44,13 +38,13 @@ class TCPRouter extends Router {
 
     this.srvHandler = server.listen(this.localport);
     if (this.srvHandler)
-      console.log("TCP Router listening on " + this.srvHandler.address().port);
+      console.log("TCP Router listening on " + this.srvHandler.address());
   }
 
   initSession(serverSocket, sniName) {
     let httpsClients = this.httpsRouter.getClients(sniName);
     if (httpsClients && httpsClients.length) {
-      TCPRouter.createTunnel(
+      this.createTunnel(
         serverSocket,
         sniName,
         this.httpsRouter.getRouterHost(),
@@ -62,27 +56,28 @@ class TCPRouter extends Router {
     const client = this.getFirstClient(sniName);
 
     if (!client) {
-      TCPRouter.createTunnel(serverSocket, sniName, sniName, TLS_ROUTER_PORT);
+      this.createTunnel(serverSocket, sniName, sniName, TLS_ROUTER_PORT);
       return false;
     }
 
     if (client.isExpired()) {
       console.log("Client expired! Unregistering...");
       this.unregister(client);
-      TCPRouter.createTunnel(serverSocket, sniName, sniName, TLS_ROUTER_PORT); // trying with external connection
+      this.createTunnel(serverSocket, sniName, sniName, TLS_ROUTER_PORT); // trying with external connection
       return false;
     }
 
-    TCPRouter.createTunnel(
+    this.createTunnel(
       serverSocket,
       sniName,
       client.dstHost,
-      client.dstPort
+      client.dstPort,
+      client
     );
     return true;
   }
 
-  static createTunnel(serverSocket, sniName, dstHost, dstPort) {
+  createTunnel(serverSocket, sniName, dstHost, dstPort, client = null) {
     var clientSocket = net.connect({
       port: dstPort,
       host: dstHost
@@ -99,8 +94,8 @@ class TCPRouter extends Router {
       );
     });
     clientSocket.on("error", err => {
-      this.unregister(client);
-      console.error(sniName, "Client socket reported", err.code);
+      if (client) this.unregister(client);
+      console.error(sniName, "Client socket reported", err);
       serverSocket.end();
     });
     serverSocket.on("error", function(err) {

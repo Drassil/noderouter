@@ -1,3 +1,4 @@
+// @ts-ignore
 require("../def/jsdoc");
 var assert = require("assert");
 
