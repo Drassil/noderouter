@@ -11,11 +11,14 @@ class TCPRouter extends Router {
    * Initialize the router
    * @param {number} localport
    * @param {import("./httpRouter")} httpsRouter
+   * @instance
+   * @param {import("dns").Resolver} dnsServer
    */
-  constructor(localport, httpsRouter) {
+  constructor(localport, httpsRouter, dnsServer) {
     super(localport, "TCP");
 
     this.httpsRouter = httpsRouter;
+    this.dnsServer = dnsServer;
 
     // TODO: replace with native tls module (sniReader can be removed then)
     var server = net.createServer(serverSocket => {
@@ -25,7 +28,7 @@ class TCPRouter extends Router {
           serverSocket.end();
         } else if (sniName) {
           serverSocket.on("error", function(err) {
-            console.error(err);
+            console.error("Socket error: " + err);
             serverSocket.end();
           });
           this.initSession(serverSocket, sniName);
@@ -38,12 +41,13 @@ class TCPRouter extends Router {
 
     this.srvHandler = server.listen(this.localport);
     if (this.srvHandler)
-      console.log("TCP Router listening on " + this.srvHandler.address());
+      console.log("TCP Router listening on ", this.srvHandler.address());
   }
 
   initSession(serverSocket, sniName) {
     let httpsClients = this.httpsRouter.getClients(sniName);
-    if (httpsClients && httpsClients.length) {
+    if (httpsClients && Object.keys(httpsClients).length) {
+      console.error("retunneling");
       this.createTunnel(
         serverSocket,
         sniName,
@@ -55,8 +59,23 @@ class TCPRouter extends Router {
 
     const client = this.getFirstClient(sniName);
 
+    console.error(client);
+
     if (!client) {
-      this.createTunnel(serverSocket, sniName, sniName, TLS_ROUTER_PORT);
+      this.dnsServer.resolve(sniName, (err, addresses) => {
+        if (!err) {
+          console.log("Resolving by remote DNS");
+          this.createTunnel(
+            serverSocket,
+            sniName,
+            addresses[0],
+            TLS_ROUTER_PORT
+          );
+        } else {
+          console.log(err);
+        }
+      });
+
       return false;
     }
 
@@ -78,8 +97,19 @@ class TCPRouter extends Router {
   }
 
   createTunnel(serverSocket, sniName, dstHost, dstPort, client = null) {
-    if (sniName === dstHost && this.localport === dstPort)
-      return; // avoid infinite loops
+    if (sniName === dstHost && this.localport === dstPort) {
+      // avoid infinite loops, try with DNS
+      this.dnsServer.resolve(dstHost, (err, addresses) => {
+        if (err) {
+          console.trace(err);
+          return;
+        }
+
+        this.createTunnel(serverSocket, sniName, addresses[0], dstPort, client);
+      });
+
+      return;
+    }
 
     var clientSocket = net.connect({
       port: dstPort,

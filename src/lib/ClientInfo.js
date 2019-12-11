@@ -2,7 +2,7 @@
 require("../def/jsdoc");
 var assert = require("assert");
 
-const EXPIRE_TIME = 6000;
+const TTL = 6000;
 
 /**
  * This class is used to ensure that data retrieved from clients
@@ -21,10 +21,13 @@ class ClientInfo {
     dstPort,
     srcPath,
     dstPath,
+    isFailover = false,
+    timeToLive = TTL,
     signature
   }) {
     // Following assertion are needed to validate network data
     assert(typeof isLocal === "boolean", "isLocal must be a boolean");
+    assert(typeof isFailover === "boolean", "isFailover must be a boolean");
     assert(typeof connType === "number", "connType must be a number");
     assert(srcHost && typeof srcHost === "string", "srcHost must be a string");
     assert(dstHost && typeof dstHost === "string", "dstHost must be a string");
@@ -35,14 +38,20 @@ class ClientInfo {
     );
     assert(!srcPath || typeof srcPath === "string", "srcPath must be a string");
     assert(!dstPath || typeof dstPath === "string", "dstPath must be a string");
+    assert(
+      timeToLive && typeof timeToLive === "number",
+      "timeToLive must be a number"
+    );
 
     this.isLocal = isLocal;
+    this.isFailover = isFailover;
     this.connType = connType;
     this.srcHost = srcHost;
     this.dstHost = dstHost;
     this.dstPort = dstPort;
     this.srcPath = srcPath && dstPath ? srcPath : "(.*)";
     this.dstPath = srcPath && dstPath ? dstPath : "$1";
+    this.timeToLive = timeToLive;
     this.signature = signature;
     this.timer = Date.now();
   }
@@ -52,7 +61,7 @@ class ClientInfo {
   }
 
   isExpired() {
-    return this.timer + EXPIRE_TIME < Date.now();
+    return this.timer + this.timeToLive < Date.now();
   }
 
   /**

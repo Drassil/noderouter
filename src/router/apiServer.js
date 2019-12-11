@@ -2,6 +2,7 @@
 require("../def/jsdoc");
 const http = require("http");
 const https = require("https");
+const dns = require("dns");
 const TCPRouter = require("./tcpRouter");
 const HTTPRouter = require("./httpRouter");
 const ClientInfo = require("../lib/ClientInfo");
@@ -31,11 +32,20 @@ class ApiServer {
     httpRouterPort = HTTP_ROUTER_PORT
   }) {
     const server = ssl ? https : http;
-    this.httpRouter = new HTTPRouter(httpRouterPort);
-    this.httpsRouter = new HTTPRouter(0, true);
-    this.tcpRouter = new TCPRouter(tlsRouterPort, this.httpsRouter);
+    this.dnsServer = new dns.Resolver();
+    
+    // we can set custom DNS here (otherwise it will use OS addresses)
+    // this.dnsServer.setServers(["8.8.8.8", "8.8.4.4"]);
 
-    server
+    this.httpRouter = new HTTPRouter(httpRouterPort, this.dnsServer);
+    this.httpsRouter = new HTTPRouter(0, this.dnsServer, true);
+    this.tcpRouter = new TCPRouter(
+      tlsRouterPort,
+      this.httpsRouter,
+      this.dnsServer
+    );
+
+    var serverHandler = server
       .createServer((req, res) => {
         if (req.method !== "POST") return;
 
@@ -55,7 +65,7 @@ class ApiServer {
         }
       })
       .listen(apiPort, () => {
-        console.log("API server listening on " + apiPort);
+        console.log("API server listening on ", serverHandler.address());
       });
   }
 
@@ -83,7 +93,7 @@ class ApiServer {
           statusCode = this.tcpRouter.register(client);
           break;
         }
-        case CONN_TYPE.HTTP_PROXY: {
+        case CONN_TYPE.HTTP_HTTP_PROXY: {
           let client = new ClientInfo({
             ...info,
             signature: body
@@ -92,7 +102,8 @@ class ApiServer {
           statusCode = this.httpsRouter.register(client);
           break;
         }
-        case CONN_TYPE.HTTPS_PROXY: {
+        case CONN_TYPE.HTTPS_HTTPS_PROXY:
+        case CONN_TYPE.HTTPS_HTTP_PROXY: {
           let clientTcp = new ClientInfo({
             ...info,
             dstPort: this.httpsRouter.getRouterPort(),
@@ -141,7 +152,7 @@ class ApiServer {
           statusCode = this.tcpRouter.unregister(client);
           break;
         }
-        case CONN_TYPE.HTTP_PROXY: {
+        case CONN_TYPE.HTTP_HTTP_PROXY: {
           let client = new ClientInfo({
             ...info,
             signature: body
@@ -150,7 +161,8 @@ class ApiServer {
           statusCode = this.httpsRouter.unregister(client);
           break;
         }
-        case CONN_TYPE.HTTPS_PROXY: {
+        case CONN_TYPE.HTTPS_HTTPS_PROXY:
+        case CONN_TYPE.HTTPS_HTTP_PROXY: {
           let clientTcp = new ClientInfo({
             ...info,
             dstPort: this.httpsRouter.getRouterPort(),

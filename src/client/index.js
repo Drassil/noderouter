@@ -55,6 +55,7 @@ function registerHosts(hosts, options) {
  * Handles registration of a single service connection tunnel with the noderouter service
  * @param {ClientInfoObj} client
  * @param {NRClientOptions} options
+ * @param {Function} callback
  * @returns {string} - host signature
  */
 function registerHost(
@@ -67,7 +68,8 @@ function registerHost(
     srcPath = null,
     dstPath = null
   },
-  { httpsApi = false, debug = false }
+  { httpsApi = false, debug = false },
+  callback = res => {}
 ) {
   // enable debug logging on request only
   const log = initLogger(debug);
@@ -111,6 +113,8 @@ function registerHost(
             log("Unknown status");
             break;
         }
+
+        callback(res);
       }
     );
 

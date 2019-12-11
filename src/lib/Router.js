@@ -1,6 +1,6 @@
 // @ts-ignore
 require("../def/jsdoc");
-const { CONN_TYPE } = require("../def/const");
+const { CONN_TYPE, CLIENT_PRIORITY } = require("../def/const");
 const ClientInfo = require("./ClientInfo");
 var assert = require("assert");
 
@@ -79,6 +79,7 @@ class Router {
     if (!this.clients[clientInfo.srcHost])
       this.clients[clientInfo.srcHost] = {};
 
+    //if ()
     this.clients[clientInfo.srcHost][clientInfo.signature] = clientInfo;
   }
 
