@@ -9,6 +9,7 @@
     "start:router:nodemon": "npx nodemon src/router",
     "start:router:pm2": "npx pm2 start src/router",
     "start:router": "node src/router",
+    "dockercompose:start": "docker-compose up",
     "docker:build:router": "docker build -t drassil/noderouter -f NR.Dockerfile . && docker tag drassil/noderouter drassil/noderouter:latest",
     "docker:push:router": "npm run docker:build:router && docker push drassil/noderouter:latest",
     "docker:start:router": "docker run -p 80:80 -p 443:443 -p 60001:60001 --rm --name noderouter --pid=host drassil/noderouter",

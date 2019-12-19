@@ -99,7 +99,7 @@ class ApiServer {
             signature: body
           });
 
-          statusCode = this.httpsRouter.register(client);
+          statusCode = this.httpRouter.register(client);
           break;
         }
         case CONN_TYPE.HTTPS_HTTPS_PROXY:
@@ -158,7 +158,7 @@ class ApiServer {
             signature: body
           });
 
-          statusCode = this.httpsRouter.unregister(client);
+          statusCode = this.httpRouter.unregister(client);
           break;
         }
         case CONN_TYPE.HTTPS_HTTPS_PROXY:

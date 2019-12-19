@@ -2,10 +2,19 @@
   "hosts": [
     {
       "connType": 1,
-      "srcHost": "",
-      "dstHost": "",
+      "srcHost": "portainer.localhost",
+      "dstHost": "portainer.localhost",
+      "dstPort": 9000,
+      "isLocal": false,
+      "srcPath": null,
+      "dstPath": null
+    },
+    {
+      "connType": 1,
+      "srcHost": "whoami.localhost",
+      "dstHost": "whoami.localhost",
       "dstPort": 80,
-      "isLocal": true,
+      "isLocal": false,
       "srcPath": null,
       "dstPath": null
     }

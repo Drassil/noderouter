@@ -117,7 +117,7 @@ class HTTPRouter extends Router {
     let protocol = connType == CONN_TYPE.HTTPS_HTTPS_PROXY ? https : http;
 
     var proxy = protocol.request(options, res => {
-      if (res.statusCode != 200 && client) this.unregister(client);
+      //if (res.statusCode != 200 && client) this.unregister(client);
 
       console.debug(
         srcHost,

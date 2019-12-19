@@ -45,15 +45,18 @@ class TCPRouter extends Router {
   }
 
   initSession(serverSocket, sniName) {
+    // if there's an HTTPS Proxy registered
+    // on requested host, then process
+    // it first.
     let httpsClients = this.httpsRouter.getClients(sniName);
     if (httpsClients && Object.keys(httpsClients).length) {
-      console.error("retunneling");
       this.createTunnel(
         serverSocket,
         sniName,
         this.httpsRouter.getRouterHost(),
         this.httpsRouter.getRouterPort()
       );
+
       return false;
     }
 

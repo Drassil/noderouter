@@ -1,16 +1,9 @@
 version: "3.7"
 services:
   node-router:
-    image: node:12-slim
+    image: drassil/noderouter:latest
     restart: unless-stopped
-    command: npm run start:router
-    working_dir: /usr/src/service
-    volumes:
-      - type: bind
-        source: .
-        target: /usr/src/service
     environment:
-      - NODE_ENV=development
       - HTTPS=0
       - NODE_TLS_REJECT_UNAUTHORIZED=0
       - DOCKER_CONTAINER=1
@@ -23,17 +16,11 @@ services:
       - "443:443"
       - "4010:4010"
   nr-client:
-    image: node:12-slim
+    image: drassil/noderouter-client:latest
     restart: unless-stopped
-    command: npm run start:client
-    working_dir: /usr/src/service
-    volumes:
-      - type: bind
-        source: .
-        target: /usr/src/service
     environment:
       - NR_HOSTS_FILE=src/conf/dist/hosts.json
-      - NR_DEBUG=1
+      - NR_DEBUG=0
       - DOCKER_CONTAINER=1
     networks:
       - local-shared-net

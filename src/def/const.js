@@ -16,16 +16,5 @@ module.exports = {
     HTTPS_HTTP_PROXY: 3,
     /** define a tls -> service a TCP tunnel with TLS, SNI & SSL Passthrough support, but no proxy path possible */
     TLS_TUNNEL: 4
-  },
-  /**
-   * Enum for client priority
-   * @readonly
-   * @enum {number}
-   */
-  CLIENT_PRIORITY: {
-    /** If exists, a failover client will be used when primary is not available */
-    FAILOVER: 0,
-    /** Primary priority is the standard value for all clients */
-    PRIMARY: 1
   }
 };

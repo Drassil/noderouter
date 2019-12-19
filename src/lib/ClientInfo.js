@@ -1,6 +1,7 @@
 // @ts-ignore
 require("../def/jsdoc");
-var assert = require("assert");
+const assert = require("assert");
+const { CLIENT_PRIORITY } = require("../def/const")
 
 const TTL = 6000;
 
@@ -21,13 +22,11 @@ class ClientInfo {
     dstPort,
     srcPath,
     dstPath,
-    isFailover = false,
     timeToLive = TTL,
     signature
   }) {
     // Following assertion are needed to validate network data
     assert(typeof isLocal === "boolean", "isLocal must be a boolean");
-    assert(typeof isFailover === "boolean", "isFailover must be a boolean");
     assert(typeof connType === "number", "connType must be a number");
     assert(srcHost && typeof srcHost === "string", "srcHost must be a string");
     assert(dstHost && typeof dstHost === "string", "dstHost must be a string");
@@ -44,7 +43,6 @@ class ClientInfo {
     );
 
     this.isLocal = isLocal;
-    this.isFailover = isFailover;
     this.connType = connType;
     this.srcHost = srcHost;
     this.dstHost = dstHost;
