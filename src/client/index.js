@@ -2,7 +2,7 @@
 require("../def/jsdoc");
 try {
   require("dotenv").config();
-} catch (ex) {}
+} catch (ex) { }
 const http = require("http");
 const https = require("https");
 const fs = require("fs");
@@ -21,7 +21,7 @@ class ClientMgr {
   static initLogger(debug = false) {
     return process.env.NR_DEBUG === "true" || process.env.NR_DEBUG === "1" || debug === true
       ? console
-      : { log: () => {}, error: () => {}, debug: () => {} };
+      : { log: () => { }, error: () => { }, debug: () => { } };
   }
 
   static async readJson(path) {
@@ -79,21 +79,22 @@ class ClientMgr {
       dstPath = null
     },
     { httpsApi = false, debug = false },
-    callback = res => {}
+    callback = res => { }
   ) {
+    const logger = this.initLogger(debug);
+
+    const signature = JSON.stringify({
+      connType,
+      srcHost,
+      dstHost,
+      dstPort,
+      srcPath,
+      dstPath,
+      isLocal
+    });
+
     return new Promise((resolve, reject) => {
       // enable debug logging on request only
-      const logger = this.initLogger(debug);
-
-      const signature = JSON.stringify({
-        connType,
-        srcHost,
-        dstHost,
-        dstPort,
-        srcPath,
-        dstPath,
-        isLocal
-      });
 
       const sendRequest = () => {
         const client = httpsApi ? https : http;
@@ -111,7 +112,8 @@ class ClientMgr {
             headers: {
               "Content-Type": "application/json",
               "Content-Length": Buffer.byteLength(signature)
-            }
+            },
+
           },
           res => {
             switch (res.statusCode) {
@@ -146,13 +148,15 @@ class ClientMgr {
       sendRequest();
 
       setInterval(sendRequest, 5000);
+    }).catch(() => {
+      return signature;
     });
   }
 
   static unregisterHost(
     signature,
     { httpsApi = false, debug = false },
-    cb = statusCode => {}
+    cb = statusCode => { }
   ) {
     const client = httpsApi ? https : http;
 
@@ -194,7 +198,7 @@ class ClientMgr {
     request.end(signature, () => logger.log("Unregistering..."));
   }
 
-  static unregisterHosts(signatures, options, cb = () => {}) {
+  static unregisterHosts(signatures, options, cb = () => { }) {
     signatures.map(s => this.unregisterHost(s, options, cb));
   }
 }

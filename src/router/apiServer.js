@@ -35,7 +35,9 @@ class ApiServer {
     this.dnsServer = new dns.Resolver();
     
     // we can set custom DNS here (otherwise it will use OS addresses)
-    // this.dnsServer.setServers(["8.8.8.8", "8.8.4.4"]);
+    if (process.env.DOCKER_CONTAINER) {
+      this.dnsServer.setServers(["8.8.8.8", "8.8.4.4"]);
+    }
 
     this.httpRouter = new HTTPRouter(httpRouterPort, this.dnsServer);
     this.httpsRouter = new HTTPRouter(0, this.dnsServer, true);

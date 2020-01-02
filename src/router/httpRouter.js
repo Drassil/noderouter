@@ -19,21 +19,25 @@ class HTTPRouter extends Router {
 
     this.isSSL = isSSL;
     this.dnsServer = dnsServer;
+    this.certsMap = {};
 
     this.srvHandler = this.isSSL
       ? https
-          .createServer(
-            {
-              key: fs.readFileSync(
-                path.join(__dirname, "..", "conf", "dist", "server.pkey")
-              ),
-              cert: fs.readFileSync(
-                path.join(__dirname, "..", "conf", "dist", "server.crt")
-              )
-            },
-            this.onRequest.bind(this)
-          )
-          .listen(this.localport)
+        .createServer(
+          {
+            rejectUnauthorized: false,
+            SNICallback: (domain, cb) => {
+              if (cb) {
+                cb(null, this.getSecureContext(domain));
+              } else {
+                // compatibility for older versions of node
+                return this.getSecureContext(domain);
+              }
+            }
+          },
+          this.onRequest.bind(this)
+        )
+        .listen(this.localport)
       : http.createServer(this.onRequest.bind(this)).listen(this.localport);
 
     if (this.srvHandler)
@@ -41,6 +45,23 @@ class HTTPRouter extends Router {
         this.type + " Router listening on ",
         this.srvHandler.address()
       );
+  }
+
+  //function to pick out the key + certs dynamically based on the domain name
+  getSecureContext(domain) {
+    if (this.certsMap[domain])
+      return this.certsMap[domain];
+
+    let pkeyPath = path.join(__dirname, "..", "conf", domain, '.pkey');
+    let certPath = path.join(__dirname, "..", "conf", domain, '.crt');
+
+    let context = tls.createSecureContext({
+      key: fs.readFileSync(pkeyPath),
+      cert: fs.readFileSync(certPath),
+    }).context;
+
+    this.certsMap[domain] = context;
+    return context;
   }
 
   onRequest(client_req, client_res) {

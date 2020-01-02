@@ -1,7 +1,6 @@
 // @ts-ignore
 require("../def/jsdoc");
 const assert = require("assert");
-const { CLIENT_PRIORITY } = require("../def/const")
 
 const TTL = 6000;
 
@@ -38,7 +37,7 @@ class ClientInfo {
     assert(!srcPath || typeof srcPath === "string", "srcPath must be a string");
     assert(!dstPath || typeof dstPath === "string", "dstPath must be a string");
     assert(
-      timeToLive && typeof timeToLive === "number",
+      typeof timeToLive === "number",
       "timeToLive must be a number"
     );
 
@@ -59,7 +58,7 @@ class ClientInfo {
   }
 
   isExpired() {
-    return this.timer + this.timeToLive < Date.now();
+    return this.timeToLive > 0 && this.timer + this.timeToLive < Date.now();
   }
 
   /**
