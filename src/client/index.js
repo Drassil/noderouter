@@ -1,29 +1,29 @@
 // @ts-ignore
 require("../def/jsdoc");
 try {
+  // @ts-ignore
   require("dotenv").config();
-} catch (ex) { }
+} catch (ex) {}
 const http = require("http");
 const https = require("https");
 const fs = require("fs");
+const os = require("os");
+const path = require("path");
 const { promisify } = require("util");
 const { API_PORT, CONN_TYPE } = require("../def/const");
+const Logger = require("../lib/Logger");
 
 /**
  * @typedef {Object} NRClientOptions
- * @property {boolean} httpsApi
- * @property {boolean} debug
+ * @property {string} [routerHost] - hostname or ip of router, default: retrieved hostname by "os" package
+ * @property {boolean} [httpsApi] - connect to router via https
+ * @property {boolean} [enable] - a simple switch to enable/disable the router configuration
+ * @property {import("../lib/Logger").logOpts} logOpts
  */
 
 const readFileAsync = promisify(fs.readFile);
 
 class ClientMgr {
-  static initLogger(debug = false) {
-    return process.env.NR_DEBUG === "true" || process.env.NR_DEBUG === "1" || debug === true
-      ? console
-      : { log: () => { }, error: () => { }, debug: () => { } };
-  }
-
   static async readJson(path) {
     const data = await readFileAsync(require.resolve(path));
     return JSON.parse(data.toString());
@@ -35,10 +35,15 @@ class ClientMgr {
    * @returns {Promise<string[]>}
    */
   static async registerHostsWithFile(filePath = process.env.NR_HOSTS_FILE) {
-    const data = await this.readJson(filePath);
+    const extname = path.extname(filePath);
+
+    const data =
+      extname === ".json"
+        ? (await this.readJson(filePath)).noderouter
+        : require(filePath).noderouter;
     console.debug("Reading hosts from file: " + filePath);
     if (data && data.hosts) {
-      return await this.registerHosts(data.hosts, data.options);
+      return await ClientMgr.registerHosts(data.hosts, data.options);
     } else {
       console.error(filePath + " is not a valid host file!");
     }
@@ -54,7 +59,7 @@ class ClientMgr {
     var signatures = [];
     for (let k in hosts) {
       let host = hosts[k];
-      let sign = await this.registerHost(host, options);
+      let sign = await ClientMgr.registerHost(host, options);
       signatures.push(sign);
     }
 
@@ -78,10 +83,19 @@ class ClientMgr {
       srcPath = null,
       dstPath = null
     },
-    { httpsApi = false, debug = false },
-    callback = res => { }
+    {
+      enable = true,
+      routerHost = os.hostname(),
+      httpsApi = false,
+      logOpts = {}
+    },
+    callback = res => {}
   ) {
-    const logger = this.initLogger(debug);
+    if (enable === false) {
+      return;
+    }
+
+    const logger = new Logger(logOpts);
 
     const signature = JSON.stringify({
       connType,
@@ -94,14 +108,10 @@ class ClientMgr {
     });
 
     return new Promise((resolve, reject) => {
-      // enable debug logging on request only
-
       const sendRequest = () => {
         const client = httpsApi ? https : http;
 
-        var hostname = process.env.DOCKER_CONTAINER
-          ? "noderouter.localhost"
-          : "localhost";
+        var hostname = routerHost;
 
         var request = client.request(
           {
@@ -112,13 +122,12 @@ class ClientMgr {
             headers: {
               "Content-Type": "application/json",
               "Content-Length": Buffer.byteLength(signature)
-            },
-
+            }
           },
           res => {
             switch (res.statusCode) {
               case 200:
-                logger.log("Pong");
+                logger.debug("Pong", signature);
                 break;
               case 201:
                 logger.log("Registered");
@@ -142,7 +151,7 @@ class ClientMgr {
           reject(e);
         });
 
-        request.end(signature, () => logger.log("ping"));
+        request.end(signature, () => logger.debug("ping", signature));
       };
 
       sendRequest();
@@ -153,18 +162,22 @@ class ClientMgr {
     });
   }
 
+  /**
+   * Handles deregistration of a single service connection tunnel with the noderouter service
+   * @param {string} signature
+   * @param {NRClientOptions} options
+   * @param {function} cb
+   */
   static unregisterHost(
     signature,
-    { httpsApi = false, debug = false },
-    cb = statusCode => { }
+    { routerHost = os.hostname(), httpsApi = false, logOpts = {} },
+    cb = statusCode => {}
   ) {
     const client = httpsApi ? https : http;
 
-    const logger = this.initLogger(debug);
+    const logger = new Logger(logOpts);
 
-    var hostname = process.env.DOCKER_CONTAINER
-      ? "noderouter.localhost"
-      : "localhost";
+    var hostname = routerHost;
 
     var request = client.request(
       {
@@ -198,8 +211,8 @@ class ClientMgr {
     request.end(signature, () => logger.log("Unregistering..."));
   }
 
-  static unregisterHosts(signatures, options, cb = () => { }) {
-    signatures.map(s => this.unregisterHost(s, options, cb));
+  static unregisterHosts(signatures, options, cb = () => {}) {
+    signatures.map(s => ClientMgr.unregisterHost(s, options, cb));
   }
 }
 

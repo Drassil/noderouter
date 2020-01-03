@@ -6,12 +6,14 @@ const dns = require("dns");
 const TCPRouter = require("./tcpRouter");
 const HTTPRouter = require("./httpRouter");
 const ClientInfo = require("../lib/ClientInfo");
+const logger = require("./logger");
 const {
   API_PORT,
   TLS_ROUTER_PORT,
   HTTP_ROUTER_PORT,
   CONN_TYPE
 } = require("../def/const");
+const os = require("os");
 
 /**
  * Class to create a router service
@@ -33,7 +35,7 @@ class ApiServer {
   }) {
     const server = ssl ? https : http;
     this.dnsServer = new dns.Resolver();
-    
+
     // we can set custom DNS here (otherwise it will use OS addresses)
     if (process.env.DOCKER_CONTAINER) {
       this.dnsServer.setServers(["8.8.8.8", "8.8.4.4"]);
@@ -61,13 +63,13 @@ class ApiServer {
             this.unregister(req, res);
             break;
           default:
-            console.log("No API on " + req.url);
+            logger.error("No API on " + req.url);
             res.end("No API on " + req.url);
             break;
         }
       })
       .listen(apiPort, () => {
-        console.log("API server listening on ", serverHandler.address());
+        logger.info("API server listening on ", serverHandler.address());
       });
   }
 
@@ -81,8 +83,15 @@ class ApiServer {
       /**@type {ClientInfoObj} */
       const info = JSON.parse(body);
 
-      if (info.isLocal && process.env.DOCKER_CONTAINER)
-        info.dstHost = "host.docker.internal";
+      //if (info.isLocal && process.env.DOCKER_CONTAINER)
+      //  info.dstHost = os.hostname();
+      /*info.dstHost =
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress ||
+        req.connection.socket.remoteAddress;*/
+
+      const array = info.dstHost.split(":");
+      info.dstHost = array[array.length - 1];
 
       let statusCode;
       switch (info.connType) {
@@ -123,7 +132,7 @@ class ApiServer {
           break;
         }
         default:
-          console.log(info.connType);
+          logger.warn("Register: Invalid connection type:", info.connType);
           statusCode = 403;
       }
 
@@ -182,7 +191,7 @@ class ApiServer {
           break;
         }
         default:
-          console.log(info.connType);
+          logger.warn("Unregister: Invalid connection type: ", info.connType);
           statusCode = 403;
       }
 

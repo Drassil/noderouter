@@ -1,26 +1,32 @@
 {
-  "hosts": [
-    {
-      "connType": 1,
-      "srcHost": "portainer.localhost",
-      "dstHost": "portainer.localhost",
-      "dstPort": 9000,
-      "isLocal": false,
-      "srcPath": null,
-      "dstPath": null
-    },
-    {
-      "connType": 1,
-      "srcHost": "whoami.localhost",
-      "dstHost": "whoami.localhost",
-      "dstPort": 80,
-      "isLocal": false,
-      "srcPath": null,
-      "dstPath": null
+  "noderouter": {
+    "hosts": [
+      {
+        "connType": 1,
+        "srcHost": "portainer.localhost",
+        "dstHost": "portainer.localhost",
+        "dstPort": 9000,
+        "isLocal": false,
+        "srcPath": null,
+        "dstPath": null
+      },
+      {
+        "connType": 1,
+        "srcHost": "whoami.localhost",
+        "dstHost": "whoami.localhost",
+        "dstPort": 80,
+        "isLocal": false,
+        "srcPath": null,
+        "dstPath": null
+      }
+    ],
+    "options": {
+      "enable" : true,
+      "routerHost": "noderouter.localhost",
+      "httpsApi": false,
+      "logOpts": {
+        "debug": true
+      }
     }
-  ],
-  "options": {
-    "httpsApi": false,
-    "debug": false
   }
 }

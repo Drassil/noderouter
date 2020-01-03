@@ -25,7 +25,7 @@ class ClientInfo {
     signature
   }) {
     // Following assertion are needed to validate network data
-    assert(typeof isLocal === "boolean", "isLocal must be a boolean");
+    assert(!isLocal || typeof isLocal === "boolean", "isLocal must be a boolean");
     assert(typeof connType === "number", "connType must be a number");
     assert(srcHost && typeof srcHost === "string", "srcHost must be a string");
     assert(dstHost && typeof dstHost === "string", "dstHost must be a string");
@@ -41,7 +41,7 @@ class ClientInfo {
       "timeToLive must be a number"
     );
 
-    this.isLocal = isLocal;
+    this.isLocal = isLocal === true;
     this.connType = connType;
     this.srcHost = srcHost;
     this.dstHost = dstHost;

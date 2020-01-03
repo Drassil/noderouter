@@ -5,6 +5,7 @@ const sniReader = require("../lib/sniReader");
 const ClientInfo = require("../lib/ClientInfo");
 const Router = require("../lib/Router");
 const { TLS_ROUTER_PORT } = require("../def/const");
+const logger = require("./logger");
 
 class TCPRouter extends Router {
   /**
@@ -24,16 +25,16 @@ class TCPRouter extends Router {
     var server = net.createServer(serverSocket => {
       sniReader(serverSocket, (err, sniName) => {
         if (err) {
-          console.trace(err);
+          logger.error(err);
           serverSocket.end();
         } else if (sniName) {
           serverSocket.on("error", function(err) {
-            console.error("Socket error: " + err);
+            logger.error("Socket error: " + err);
             serverSocket.end();
           });
           this.initSession(serverSocket, sniName);
         } else {
-          console.warn(serverSocket.remoteAddress, "(none)");
+          logger.warn(serverSocket.remoteAddress, "(none)");
           serverSocket.end();
         }
       });
@@ -41,7 +42,7 @@ class TCPRouter extends Router {
 
     this.srvHandler = server.listen(this.localport);
     if (this.srvHandler)
-      console.log("TCP Router listening on ", this.srvHandler.address());
+      logger.info("TCP Router listening on ", this.srvHandler.address());
   }
 
   initSession(serverSocket, sniName) {
@@ -50,6 +51,12 @@ class TCPRouter extends Router {
     // it first.
     let httpsClients = this.httpsRouter.getClients(sniName);
     if (httpsClients && Object.keys(httpsClients).length) {
+      logger.debug({
+        sniName,
+        hostname: this.httpsRouter.getRouterHost(),
+        port: this.httpsRouter.getRouterPort()
+      })
+
       this.createTunnel(
         serverSocket,
         sniName,
@@ -62,12 +69,12 @@ class TCPRouter extends Router {
 
     const client = this.getFirstClient(sniName);
 
-    console.error(client);
+    logger.debug(client);
 
     if (!client) {
       this.dnsServer.resolve(sniName, (err, addresses) => {
         if (!err) {
-          console.log("Resolving by remote DNS");
+          logger.info("Resolving by remote DNS");
           this.createTunnel(
             serverSocket,
             sniName,
@@ -75,7 +82,7 @@ class TCPRouter extends Router {
             TLS_ROUTER_PORT
           );
         } else {
-          console.log(err);
+          logger.error(err);
         }
       });
 
@@ -83,7 +90,7 @@ class TCPRouter extends Router {
     }
 
     if (client.isExpired()) {
-      console.log("Client expired! Unregistering...");
+      logger.info("Client expired! Unregistering...");
       this.unregister(client);
       this.createTunnel(serverSocket, sniName, sniName, TLS_ROUTER_PORT); // trying with external connection
       return false;
@@ -104,7 +111,7 @@ class TCPRouter extends Router {
       // avoid infinite loops, try with DNS
       this.dnsServer.resolve(dstHost, (err, addresses) => {
         if (err) {
-          console.trace(err);
+          logger.error(err);
           return;
         }
 
@@ -119,9 +126,9 @@ class TCPRouter extends Router {
       host: dstHost
     });
 
-    clientSocket.on("connect", function() {
+    clientSocket.on("connect", () => {
       serverSocket.pipe(clientSocket).pipe(serverSocket);
-      console.debug(
+      logger.debug(
         serverSocket.remoteAddress,
         sniName,
         " TLS connected",
@@ -131,11 +138,11 @@ class TCPRouter extends Router {
     });
     clientSocket.on("error", err => {
       if (client) this.unregister(client);
-      console.error(sniName, "Client socket reported", err);
+      logger.error(sniName, "Client socket reported", err);
       serverSocket.end();
     });
     serverSocket.on("error", function(err) {
-      console.error(
+      logger.error(
         serverSocket.remoteAddress,
         "Server socket reported",
         err.code

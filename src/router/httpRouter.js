@@ -8,6 +8,7 @@ const path = require("path");
 const ClientInfo = require("../lib/ClientInfo");
 const Router = require("../lib/Router");
 const { HTTP_ROUTER_PORT, CONN_TYPE } = require("../def/const");
+const logger = require("./logger")
 
 class HTTPRouter extends Router {
   /**
@@ -23,25 +24,25 @@ class HTTPRouter extends Router {
 
     this.srvHandler = this.isSSL
       ? https
-        .createServer(
-          {
-            rejectUnauthorized: false,
-            SNICallback: (domain, cb) => {
-              if (cb) {
-                cb(null, this.getSecureContext(domain));
-              } else {
-                // compatibility for older versions of node
-                return this.getSecureContext(domain);
+          .createServer(
+            {
+              rejectUnauthorized: false,
+              SNICallback: (domain, cb) => {
+                if (cb) {
+                  cb(null, this.getSecureContext(domain));
+                } else {
+                  // compatibility for older versions of node
+                  return this.getSecureContext(domain);
+                }
               }
-            }
-          },
-          this.onRequest.bind(this)
-        )
-        .listen(this.localport)
+            },
+            this.onRequest.bind(this)
+          )
+          .listen(this.localport)
       : http.createServer(this.onRequest.bind(this)).listen(this.localport);
 
     if (this.srvHandler)
-      console.log(
+      logger.log(
         this.type + " Router listening on ",
         this.srvHandler.address()
       );
@@ -49,15 +50,14 @@ class HTTPRouter extends Router {
 
   //function to pick out the key + certs dynamically based on the domain name
   getSecureContext(domain) {
-    if (this.certsMap[domain])
-      return this.certsMap[domain];
+    if (this.certsMap[domain]) return this.certsMap[domain];
 
-    let pkeyPath = path.join(__dirname, "..", "conf", domain, '.pkey');
-    let certPath = path.join(__dirname, "..", "conf", domain, '.crt');
+    let pkeyPath = path.join(__dirname, "..", "conf", domain + ".pkey");
+    let certPath = path.join(__dirname, "..", "conf", domain + ".crt");
 
     let context = tls.createSecureContext({
       key: fs.readFileSync(pkeyPath),
-      cert: fs.readFileSync(certPath),
+      cert: fs.readFileSync(certPath)
     }).context;
 
     this.certsMap[domain] = context;
@@ -73,7 +73,7 @@ class HTTPRouter extends Router {
 
     if (!client || client.isExpired()) {
       if (client && client.isExpired()) {
-        console.log("Client expired! Unregistering...");
+        logger.log("Client expired! Unregistering...");
         this.unregister(client);
       }
 
@@ -140,7 +140,7 @@ class HTTPRouter extends Router {
     var proxy = protocol.request(options, res => {
       //if (res.statusCode != 200 && client) this.unregister(client);
 
-      console.debug(
+      logger.debug(
         srcHost,
         ` ${this.isSSL ? "HTTPS" : "HTTP"} connected`,
         dstHost,
@@ -173,7 +173,7 @@ class HTTPRouter extends Router {
       // avoid infinite loops, try with DNS
       this.dnsServer.resolve(dstHost, (err, addresses) => {
         if (err) {
-          console.trace(err);
+          logger.error(err);
           return;
         }
 

@@ -1,7 +1,8 @@
 // @ts-ignore
 require("../def/jsdoc");
 const ClientInfo = require("./ClientInfo");
-var assert = require("assert");
+const assert = require("assert");
+const os = require("os");
 
 class Router {
   /**
@@ -24,7 +25,7 @@ class Router {
   }
 
   getRouterHost() {
-    return this.srvHandler.address().address;
+    return process.env.DOCKER_CONTAINER ? os.hostname() : this.srvHandler.address().address;
   }
 
   /**

@@ -20,7 +20,6 @@ services:
     restart: unless-stopped
     environment:
       - NR_HOSTS_FILE=src/conf/dist/hosts.json
-      - NR_DEBUG=0
       - DOCKER_CONTAINER=1
     networks:
       - local-shared-net

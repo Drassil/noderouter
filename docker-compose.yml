@@ -14,6 +14,7 @@ services:
       - HTTPS=0
       - NODE_TLS_REJECT_UNAUTHORIZED=0
       - DOCKER_CONTAINER=1
+      - NR_LOG_DEBUG=1
     networks:
       local-shared-net:
         aliases:
@@ -33,8 +34,8 @@ services:
         target: /usr/src/service
     environment:
       - NR_HOSTS_FILE=src/conf/dist/hosts.json
-      - NR_DEBUG=1
       - DOCKER_CONTAINER=1
+      - NR_LOG_DEBUG=1
     networks:
       - local-shared-net
   whoami:
