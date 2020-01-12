@@ -112,6 +112,7 @@ plugins:
   - jemoji
   - jekyll-gitlab-metadata
 
+Include: ["../README.md"]
 
 #
 # INCLUDING HOOKS
