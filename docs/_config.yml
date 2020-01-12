@@ -29,7 +29,7 @@ logo_url:
 # (string) The UA-XXXXX-Y code from google analytic to enable GA on your wiki
 google_analytics: 
 # (string) folder where wiki pages are stored, it's needed for tool buttons
-wiki_folder: pages
+wiki_folder: docs
 # (boolean) if you're using github wiki as submodule then this config
 # must be enabled to allow tool buttons to work properly
 use_github_wiki: false
@@ -112,7 +112,7 @@ plugins:
   - jemoji
   - jekyll-gitlab-metadata
 
-include: ["../README.md"]
+source: "../"
 
 #
 # INCLUDING HOOKS
