@@ -1,6 +1,7 @@
 remote_theme: Drassil/git-wiki-theme@master
 # (string) Title of your wiki
 title: "noderouter"
+baseurl: /noderouter/
 # (string) if you've installed your wiki in subfolder, you must change this configuration
 # with your folder name, otherwise leave it empty
 # baseurl: "/git-wiki-skeleton"
