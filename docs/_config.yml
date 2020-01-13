@@ -112,8 +112,6 @@ plugins:
   - jemoji
   - jekyll-gitlab-metadata
 
-source: "../"
-
 #
 # INCLUDING HOOKS
 # They are optional, change them only if you need
