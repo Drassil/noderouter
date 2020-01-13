@@ -1,3 +1,7 @@
+---
+permalink: /
+---
+
 # Noderouter
 
 WIP
