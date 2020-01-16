@@ -150,7 +150,7 @@ class ClientMgr {
 
         request.on("error", e => {
           logger.error("Cannot reach the router", e);
-          setInterval(sendRequest, TTL); // retry after a default TTL cycle
+          setTimeout(sendRequest, TTL); // retry after a default TTL cycle
           reject(e);
         });
 
