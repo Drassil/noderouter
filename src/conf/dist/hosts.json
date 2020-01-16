@@ -8,7 +8,8 @@
         "dstPort": 9000,
         "isLocal": false,
         "srcPath": null,
-        "dstPath": null
+        "dstPath": null,
+        "timeToLive": 600000
       },
       {
         "connType": 1,
@@ -17,7 +18,8 @@
         "dstPort": 80,
         "isLocal": false,
         "srcPath": null,
-        "dstPath": null
+        "dstPath": null,
+        "timeToLive": 600000
       }
     ],
     "options": {

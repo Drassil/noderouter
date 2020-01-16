@@ -1,4 +1,6 @@
 module.exports = {
+  TTL: 5000,
+  TTL_WAIT: 10000, // wait time if the ping has not been sent within TTL time
   TLS_ROUTER_PORT: 443,
   HTTP_ROUTER_PORT: 80,
   API_PORT: 4010,

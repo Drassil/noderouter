@@ -3,15 +3,15 @@ distinguished_name = req_distinguished_name
 x509_extensions = v3_req
 prompt = no
 [req_distinguished_name]
-C = NL
-O = YieldInsight
-OU = YieldInsight
-CN = proxy-alpw4aeiqq-ew.a.run.app
+C = US
+O = YourCompany
+OU = YourCompany
+CN = yourdomain.com
 [v3_req]
 keyUsage = critical, digitalSignature, keyAgreement
 extendedKeyUsage = serverAuth
 subjectAltName = @alt_names
 [alt_names]
-DNS.1 = proxy-alpw4aeiqq-ew.a.run.app
-DNS.2 = *.a.run.app
-DNS.3 = *-alpw4aeiqq-ew.a.run.app
+DNS.1 = yourdomain.com
+DNS.2 = *.yourdomain.com
+DNS.3 = *-sub.yourdomain.com

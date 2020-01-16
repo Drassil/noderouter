@@ -1,0 +1,3 @@
+openssl.cnf
+*.cert
+*.pkey

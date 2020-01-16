@@ -10,7 +10,7 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const { promisify } = require("util");
-const { API_PORT, CONN_TYPE } = require("../def/const");
+const { API_PORT, CONN_TYPE, TTL } = require("../def/const");
 const Logger = require("../lib/Logger");
 
 /**
@@ -81,7 +81,8 @@ class ClientMgr {
       dstPort,
       isLocal,
       srcPath = null,
-      dstPath = null
+      dstPath = null,
+      timeToLive = TTL
     },
     {
       enable = true,
@@ -104,7 +105,8 @@ class ClientMgr {
       dstPort,
       srcPath,
       dstPath,
-      isLocal
+      isLocal,
+      timeToLive
     });
 
     return new Promise((resolve, reject) => {
@@ -148,15 +150,16 @@ class ClientMgr {
 
         request.on("error", e => {
           logger.error("Cannot reach the router", e);
+          setInterval(sendRequest, TTL); // retry after a default TTL cycle
           reject(e);
         });
 
-        request.end(signature, () => logger.debug("ping", signature));
+        request.end(signature, () => logger.debug("ping", `timeToLive: ${timeToLive}`, signature));
       };
 
       sendRequest();
 
-      setInterval(sendRequest, 5000);
+      setInterval(sendRequest, timeToLive);
     }).catch(() => {
       return signature;
     });

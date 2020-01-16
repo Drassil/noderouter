@@ -2,7 +2,7 @@
 require("../def/jsdoc");
 const assert = require("assert");
 
-const TTL = 6000;
+const { TTL, TTL_WAIT } = require("../def/const");
 
 /**
  * This class is used to ensure that data retrieved from clients
@@ -25,7 +25,10 @@ class ClientInfo {
     signature
   }) {
     // Following assertion are needed to validate network data
-    assert(!isLocal || typeof isLocal === "boolean", "isLocal must be a boolean");
+    assert(
+      !isLocal || typeof isLocal === "boolean",
+      "isLocal must be a boolean"
+    );
     assert(typeof connType === "number", "connType must be a number");
     assert(srcHost && typeof srcHost === "string", "srcHost must be a string");
     assert(dstHost && typeof dstHost === "string", "dstHost must be a string");
@@ -36,10 +39,7 @@ class ClientInfo {
     );
     assert(!srcPath || typeof srcPath === "string", "srcPath must be a string");
     assert(!dstPath || typeof dstPath === "string", "dstPath must be a string");
-    assert(
-      typeof timeToLive === "number",
-      "timeToLive must be a number"
-    );
+    assert(typeof timeToLive === "number", "timeToLive must be a number");
 
     this.isLocal = isLocal === true;
     this.connType = connType;
@@ -58,7 +58,7 @@ class ClientInfo {
   }
 
   isExpired() {
-    return this.timeToLive > 0 && this.timer + this.timeToLive < Date.now();
+    return this.timeToLive > 0 && this.timer + this.timeToLive + TTL_WAIT < Date.now() ;
   }
 
   /**
