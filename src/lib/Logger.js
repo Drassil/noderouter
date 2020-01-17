@@ -24,10 +24,25 @@ module.exports = class Logger {
     warn = getBoolean(process.env.NR_LOG_WARN, true),
     withTrace = getBoolean(process.env.NR_LOG_WITH_TRACE, true)
   }) {
-    this.debug = debug ? console.debug : () => {};
-    this.error = error ? (withTrace ? console.error : console.trace) : () => {};
-    this.info = this.log = info ? console.info : () => {};
-    this.warn = warn ? console.warn : () => {};
+    const prefix = "NodeRouter [client]:";
+
+    this.debug = function() {
+      debug && console.debug.apply(null, [prefix, ...arguments]);
+    };
+    this.error = function() {
+      error &&
+        (withTrace ? console.error : console.trace).apply(null, [
+          prefix,
+          ...arguments
+        ]);
+    };
+    this.info = this.log = function() {
+      info && console.log.apply(null, [prefix, ...arguments]);
+    };
+    this.warn = function() {
+      s;
+      warn && console.warn.apply(null, [prefix, ...arguments]);
+    };
 
     this.debug("Logger enabled with conf: ", {
       debug,
