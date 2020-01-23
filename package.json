@@ -6,6 +6,7 @@
   "scripts": {
     "linter": "npm install && npx typescript -p jsconfig.json --allowJs --preserveSymlinks --maxNodeModuleJsDepth 0",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run start:router",
     "start:router": "node src/router",
     "start:client": "node src/client/run",
     "nodemon:start:router": "npx nodemon src/router",
@@ -18,6 +19,8 @@
     "dockercompose:start:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up",
     "dockercompose:start": "docker-compose up",
     "dockercompose:start:router": "docker-compose up node-router whoami portainer",
+    "dockercompose:stop": "docker-compose stop",
+    "dockercompose:remove": "docker-compose down -v --remove-orphans --rmi local",
     "docker:start:router": "docker run -p 80:80 -p 443:443 -p 60001:60001 --rm --name noderouter --pid=host drassil/noderouter",
     "docker:start:client": "docker run --rm --name noderouter-client --pid=host drassil/noderouter-client",
     "docker:build:router": "docker build -t drassil/noderouter -f NR.Dockerfile . && docker tag drassil/noderouter drassil/noderouter:latest",
