@@ -1,13 +1,15 @@
 // @ts-ignore
-require("../def/jsdoc");
-const ClientInfo = require("./ClientInfo");
-const assert = require("assert");
-const os = require("os");
+require('../def/jsdoc');
+const ClientInfo = require('./ClientInfo');
+const assert     = require('assert');
+const os         = require('os');
 
 class Router {
   /**
    * Initialize the router
+   *
    * @param {number} localport
+   * @param type
    */
   constructor(localport, type) {
     /**@type {Object.<string,Object.<string,ClientInfo>>} - client map of hostname -> info*/
@@ -30,8 +32,9 @@ class Router {
 
   /**
    * Get list of registered clients on source host
+   *
    * @param {string} srcHost
-   * @returns {Object.<string,ClientInfo>} - clients information
+   * @returns {object.<string, ClientInfo>} - clients information
    */
   getClients(srcHost) {
     return this.clients[srcHost];
@@ -39,6 +42,7 @@ class Router {
 
   /**
    * Get registered client by its signature
+   *
    * @param {string} srcHost
    * @param {string} signature
    * @returns {ClientInfo} - client information
@@ -53,6 +57,7 @@ class Router {
 
   /**
    * Get registered client by paths match
+   *
    * @param {string} srcHost
    * @param {string} srcPath
    * @returns {ClientInfo} - client information
@@ -62,7 +67,7 @@ class Router {
 
     for (var k in clients) {
       let client = clients[k];
-      var r = new RegExp(client.srcPath);
+      var r      = new RegExp(client.srcPath);
       if (r.test(srcPath) || srcPath.startsWith(client.srcPath)) return client;
     }
 
@@ -71,6 +76,7 @@ class Router {
 
   /**
    * set a client in router list
+   *
    * @param {ClientInfo} clientInfo
    */
   setClient(clientInfo) {
@@ -85,6 +91,7 @@ class Router {
 
   /**
    * remove a client from the router list
+   *
    * @param {ClientInfo} clientInfo
    */
   removeClient(clientInfo) {
@@ -97,6 +104,7 @@ class Router {
 
   /**
    * Register a client on router
+   *
    * @param {ClientInfo} clientInfo
    */
   register(clientInfo) {
@@ -104,7 +112,7 @@ class Router {
 
     const client = this.getClientBySignature(
       clientInfo.srcHost,
-      clientInfo.signature
+      clientInfo.signature,
     );
 
     if (client) {
@@ -119,7 +127,7 @@ class Router {
         clientInfo.srcHost
       }:${this.getRouterPort()} <==> ${clientInfo.dstHost}:${
         clientInfo.dstPort
-      } ${clientInfo.srcPath} <==> ${clientInfo.dstPath}`
+      } ${clientInfo.srcPath} <==> ${clientInfo.dstPath}`,
     );
 
     //return client ? 205 : 201;
@@ -128,6 +136,7 @@ class Router {
 
   /**
    * Remove a client from the router
+   *
    * @param {ClientInfo} clientInfo
    */
   unregister(clientInfo) {
@@ -140,7 +149,7 @@ class Router {
         clientInfo.srcHost
       }:${this.getRouterPort()} <==> ${clientInfo.dstHost}:${
         clientInfo.dstPort
-      }`
+      }`,
     );
 
     return 200;

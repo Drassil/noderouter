@@ -1,25 +1,26 @@
 // @ts-ignore
-require("../def/jsdoc");
-const net = require("net");
-const sniReader = require("../lib/sniReader");
-const ClientInfo = require("../lib/ClientInfo");
-const Router = require("../lib/Router");
-const { TLS_ROUTER_PORT } = require("../def/const");
-const logger = require("./logger");
+require('../def/jsdoc');
+const net                 = require('net');
+const sniReader           = require('../lib/sniReader');
+const ClientInfo          = require('../lib/ClientInfo');
+const Router              = require('../lib/Router');
+const { TLS_ROUTER_PORT } = require('../def/const');
+const logger              = require('./logger');
 
 class TCPRouter extends Router {
   /**
    * Initialize the router
+   *
    * @param {number} localport
    * @param {import("./httpRouter")} httpsRouter
    * @instance
    * @param {import("dns").Resolver} dnsServer
    */
   constructor(localport, httpsRouter, dnsServer) {
-    super(localport, "TCP");
+    super(localport, 'TCP');
 
     this.httpsRouter = httpsRouter;
-    this.dnsServer = dnsServer;
+    this.dnsServer   = dnsServer;
 
     // TODO: replace with native tls module (sniReader can be removed then)
     var server = net.createServer(serverSocket => {
@@ -28,13 +29,13 @@ class TCPRouter extends Router {
           logger.error(err);
           serverSocket.end();
         } else if (sniName) {
-          serverSocket.on("error", function(err) {
-            logger.error("Socket error: " + err);
+          serverSocket.on('error', function(err) {
+            logger.error('Socket error: ' + err);
             serverSocket.end();
           });
           this.initSession(serverSocket, sniName);
         } else {
-          logger.warn(serverSocket.remoteAddress, "(none)");
+          logger.warn(serverSocket.remoteAddress, '(none)');
           serverSocket.end();
         }
       });
@@ -42,7 +43,7 @@ class TCPRouter extends Router {
 
     this.srvHandler = server.listen(this.localport);
     if (this.srvHandler)
-      logger.info("TCP Router listening on ", this.srvHandler.address());
+      logger.info('TCP Router listening on ', this.srvHandler.address());
   }
 
   initSession(serverSocket, sniName) {
@@ -54,14 +55,14 @@ class TCPRouter extends Router {
       logger.debug({
         sniName,
         hostname: this.httpsRouter.getRouterHost(),
-        port: this.httpsRouter.getRouterPort()
-      })
+        port    : this.httpsRouter.getRouterPort(),
+      });
 
       this.createTunnel(
         serverSocket,
         sniName,
         this.httpsRouter.getRouterHost(),
-        this.httpsRouter.getRouterPort()
+        this.httpsRouter.getRouterPort(),
       );
 
       return false;
@@ -74,12 +75,12 @@ class TCPRouter extends Router {
     if (!client) {
       this.dnsServer.resolve(sniName, (err, addresses) => {
         if (!err) {
-          logger.info("Resolving by remote DNS");
+          logger.info('Resolving by remote DNS');
           this.createTunnel(
             serverSocket,
             sniName,
             addresses[0],
-            TLS_ROUTER_PORT
+            TLS_ROUTER_PORT,
           );
         } else {
           logger.error(err);
@@ -90,7 +91,7 @@ class TCPRouter extends Router {
     }
 
     if (client.isExpired()) {
-      logger.info("Client expired! Unregistering...");
+      logger.info('Client expired! Unregistering...');
       this.unregister(client);
       this.createTunnel(serverSocket, sniName, sniName, TLS_ROUTER_PORT); // trying with external connection
       return false;
@@ -101,7 +102,7 @@ class TCPRouter extends Router {
       sniName,
       client.dstHost,
       client.dstPort,
-      client
+      client,
     );
     return true;
   }
@@ -123,29 +124,29 @@ class TCPRouter extends Router {
 
     var clientSocket = net.connect({
       port: dstPort,
-      host: dstHost
+      host: dstHost,
     });
 
-    clientSocket.on("connect", () => {
+    clientSocket.on('connect', () => {
       serverSocket.pipe(clientSocket).pipe(serverSocket);
       logger.debug(
         serverSocket.remoteAddress,
         sniName,
-        " TLS connected",
+        ' TLS connected',
         dstHost,
-        dstPort
+        dstPort,
       );
     });
-    clientSocket.on("error", err => {
+    clientSocket.on('error', err => {
       if (client) this.unregister(client);
-      logger.error(sniName, "Client socket reported", err);
+      logger.error(sniName, 'Client socket reported', err);
       serverSocket.end();
     });
-    serverSocket.on("error", function(err) {
+    serverSocket.on('error', function(err) {
       logger.error(
         serverSocket.remoteAddress,
-        "Server socket reported",
-        err.code
+        'Server socket reported',
+        err.code,
       );
       clientSocket.end();
     });
@@ -155,6 +156,7 @@ class TCPRouter extends Router {
 
   /**
    * Get first client for a registered host
+   *
    * @param {string} srcHost
    * @returns {ClientInfo} - clients information
    */

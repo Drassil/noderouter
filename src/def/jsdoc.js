@@ -1,6 +1,7 @@
 /**
  * Information sent by clients to create the connection tunnel
- * @typedef {Object} ClientInfoObj
+ *
+ * @typedef {object} ClientInfoObj
  * @property {number} connType
  * @property {boolean} [isLocal]
  * @property {string} srcHost
@@ -15,5 +16,6 @@
 
 /**
  * Void Callback
+ *
  * @callback VoidCallback
  */

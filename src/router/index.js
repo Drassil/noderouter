@@ -1,7 +1,7 @@
-const ApiServer = require("./apiServer");
+const ApiServer = require('./apiServer');
 
-process.on("uncaughtException", function(error) {
-  console.error("Uncaught Exception: "+error);
+process.on('uncaughtException', function(error) {
+  console.error('Uncaught Exception: '+error);
 });
 
 process.on('SIGINT', function() {
