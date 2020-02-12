@@ -2,7 +2,7 @@ version: "3.7"
 services:
   node-router:
     image: node:12-slim
-    restart: unless-stopped
+    restart: always
     command: npm run start:router
     working_dir: /usr/src/service
     volumes:
@@ -25,7 +25,7 @@ services:
       - "4010:4010"
   nr-client:
     image: node:12-slim
-    restart: unless-stopped
+    restart: always
     command: npm run start:client
     working_dir: /usr/src/service
     volumes:

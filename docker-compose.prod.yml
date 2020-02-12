@@ -2,7 +2,7 @@ version: "3.7"
 services:
   node-router:
     image: drassil/noderouter:latest
-    restart: unless-stopped
+    restart: always
     environment:
       - HTTPS=0
       - NODE_TLS_REJECT_UNAUTHORIZED=0
@@ -17,7 +17,7 @@ services:
       - "4010:4010"
   nr-client:
     image: drassil/noderouter-client:latest
-    restart: unless-stopped
+    restart: always
     environment:
       - NR_HOSTS_FILE=src/conf/dist/hosts.json
       - DOCKER_CONTAINER=1
