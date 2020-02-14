@@ -76,7 +76,7 @@ class HTTPRouter extends Router {
       client_req.url
     );
 
-    logger.debug("request started from: ",client_req.headers.host);
+    logger.debug("request started from: ", client_req.headers.host);
 
     if (!client || client.isExpired()) {
       if (client && client.isExpired()) {
