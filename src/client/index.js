@@ -1,17 +1,17 @@
 // @ts-ignore
-require('../def/jsdoc');
+require("../def/jsdoc");
 try {
   // @ts-ignore
-  require('dotenv').config();
+  require("dotenv").config();
 } catch (ex) {}
-const http                         = require('http');
-const https                        = require('https');
-const fs                           = require('fs');
-const os                           = require('os');
-const path                         = require('path');
-const { promisify }                = require('util');
-const { API_PORT, CONN_TYPE, TTL } = require('../def/const');
-const Logger                       = require('../lib/Logger');
+const http = require("http");
+const https = require("https");
+const fs = require("fs");
+const os = require("os");
+const path = require("path");
+const { promisify } = require("util");
+const { API_PORT, CONN_TYPE, TTL } = require("../def/const");
+const Logger = require("../lib/Logger");
 
 /**
  * @typedef {object} NRClientOptions
@@ -39,14 +39,14 @@ class ClientMgr {
     const extname = path.extname(filePath);
 
     const data =
-      extname === '.json'
+      extname === ".json"
         ? (await this.readJson(filePath)).noderouter
         : require(filePath).noderouter;
-    console.debug('Reading hosts from file: ' + filePath);
+    console.debug("Reading hosts from file: " + filePath);
     if (data && data.hosts) {
       return await ClientMgr.registerHosts(data.hosts, data.options);
     } else {
-      console.error(filePath + ' is not a valid host file!');
+      console.error(filePath + " is not a valid host file!");
     }
   }
 
@@ -85,18 +85,22 @@ class ClientMgr {
       isLocal,
       srcPath = null,
       dstPath = null,
-      timeToLive = TTL,
+      timeToLive = TTL
     },
     {
       enable = true,
       routerHost = os.hostname(),
       httpsApi = false,
-      logOpts = {},
+      logOpts = {}
     },
-    callback = res => {},
+    callback = res => {}
   ) {
     if (enable === false) {
       return;
+    }
+
+    if (!logOpts.prefix) {
+      logOpts.prefix = "NodeRouter [client]:";
     }
 
     const logger = new Logger(logOpts);
@@ -109,7 +113,7 @@ class ClientMgr {
       srcPath,
       dstPath,
       isLocal,
-      timeToLive,
+      timeToLive
     });
 
     return new Promise((resolve, reject) => {
@@ -121,43 +125,45 @@ class ClientMgr {
         var request = client.request(
           {
             hostname,
-            port   : API_PORT,
-            path   : '/register',
-            method : 'POST',
+            port: API_PORT,
+            path: "/register",
+            method: "POST",
             headers: {
-              'Content-Type'  : 'application/json',
-              'Content-Length': Buffer.byteLength(signature),
-            },
+              "Content-Type": "application/json",
+              "Content-Length": Buffer.byteLength(signature)
+            }
           },
           res => {
             switch (res.statusCode) {
               case 200:
-                logger.debug('Pong', signature);
+                logger.debug("Pong", signature);
                 break;
               case 201:
-                logger.log('Registered');
+                logger.log("Registered");
                 break;
               case 205:
-                logger.log('Reset');
+                logger.log("Reset");
                 break;
               default:
-                logger.log('Unknown status');
+                logger.log("Unknown status");
                 break;
             }
 
             resolve(signature);
 
             callback(res);
-          },
+          }
         );
 
-        request.on('error', e => {
-          logger.error('Cannot reach the router', e);
+        request.on("error", e => {
+          logger.error("Cannot reach the router", e);
           setTimeout(sendRequest, TTL); // retry after a default TTL cycle
           reject(e);
         });
 
-        request.end(signature, () => logger.debug('ping', `timeToLive: ${timeToLive}`, signature));
+        request.end(signature, () =>
+          logger.debug("ping", `timeToLive: ${timeToLive}`, signature)
+        );
       };
 
       sendRequest();
@@ -178,7 +184,7 @@ class ClientMgr {
   static unregisterHost(
     signature,
     { routerHost = os.hostname(), httpsApi = false, logOpts = {} },
-    cb = statusCode => {},
+    cb = statusCode => {}
   ) {
     const client = httpsApi ? https : http;
 
@@ -189,33 +195,33 @@ class ClientMgr {
     var request = client.request(
       {
         hostname,
-        port   : API_PORT,
-        path   : '/unregister',
-        method : 'POST',
+        port: API_PORT,
+        path: "/unregister",
+        method: "POST",
         headers: {
-          'Content-Type'  : 'application/json',
-          'Content-Length': Buffer.byteLength(signature),
-        },
+          "Content-Type": "application/json",
+          "Content-Length": Buffer.byteLength(signature)
+        }
       },
       res => {
         switch (res.statusCode) {
           case 200:
-            logger.log('Unregistered!');
+            logger.log("Unregistered!");
             break;
           default:
-            logger.log('Unknown status');
+            logger.log("Unknown status");
             break;
         }
 
         cb(res.statusCode);
-      },
+      }
     );
 
-    request.on('error', e => {
-      logger.error('Cannot reach the noderouter', e);
+    request.on("error", e => {
+      logger.error("Cannot reach the noderouter", e);
     });
 
-    request.end(signature, () => logger.log('Unregistering...'));
+    request.end(signature, () => logger.log("Unregistering..."));
   }
 
   static unregisterHosts(signatures, options, cb = () => {}) {
@@ -227,8 +233,8 @@ module.exports = {
   CONN_TYPE,
   ClientMgr,
   registerHostsWithFile: ClientMgr.registerHostsWithFile,
-  registerHost         : ClientMgr.registerHost,
-  registerHosts        : ClientMgr.registerHosts,
-  unregisterHost       : ClientMgr.unregisterHost,
-  unregisterHosts      : ClientMgr.unregisterHosts,
+  registerHost: ClientMgr.registerHost,
+  registerHosts: ClientMgr.registerHosts,
+  unregisterHost: ClientMgr.unregisterHost,
+  unregisterHosts: ClientMgr.unregisterHosts
 };

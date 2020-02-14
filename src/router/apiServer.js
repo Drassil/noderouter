@@ -1,19 +1,19 @@
 // @ts-ignore
-require('../def/jsdoc');
-const http       = require('http');
-const https      = require('https');
-const dns        = require('dns');
-const TCPRouter  = require('./tcpRouter');
-const HTTPRouter = require('./httpRouter');
-const ClientInfo = require('../lib/ClientInfo');
-const logger     = require('./logger');
+require("../def/jsdoc");
+const http = require("http");
+const https = require("https");
+const dns = require("dns");
+const TCPRouter = require("./tcpRouter");
+const HTTPRouter = require("./httpRouter");
+const ClientInfo = require("../lib/ClientInfo");
+const logger = require("./logger");
 const {
   API_PORT,
   TLS_ROUTER_PORT,
   HTTP_ROUTER_PORT,
-  CONN_TYPE,
-}                = require('../def/const');
-const os         = require('os');
+  CONN_TYPE
+} = require("../def/const");
+const { dnsAddresses } = require("../conf");
 
 /**
  * Class to create a router service
@@ -32,55 +32,53 @@ class ApiServer {
     apiPort = API_PORT,
     ssl = false,
     tlsRouterPort = TLS_ROUTER_PORT,
-    httpRouterPort = HTTP_ROUTER_PORT,
+    httpRouterPort = HTTP_ROUTER_PORT
   }) {
-    const server   = ssl ? https : http;
+    const server = ssl ? https : http;
     this.dnsServer = new dns.Resolver();
 
     // we can set custom DNS here (otherwise it will use OS addresses)
-    if (process.env.DOCKER_CONTAINER) {
-      this.dnsServer.setServers(['8.8.8.8', '8.8.4.4']);
-    }
+    if (dnsAddresses) this.dnsServer.setServers(dnsAddresses);
 
-    this.httpRouter  = new HTTPRouter(httpRouterPort, this.dnsServer);
+    this.httpRouter = new HTTPRouter(httpRouterPort, this.dnsServer);
     this.httpsRouter = new HTTPRouter(0, this.dnsServer, true);
-    this.tcpRouter   = new TCPRouter(
+    this.tcpRouter = new TCPRouter(
       tlsRouterPort,
       this.httpsRouter,
-      this.dnsServer,
+      this.dnsServer
     );
 
     var serverHandler = server
       .createServer((req, res) => {
-        if (req.method !== 'POST') return;
+        if (req.method !== "POST") return;
 
-        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.writeHead(200, { "Content-Type": "application/json" });
 
         switch (req.url) {
-          case '/register':
+          case "/register":
             this.register(req, res);
             break;
-          case '/unregister':
+          case "/unregister":
             this.unregister(req, res);
             break;
           default:
-            logger.error('No API on ' + req.url);
-            res.end('No API on ' + req.url);
+            logger.error("No API on " + req.url);
+            res.end("No API on " + req.url);
             break;
         }
       })
       .listen(apiPort, () => {
-        logger.info('API server listening on ', serverHandler.address());
+        logger.info("API server listening on ", serverHandler.address());
       });
   }
 
   register(req, res) {
-    let body = '';
-    req.on('data', chunk => {
+    let body = "";
+    req.on("data", chunk => {
       body += chunk.toString(); // convert Buffer to string
     });
 
-    req.on('end', () => {
+    req.on("end", () => {
       /**@type {ClientInfoObj} */
       const info = JSON.parse(body);
 
@@ -91,7 +89,7 @@ class ApiServer {
         req.socket.remoteAddress ||
         req.connection.socket.remoteAddress;*/
 
-      const array  = info.dstHost.split(':');
+      const array = info.dstHost.split(":");
       info.dstHost = array[array.length - 1];
 
       let statusCode;
@@ -99,7 +97,7 @@ class ApiServer {
         case CONN_TYPE.TLS_TUNNEL: {
           let client = new ClientInfo({
             ...info,
-            signature: body,
+            signature: body
           });
 
           statusCode = this.tcpRouter.register(client);
@@ -108,7 +106,7 @@ class ApiServer {
         case CONN_TYPE.HTTP_HTTP_PROXY: {
           let client = new ClientInfo({
             ...info,
-            signature: body,
+            signature: body
           });
 
           statusCode = this.httpRouter.register(client);
@@ -118,14 +116,14 @@ class ApiServer {
         case CONN_TYPE.HTTPS_HTTP_PROXY: {
           let clientTcp = new ClientInfo({
             ...info,
-            dstPort  : this.httpsRouter.getRouterPort(),
-            dstHost  : this.httpsRouter.getRouterHost(),
-            signature: body,
+            dstPort: this.httpsRouter.getRouterPort(),
+            dstHost: this.httpsRouter.getRouterHost(),
+            signature: body
           });
 
           let clientHttps = new ClientInfo({
             ...info,
-            signature: body,
+            signature: body
           });
 
           this.tcpRouter.register(clientTcp);
@@ -133,7 +131,7 @@ class ApiServer {
           break;
         }
         default:
-          logger.warn('Register: Invalid connection type:', info.connType);
+          logger.warn("Register: Invalid connection type:", info.connType);
           statusCode = 403;
       }
 
@@ -144,12 +142,12 @@ class ApiServer {
   }
 
   unregister(req, res) {
-    let body = '';
-    req.on('data', chunk => {
+    let body = "";
+    req.on("data", chunk => {
       body += chunk.toString(); // convert Buffer to string
     });
 
-    req.on('end', () => {
+    req.on("end", () => {
       /**@type {ClientInfoObj} */
       const info = JSON.parse(body);
 
@@ -158,7 +156,7 @@ class ApiServer {
         case CONN_TYPE.TLS_TUNNEL: {
           let client = new ClientInfo({
             ...info,
-            signature: body,
+            signature: body
           });
 
           statusCode = this.tcpRouter.unregister(client);
@@ -167,7 +165,7 @@ class ApiServer {
         case CONN_TYPE.HTTP_HTTP_PROXY: {
           let client = new ClientInfo({
             ...info,
-            signature: body,
+            signature: body
           });
 
           statusCode = this.httpRouter.unregister(client);
@@ -177,14 +175,14 @@ class ApiServer {
         case CONN_TYPE.HTTPS_HTTP_PROXY: {
           let clientTcp = new ClientInfo({
             ...info,
-            dstPort  : this.httpsRouter.getRouterPort(),
-            dstHost  : this.httpsRouter.getRouterHost(),
-            signature: body,
+            dstPort: this.httpsRouter.getRouterPort(),
+            dstHost: this.httpsRouter.getRouterHost(),
+            signature: body
           });
 
           let clientHttps = new ClientInfo({
             ...info,
-            signature: body,
+            signature: body
           });
 
           this.tcpRouter.unregister(clientTcp);
@@ -192,7 +190,7 @@ class ApiServer {
           break;
         }
         default:
-          logger.warn('Unregister: Invalid connection type: ', info.connType);
+          logger.warn("Unregister: Invalid connection type: ", info.connType);
           statusCode = 403;
       }
 

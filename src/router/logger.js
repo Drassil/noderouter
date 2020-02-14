@@ -1,3 +1,3 @@
-const Logger = require('../lib/Logger');
+const Logger = require("../lib/Logger");
 
-module.exports = new Logger({});
+module.exports = new Logger({ prefix: "NodeRouter:", debug: true });

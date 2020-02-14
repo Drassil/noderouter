@@ -41,9 +41,9 @@ class TCPRouter extends Router {
       });
     });
 
-    this.srvHandler = server.listen(this.localport);
+    this.srvHandler = server.listen(this.localport,"0.0.0.0");
     if (this.srvHandler)
-      logger.info('TCP Router listening on ', this.srvHandler.address());
+      logger.info('TCP Router listening on ', this.localport,"0.0.0.0");
   }
 
   initSession(serverSocket, sniName) {
@@ -75,7 +75,7 @@ class TCPRouter extends Router {
     if (!client) {
       this.dnsServer.resolve(sniName, (err, addresses) => {
         if (!err) {
-          logger.info('Resolving by remote DNS');
+          logger.debug('Resolving by remote DNS');
           this.createTunnel(
             serverSocket,
             sniName,

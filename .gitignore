@@ -70,4 +70,5 @@ package-lock.json
 
 src/conf/*
 !src/conf/dist
+!src/conf/index.js
 
