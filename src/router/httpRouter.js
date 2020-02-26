@@ -70,6 +70,16 @@ class HTTPRouter extends Router {
   }
 
   onRequest(client_req, client_res) {
+    //disable cors
+    client_res.setHeader("Access-Control-Allow-Origin", "*");
+    client_res.setHeader("Access-Control-Request-Method", "*");
+    client_res.setHeader("Access-Control-Allow-Headers", "*");
+    if (client_req.method === "OPTIONS") {
+      client_res.writeHead(200);
+      client_res.end();
+      return;
+    }
+
     /**@type {ClientInfo} */
     const client = this.getClientBySrcPath(
       client_req.headers.host,
