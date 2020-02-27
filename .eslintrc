@@ -1,0 +1,12 @@
+{
+  "extends": ["eslint:recommended"],
+  "rules": {
+    "require-jsdoc": 0,
+  },
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "env": {
+    "node": true
+  }
+}

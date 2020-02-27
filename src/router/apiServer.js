@@ -7,6 +7,7 @@ const TCPRouter = require("./tcpRouter");
 const HTTPRouter = require("./httpRouter");
 const ClientInfo = require("../lib/ClientInfo");
 const logger = require("./logger");
+const events = require("events");
 const {
   API_PORT,
   TLS_ROUTER_PORT,
@@ -40,12 +41,18 @@ class ApiServer {
     // we can set custom DNS here (otherwise it will use OS addresses)
     if (dnsAddresses) this.dnsServer.setServers(dnsAddresses);
 
-    this.httpRouter = new HTTPRouter(httpRouterPort, this.dnsServer);
-    this.httpsRouter = new HTTPRouter(0, this.dnsServer, true);
+    this.evtMgr = new events.EventEmitter();
+    this.httpRouter = new HTTPRouter(
+      httpRouterPort,
+      this.dnsServer,
+      this.evtMgr
+    );
+    this.httpsRouter = new HTTPRouter(0, this.dnsServer, this.evtMgr, true);
     this.tcpRouter = new TCPRouter(
       tlsRouterPort,
       this.httpsRouter,
-      this.dnsServer
+      this.dnsServer,
+      this.evtMgr
     );
 
     var serverHandler = server

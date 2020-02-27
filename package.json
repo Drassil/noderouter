@@ -33,6 +33,9 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^12.12.17",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-google": "^0.14.0",
+    "prettier": "^1.19.1"
   }
 }

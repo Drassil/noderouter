@@ -1,22 +1,22 @@
-'use strict';
+"use strict";
 
-const inherits = require('util').inherits;
+const inherits = require("util").inherits;
 
 module.exports = function(socket, callback) {
   var readLength;
   var readCallback;
   var readBuffer = [];
 
-  socket.on('error', error);
+  socket.on("error", error);
   read(5, onHeader);
 
   function error(err) {
-    socket.removeListener('readable', readable);
+    socket.removeListener("readable", readable);
     finish(err);
   }
 
   function finish(err, sn) {
-    socket.removeListener('error', error);
+    socket.removeListener("error", error);
 
     for (var i = readBuffer.length - 1; i >= 0; i--) {
       socket.unshift(readBuffer[i]);
@@ -30,9 +30,9 @@ module.exports = function(socket, callback) {
     var chunk = socket.read(length);
 
     if (!chunk) {
-      readLength   = length;
+      readLength = length;
       readCallback = cb;
-      socket.once('readable', readable);
+      socket.once("readable", readable);
       return;
     }
 
@@ -53,7 +53,7 @@ module.exports = function(socket, callback) {
 
     // enum[255] ContentType
     var type = chunk[pos];
-    pos      += 1;
+    pos += 1;
 
     if (type !== 22)
       // Not TLS Handshake
@@ -64,7 +64,7 @@ module.exports = function(socket, callback) {
 
     // uint16 TLSPlaintext.length
     var length = chunk.readUInt16BE(pos);
-    pos        += 2;
+    pos += 2;
 
     // We must at least read something
     if (length === 0) return error(new ProtocolError());
@@ -79,7 +79,7 @@ module.exports = function(socket, callback) {
 
     // enum[255] HandshakeType
     value = chunk[pos];
-    pos   += 1;
+    pos += 1;
 
     if (value !== 1)
       // Not ClientHello
@@ -107,7 +107,7 @@ module.exports = function(socket, callback) {
 
     // Extension extensions<0..2^16-1>
     length = chunk.readUInt16BE(pos);
-    pos    += 2;
+    pos += 2;
 
     // The rest of the handshake should be extensions
     if (length !== chunk.length - pos) return error(new ProtocolError());
@@ -116,11 +116,11 @@ module.exports = function(socket, callback) {
     while (pos < chunk.length) {
       // enum ExtensionType
       value = chunk.readInt16BE(pos);
-      pos   += 2;
+      pos += 2;
 
       // uint16 Extension.extension_data.length
       length = chunk.readUInt16BE(pos);
-      pos    += 2;
+      pos += 2;
 
       // Length can not be bigger than the rest of the packet
       if (length > chunk.length - pos) return error(new ProtocolError());
@@ -133,18 +133,18 @@ module.exports = function(socket, callback) {
 
       // uint16 ServerNameList.length
       length = chunk.readUInt16BE(pos);
-      pos    += 2;
+      pos += 2;
 
       // Length can not be bigger than the rest of the packet
       if (length > chunk.length - pos) return error(new ProtocolError());
 
       // enum NameType
       value = chunk[pos];
-      pos   += 1;
+      pos += 1;
 
       // uint16 HostName.length
       length = chunk.readUInt16BE(pos);
-      pos    += 2;
+      pos += 2;
 
       // Length can not be bigger than the rest of the packet
       if (length > chunk.length - pos) return error(new ProtocolError()); // protocol error
@@ -156,7 +156,7 @@ module.exports = function(socket, callback) {
       }
 
       // opaque HostName
-      value = chunk.toString('utf8', pos, pos + length);
+      value = chunk.toString("utf8", pos, pos + length);
       return finish(null, value);
     }
 

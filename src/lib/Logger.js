@@ -1,4 +1,4 @@
-const { getBoolean } = require('./utils');
+const { getBoolean } = require("./utils");
 
 /**
  * @typedef {object} logOpts - options for logger
@@ -19,36 +19,36 @@ module.exports = class Logger {
    * @param {logOpts} logOpt
    */
   constructor({
-    prefix = 'Noderouter:',
+    prefix = "Noderouter:",
     debug = getBoolean(process.env.NR_LOG_DEBUG, false),
     error = getBoolean(process.env.NR_LOG_ERROR, true),
     info = getBoolean(process.env.NR_LOG_INFO, true),
     warn = getBoolean(process.env.NR_LOG_WARN, true),
-    withTrace = getBoolean(process.env.NR_LOG_WITH_TRACE, true),
+    withTrace = getBoolean(process.env.NR_LOG_WITH_TRACE, true)
   }) {
-    this.debug = function() {
-      debug && console.debug.apply(null, [prefix, ...arguments]);
+    this.debug = function(...args) {
+      debug && console.debug.apply(null, [prefix, ...args]);
     };
-    this.error = function() {
+    this.error = function(...args) {
       error &&
         (withTrace ? console.error : console.trace).apply(null, [
           prefix,
-          ...arguments,
+          ...args
         ]);
     };
-    this.info  = this.log = function() {
-      info && console.log.apply(null, [prefix, ...arguments]);
+    this.info = this.log = function(...args) {
+      info && console.log.apply(null, [prefix, ...args]);
     };
-    this.warn  = function() {
-      warn && console.warn.apply(null, [prefix, ...arguments]);
+    this.warn = function(...args) {
+      warn && console.warn.apply(null, [prefix, ...args]);
     };
 
-    this.debug('Logger enabled with conf: ', {
+    this.debug("Logger enabled with conf: ", {
       debug,
       error,
       info,
       warn,
-      withTrace,
+      withTrace
     });
   }
 };

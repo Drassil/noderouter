@@ -5,9 +5,8 @@ const https = require("https");
 const tls = require("tls");
 const fs = require("fs");
 const path = require("path");
-const ClientInfo = require("../lib/ClientInfo");
 const Router = require("../lib/Router");
-const { HTTP_ROUTER_PORT, CONN_TYPE } = require("../def/const");
+const { CONN_TYPE } = require("../def/const");
 const logger = require("./logger");
 
 class HTTPRouter extends Router {
@@ -18,33 +17,59 @@ class HTTPRouter extends Router {
    * @param dnsServer
    * @param isSSL
    */
-  constructor(localport, dnsServer, isSSL = false) {
-    super(localport, isSSL ? "HTTPS" : "HTTP");
+  constructor(localport, dnsServer, evtMgr, isSSL = false) {
+    super(localport, isSSL ? "HTTPS" : "HTTP", evtMgr);
 
     this.isSSL = isSSL;
     this.dnsServer = dnsServer;
     this.certsMap = {};
+    const path = require("path");
+    const fs = require("fs");
+    let pkeyPath = path.join(
+      __dirname,
+      "..",
+      "conf",
+      "api-gateway-alpw4aeiqq-ew.a.run.app.pkey"
+    );
+    let certPath = path.join(
+      __dirname,
+      "..",
+      "conf",
+      "api-gateway-alpw4aeiqq-ew.a.run.app.crt"
+    );
+
+    this.server = this.isSSL
+      ? https.createServer(
+          {
+            rejectUnauthorized: false,
+            /*SNICallback: (domain, cb) => {
+            if (cb) {
+              cb(null, this.getSecureContext(domain).context);
+            } else {
+              // compatibility for older versions of node
+              return this.getSecureContext(domain).context;
+            }
+          },*/
+            key: fs.readFileSync(pkeyPath),
+            cert: fs.readFileSync(certPath)
+          },
+          this.onRequest.bind(this)
+        )
+      : http.createServer(this.onRequest.bind(this));
 
     this.srvHandler = this.isSSL
-      ? https
-          .createServer(
-            {
-              rejectUnauthorized: false,
-              SNICallback: (domain, cb) => {
-                if (cb) {
-                  cb(null, this.getSecureContext(domain));
-                } else {
-                  // compatibility for older versions of node
-                  return this.getSecureContext(domain);
-                }
-              }
-            },
-            this.onRequest.bind(this)
-          )
-          .listen(this.localport)
-      : http
-          .createServer(this.onRequest.bind(this))
-          .listen(this.localport, "0.0.0.0");
+      ? this.server.listen(this.localport, err => {
+          console.log(err);
+        })
+      : this.server.listen(this.localport, "0.0.0.0");
+
+    this.srvHandler.on("error", err => {
+      logger.error("error", err);
+    });
+
+    this.srvHandler.on("tlsClientError", err => {
+      logger.error("tlsClientError", err);
+    });
 
     if (this.srvHandler)
       logger.log(
@@ -60,16 +85,20 @@ class HTTPRouter extends Router {
     let pkeyPath = path.join(__dirname, "..", "conf", domain + ".pkey");
     let certPath = path.join(__dirname, "..", "conf", domain + ".crt");
 
+    logger.debug("Creating secure context for ", domain);
+
     let context = tls.createSecureContext({
       key: fs.readFileSync(pkeyPath),
       cert: fs.readFileSync(certPath)
-    }).context;
+    });
 
     this.certsMap[domain] = context;
     return context;
   }
 
   onRequest(client_req, client_res) {
+    logger.log("request started from: ", client_req.headers.host);
+
     //disable cors
     client_res.setHeader("Access-Control-Allow-Origin", "*");
     client_res.setHeader("Access-Control-Request-Method", "*");
@@ -80,13 +109,11 @@ class HTTPRouter extends Router {
       return;
     }
 
-    /**@type {ClientInfo} */
+    /**@type {import("../lib/ClientInfo")} */
     const client = this.getClientBySrcPath(
       client_req.headers.host,
       client_req.url
     );
-
-    logger.debug("request started from: ", client_req.headers.host);
 
     if (!client || client.isExpired()) {
       if (client && client.isExpired()) {
@@ -94,15 +121,22 @@ class HTTPRouter extends Router {
         this.unregister(client);
       }
 
-      this.retrieveDataFromTCP(
-        client_req,
-        client_res,
-        client_req.headers.host,
-        client_req.headers.host,
-        this.isSSL ? 443 : HTTP_ROUTER_PORT, // https should never happen here
-        this.isSSL ? CONN_TYPE.HTTPS_HTTPS_PROXY : CONN_TYPE.HTTP_HTTP_PROXY,
-        client_req.url
-      );
+      this.dnsServer.resolve(client_req.headers.host, (err, addresses) => {
+        if (!err) {
+          logger.debug(`${this.type} Router: Resolving by remote DNS`);
+          this.createTunnel(
+            client_req,
+            client_res,
+            client_req.headers.host,
+            addresses[0],
+            this.isSSL ? 443 : 80,
+            client_req.url,
+            this.isSSL ? CONN_TYPE.HTTPS_HTTPS_PROXY : CONN_TYPE.HTTP_HTTP_PROXY
+          );
+        } else {
+          logger.error(err);
+        }
+      });
 
       return;
     }
@@ -116,8 +150,7 @@ class HTTPRouter extends Router {
       client.dstHost,
       client.dstPort,
       dstPath,
-      client.connType,
-      client
+      client.connType
     );
   }
 
@@ -130,7 +163,6 @@ class HTTPRouter extends Router {
    * @param {*} dstPort
    * @param {*} dstPath
    * @param {number} connType
-   * @param {*} client
    */
   createTunnel(
     client_req,
@@ -139,8 +171,7 @@ class HTTPRouter extends Router {
     dstHost,
     dstPort,
     dstPath,
-    connType,
-    client = null
+    connType
   ) {
     //if (srcHost === dstHost && this.localport === dstPort) return; // avoid infinite loops
     var options = {
@@ -181,52 +212,6 @@ class HTTPRouter extends Router {
     client_req.pipe(proxy, {
       end: true
     });
-  }
-
-  retrieveDataFromTCP(
-    client_req,
-    client_res,
-    srcHost,
-    dstHost,
-    dstPort,
-    dstPath,
-    connType,
-    client = null
-  ) {
-    if (srcHost === dstHost) {
-      // avoid infinite loops, try with DNS
-      this.dnsServer.resolve(dstHost, (err, addresses) => {
-        if (err) {
-          logger.error(err);
-          return;
-        }
-
-        var tlsOptions = {
-          host: addresses[0],
-          port: dstPort,
-          servername: dstHost,
-          rejectUnauthorized: false
-        };
-
-        var httpOptions = {
-          host: dstHost,
-          port: dstPort,
-          method: client_req.method,
-          headers: client_req.headers,
-          path: client_req.url,
-          createConnection: () => tls.connect(tlsOptions)
-        };
-
-        const httpRequest = http.request(httpOptions, incomingMessage => {
-          incomingMessage.pipe(client_res, {
-            end: true
-          });
-        });
-        httpRequest.end();
-      });
-
-      return;
-    }
   }
 }
 
