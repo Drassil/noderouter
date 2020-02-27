@@ -11,7 +11,13 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\src\\router\\index.js"
+            "program": "${workspaceFolder}/src/router/index.js"
+        },
+        {
+            "name": "Attach to Process",
+            "type": "node",
+            "request": "attach",
+            "processId": "${command:PickProcess}"
         }
     ]
 }
