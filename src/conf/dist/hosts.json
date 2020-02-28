@@ -23,7 +23,7 @@
       }
     ],
     "options": {
-      "enable" : true,
+      "enable": true,
       "routerHost": "noderouter.localhost",
       "httpsApi": false,
       "logOpts": {

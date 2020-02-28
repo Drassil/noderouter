@@ -1,13 +1,13 @@
-const { getBoolean } = require("./utils");
+const {getBoolean} = require('./utils');
 
 /**
- * @typedef {object} logOpts - options for logger
- * @property {string} [logOpt.prefix] - prefix string to use in logs
- * @property {boolean} [logOpt.debug] - enable debug logging
- * @property {boolean} [logOpt.error] - enable error logging
- * @property {boolean} [logOpt.info] - enable info logging
- * @property {boolean} [logOpt.warn] - enable warn logging
- * @property {boolean} [logOpt.withTrace] - enable trace stack in errors
+ * @typedef {Object} logOpts - options for logger
+ * @property {string} [prefix] - prefix string to use in logs
+ * @property {boolean} [debug] - enable debug logging
+ * @property {boolean} [error] - enable error logging
+ * @property {boolean} [info] - enable info logging
+ * @property {boolean} [warn] - enable warn logging
+ * @property {boolean} [withTrace] - enable trace stack in errors
  */
 
 /**
@@ -16,15 +16,15 @@ const { getBoolean } = require("./utils");
 module.exports = class Logger {
   /**
    *
-   * @param {logOpts} logOpt
+   * @param {logOpts} logOpt - Logger options
    */
   constructor({
-    prefix = "Noderouter:",
+    prefix = 'Noderouter:',
     debug = getBoolean(process.env.NR_LOG_DEBUG, false),
     error = getBoolean(process.env.NR_LOG_ERROR, true),
     info = getBoolean(process.env.NR_LOG_INFO, true),
     warn = getBoolean(process.env.NR_LOG_WARN, true),
-    withTrace = getBoolean(process.env.NR_LOG_WITH_TRACE, true)
+    withTrace = getBoolean(process.env.NR_LOG_WITH_TRACE, true),
   }) {
     this.debug = function(...args) {
       debug && console.debug.apply(null, [prefix, ...args]);
@@ -33,7 +33,7 @@ module.exports = class Logger {
       error &&
         (withTrace ? console.error : console.trace).apply(null, [
           prefix,
-          ...args
+          ...args,
         ]);
     };
     this.info = this.log = function(...args) {
@@ -43,12 +43,12 @@ module.exports = class Logger {
       warn && console.warn.apply(null, [prefix, ...args]);
     };
 
-    this.debug("Logger enabled with conf: ", {
+    this.debug('Logger enabled with conf: ', {
       debug,
       error,
       info,
       warn,
-      withTrace
+      withTrace,
     });
   }
 };

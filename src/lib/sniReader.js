@@ -1,24 +1,36 @@
-"use strict";
+/* eslint-disable jsdoc/require-returns */
+/* eslint-disable jsdoc/require-param-type */
+/* eslint-disable jsdoc/require-param-description */
+/* eslint-disable valid-jsdoc */
+// @ts-nocheck
+'use strict';
 
-const inherits = require("util").inherits;
+const inherits = require('util').inherits;
 
 module.exports = function(socket, callback) {
-  var readLength;
-  var readCallback;
-  var readBuffer = [];
+  let readLength;
+  let readCallback;
+  let readBuffer = [];
 
-  socket.on("error", error);
+  socket.on('error', error);
   read(5, onHeader);
 
+  /**
+   * @param err
+   */
   function error(err) {
-    socket.removeListener("readable", readable);
+    socket.removeListener('readable', readable);
     finish(err);
   }
 
+  /**
+   * @param err
+   * @param sn
+   */
   function finish(err, sn) {
-    socket.removeListener("error", error);
+    socket.removeListener('error', error);
 
-    for (var i = readBuffer.length - 1; i >= 0; i--) {
+    for (let i = readBuffer.length - 1; i >= 0; i--) {
       socket.unshift(readBuffer[i]);
     }
     readBuffer = null;
@@ -26,13 +38,17 @@ module.exports = function(socket, callback) {
     callback(err, sn);
   }
 
+  /**
+   * @param length
+   * @param cb
+   */
   function read(length, cb) {
-    var chunk = socket.read(length);
+    const chunk = socket.read(length);
 
     if (!chunk) {
       readLength = length;
       readCallback = cb;
-      socket.once("readable", readable);
+      socket.once('readable', readable);
       return;
     }
 
@@ -44,26 +60,33 @@ module.exports = function(socket, callback) {
     cb(chunk);
   }
 
+  /**
+   *
+   */
   function readable() {
     read(readLength, readCallback);
   }
 
+  /**
+   * @param chunk
+   */
   function onHeader(chunk) {
-    var pos = 0;
+    let pos = 0;
 
     // enum[255] ContentType
-    var type = chunk[pos];
+    const type = chunk[pos];
     pos += 1;
 
-    if (type !== 22)
+    if (type !== 22) {
       // Not TLS Handshake
       return error(new ProtocolError());
+    }
 
     // ProtocolVersion
     pos += 2; // version
 
     // uint16 TLSPlaintext.length
-    var length = chunk.readUInt16BE(pos);
+    const length = chunk.readUInt16BE(pos);
     pos += 2;
 
     // We must at least read something
@@ -72,18 +95,22 @@ module.exports = function(socket, callback) {
     read(length, onFragment);
   }
 
+  /**
+   * @param chunk
+   */
   function onFragment(chunk) {
-    var pos = 0;
-    var length;
-    var value;
+    let pos = 0;
+    let length;
+    let value;
 
     // enum[255] HandshakeType
     value = chunk[pos];
     pos += 1;
 
-    if (value !== 1)
+    if (value !== 1) {
       // Not ClientHello
       return error(new ProtocolError());
+    }
 
     pos += 3; // Handshake.Length
 
@@ -147,7 +174,8 @@ module.exports = function(socket, callback) {
       pos += 2;
 
       // Length can not be bigger than the rest of the packet
-      if (length > chunk.length - pos) return error(new ProtocolError()); // protocol error
+      // protocol error
+      if (length > chunk.length - pos) return error(new ProtocolError());
 
       // Unknown Name Type
       if (value !== 0) {
@@ -156,7 +184,7 @@ module.exports = function(socket, callback) {
       }
 
       // opaque HostName
-      value = chunk.toString("utf8", pos, pos + length);
+      value = chunk.toString('utf8', pos, pos + length);
       return finish(null, value);
     }
 
@@ -167,6 +195,9 @@ module.exports = function(socket, callback) {
 
 inherits(ProtocolError, Error);
 module.exports.ProtocolError = ProtocolError;
+/**
+ *
+ */
 function ProtocolError() {
   Error.captureStackTrace(this, ProtocolError);
   Error.call(this);

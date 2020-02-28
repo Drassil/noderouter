@@ -67,8 +67,12 @@ package-lock.json
 .eslintcache
 .env
 
+packagehash.txt
 
 src/conf/*
 !src/conf/dist
 !src/conf/index.js
+
+docs/jsdoc
+docs/coverage
 

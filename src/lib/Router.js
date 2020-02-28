@@ -1,20 +1,20 @@
-// @ts-ignore
-require("../def/jsdoc");
-const ClientInfo = require("./ClientInfo");
-const assert = require("assert");
-const os = require("os");
+require('../def/jsdoc');
+const ClientInfo = require('./ClientInfo');
+const assert = require('assert');
+const os = require('os');
 
 class Router {
   /**
    * Initialize the router
    *
-   * @param {number} localport
-   * @param {string} type
+   * @param {number} localport - port to open
+   * @param {string} type - type of router (tcp/http/https)
    * @instance
-   * @param {import('events').EventEmitter} evtMgr
+   * @param {import('events').EventEmitter} evtMgr - event manager instance
    */
   constructor(localport, type, evtMgr) {
-    /** @type {Object.<string,Object.<string,ClientInfo>>} - client map of hostname -> info*/
+    /** @type {Object.<string, Object.<string, ClientInfo>>} - client map of
+        hostname -> info*/
     this.clients = {};
     /** @type {string} - type name of created router */
     this.type = type;
@@ -31,16 +31,16 @@ class Router {
   }
 
   getRouterHost() {
-    return process.env.DOCKER_CONTAINER
-      ? os.hostname()
-      : this.srvHandler.address().address;
+    return process.env.DOCKER_CONTAINER ?
+      os.hostname() :
+      this.srvHandler.address().address;
   }
 
   /**
    * Get list of registered clients on source host
    *
-   * @param {string} srcHost
-   * @return {Object.<string,ClientInfo>} - clients information
+   * @param {string} srcHost - source host
+   * @returns {Object.<string, ClientInfo>} - clients information
    */
   getClients(srcHost) {
     return this.clients[srcHost];
@@ -49,9 +49,9 @@ class Router {
   /**
    * Get registered client by its signature
    *
-   * @param {string} srcHost
-   * @param {string} signature
-   * @return {ClientInfo} - client information
+   * @param {string} srcHost - source host
+   * @param {string} signature - client signature
+   * @returns {ClientInfo} - client information
    */
   getClientBySignature(srcHost, signature) {
     const clients = this.clients[srcHost];
@@ -64,17 +64,21 @@ class Router {
   /**
    * Get registered client by paths match
    *
-   * @param {string} srcHost
-   * @param {string} srcPath
-   * @return {ClientInfo} - client information
+   * @param {string} srcHost - source host
+   * @param {string} srcPath - source path
+   * @returns {ClientInfo} - client information
    */
   getClientBySrcPath(srcHost, srcPath) {
     const clients = this.clients[srcHost];
 
     for (const k in clients) {
-      const client = clients[k];
-      const r = new RegExp(client.srcPath);
-      if (r.test(srcPath) || srcPath.startsWith(client.srcPath)) return client;
+      if (Object.hasOwnProperty.call(clients, k)) {
+        const client = clients[k];
+        const r = new RegExp(client.srcPath);
+        if (r.test(srcPath) || srcPath.startsWith(client.srcPath)) {
+          return client;
+        }
+      }
     }
 
     return null;
@@ -83,7 +87,7 @@ class Router {
   /**
    * set a client in router list
    *
-   * @param {ClientInfo} clientInfo
+   * @param {ClientInfo} clientInfo - Client information
    */
   setClient(clientInfo) {
     assert(clientInfo instanceof ClientInfo);
@@ -99,7 +103,7 @@ class Router {
   /**
    * remove a client from the router list
    *
-   * @param {ClientInfo} clientInfo
+   * @param {ClientInfo} clientInfo - Client information
    */
   removeClient(clientInfo) {
     assert(clientInfo instanceof ClientInfo);
@@ -112,14 +116,15 @@ class Router {
   /**
    * Register a client on router
    *
-   * @param {ClientInfo} clientInfo
+   * @param {ClientInfo} clientInfo - Client information
+   * @returns {number} - http status code
    */
   register(clientInfo) {
     assert(clientInfo instanceof ClientInfo);
 
     const client = this.getClientBySignature(
-      clientInfo.srcHost,
-      clientInfo.signature
+        clientInfo.srcHost,
+        clientInfo.signature,
     );
 
     if (client) {
@@ -130,11 +135,11 @@ class Router {
     this.setClient(clientInfo);
 
     console.debug(
-      `Registered ${this.type} tunnel: ${
-        clientInfo.srcHost
-      }:${this.getRouterPort()} <==> ${clientInfo.dstHost}:${
-        clientInfo.dstPort
-      } ${clientInfo.srcPath} <==> ${clientInfo.dstPath}`
+        `Registered ${this.type} tunnel: ${
+          clientInfo.srcHost
+        }:${this.getRouterPort()} <==> ${clientInfo.dstHost}:${
+          clientInfo.dstPort
+        } ${clientInfo.srcPath} <==> ${clientInfo.dstPath}`,
     );
 
     // return client ? 205 : 201;
@@ -144,7 +149,8 @@ class Router {
   /**
    * Remove a client from the router
    *
-   * @param {ClientInfo} clientInfo
+   * @param {ClientInfo} clientInfo - Client information
+   * @returns {number} - http status code
    */
   unregister(clientInfo) {
     assert(clientInfo instanceof ClientInfo);
@@ -152,11 +158,11 @@ class Router {
     this.removeClient(clientInfo);
 
     console.debug(
-      `Unregistered ${this.type} tunnel: ${
-        clientInfo.srcHost
-      }:${this.getRouterPort()} <==> ${clientInfo.dstHost}:${
-        clientInfo.dstPort
-      }`
+        `Unregistered ${this.type} tunnel: ${
+          clientInfo.srcHost
+        }:${this.getRouterPort()} <==> ${clientInfo.dstHost}:${
+          clientInfo.dstPort
+        }`,
     );
 
     return 200;

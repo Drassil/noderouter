@@ -1,8 +1,6 @@
-// @ts-ignore
-require("../def/jsdoc");
-const assert = require("assert");
+const assert = require('assert');
 
-const { TTL, TTL_WAIT } = require("../def/const");
+const {TTL, TTL_WAIT} = require('../def/const');
 
 /**
  * This class is used to ensure that data retrieved from clients
@@ -11,7 +9,7 @@ const { TTL, TTL_WAIT } = require("../def/const");
 class ClientInfo {
   /**
    *
-   * @param {ClientInfoObj} info
+   * @param {import('src/def/jsdoc').ClientInfoObj} info - Client info
    */
   constructor({
     isLocal,
@@ -22,32 +20,32 @@ class ClientInfo {
     srcPath,
     dstPath,
     timeToLive = TTL,
-    signature
+    signature,
   }) {
     // Following assertion are needed to validate network data
     assert(
-      !isLocal || typeof isLocal === "boolean",
-      "isLocal must be a boolean"
+        !isLocal || typeof isLocal === 'boolean',
+        'isLocal must be a boolean',
     );
-    assert(typeof connType === "number", "connType must be a number");
-    assert(srcHost && typeof srcHost === "string", "srcHost must be a string");
-    assert(dstHost && typeof dstHost === "string", "dstHost must be a string");
-    assert(dstPort && typeof dstPort === "number", "dstPort must be a number");
+    assert(typeof connType === 'number', 'connType must be a number');
+    assert(srcHost && typeof srcHost === 'string', 'srcHost must be a string');
+    assert(dstHost && typeof dstHost === 'string', 'dstHost must be a string');
+    assert(dstPort && typeof dstPort === 'number', 'dstPort must be a number');
     assert(
-      signature && typeof signature === "string",
-      "Signature must be a string"
+        signature && typeof signature === 'string',
+        'Signature must be a string',
     );
-    assert(!srcPath || typeof srcPath === "string", "srcPath must be a string");
-    assert(!dstPath || typeof dstPath === "string", "dstPath must be a string");
-    assert(typeof timeToLive === "number", "timeToLive must be a number");
+    assert(!srcPath || typeof srcPath === 'string', 'srcPath must be a string');
+    assert(!dstPath || typeof dstPath === 'string', 'dstPath must be a string');
+    assert(typeof timeToLive === 'number', 'timeToLive must be a number');
 
     this.isLocal = isLocal === true;
     this.connType = connType;
     this.srcHost = srcHost;
     this.dstHost = dstHost;
     this.dstPort = dstPort;
-    this.srcPath = srcPath && dstPath ? srcPath : "(.*)";
-    this.dstPath = srcPath && dstPath ? dstPath : "$1";
+    this.srcPath = srcPath && dstPath ? srcPath : '(.*)';
+    this.dstPath = srcPath && dstPath ? dstPath : '$1';
     this.timeToLive = timeToLive;
     this.signature = signature;
     this.timer = Date.now();
@@ -66,8 +64,8 @@ class ClientInfo {
 
   /**
    *
-   * @param {string} url
-   * @return {string}
+   * @param {string} url - source url
+   * @returns {string} - destination url
    */
   getDestPathByUrl(url) {
     const r = new RegExp(this.srcPath);
