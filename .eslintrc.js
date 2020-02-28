@@ -1,16 +1,18 @@
 module.exports = {
   env: {
+    // supporting all kind of environment 
+    // to build universal lib
     browser: true,
     commonjs: true,
     es6: true,
     node: true,
   },
   extends: [
-    'eslint:recommended',
-    'google',
-    'plugin:jest/recommended',
-    'plugin:jest/style',
-    'plugin:jsdoc/recommended',
+    'eslint:recommended', // basic eslint rules
+    'google', // google style guide
+    'plugin:jest/recommended', // jest support
+    'plugin:jest/style', // style for jest files
+    'plugin:jsdoc/recommended', // jsdoc rules to document code 
   ],
   parserOptions: {
     ecmaVersion: 2018,
