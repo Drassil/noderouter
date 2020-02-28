@@ -65,7 +65,7 @@ class ClientMgr {
   static async registerHosts(hosts, options) {
     const signatures = [];
     for (const k in hosts) {
-      if (Object.prototype.hasOwnProperty.call(hosts, k)) continue;
+      if (!Object.prototype.hasOwnProperty.call(hosts, k)) continue;
       const host = hosts[k];
       const sign = await ClientMgr.registerHost(host, options);
       signatures.push(sign);
