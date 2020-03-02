@@ -161,8 +161,8 @@ class TCPRouter extends Router {
   createTunnel(serverSocket, sniName, dstHost, dstPort, client = null) {
     // [TODO]: improve. It could generate unpredictable
     // issues if you need to redirect a local service to the same
-    // port of the source. However, for now it's safer to do it
-    if (sniName === dstHost && this.localport === dstPort) {
+    // port of the source
+    /* if (sniName === dstHost && this.localport === dstPort) {
       logger.log('TCP Router: resolving with DNS');
       // avoid infinite loops, try with DNS
       this.dnsServer.resolve(dstHost, (err, addresses) => {
@@ -175,7 +175,7 @@ class TCPRouter extends Router {
       });
 
       return;
-    }
+    }*/
 
     const clientSocket = net.connect({
       port: dstPort,
