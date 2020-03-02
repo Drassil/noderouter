@@ -3,7 +3,7 @@ const EventEmitter = require('events');
 const eventType = (type) => Symbol(type);
 
 const Events = {
-  OnHTTPSNoClientFound: eventType('OnHTTPSNoClientFound'),
+  OnHTTPNoClientFound: eventType('OnHTTPNoClientFound'),
 };
 
 /**

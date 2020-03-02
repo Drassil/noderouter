@@ -40,7 +40,7 @@ class TCPRouter extends Router {
     });
 
     this.evtMgr.on(
-        Events.OnHTTPSNoClientFound,
+        Events.OnHTTPNoClientFound,
         /**
          * @param {import("./httpRouter")} httpsSrv - http router instance
          * @param {*} clientReq - client request
@@ -51,7 +51,15 @@ class TCPRouter extends Router {
             return;
           }
 
-          const client = this.getFirstClient(clientReq.headers.host);
+          /**
+           * @param {import("../lib/ClientInfo")} value - array value
+           * @returns {boolean} - condition
+           */
+          const filter = (value) => {
+            return value.connType === CONN_TYPE.TLS_TUNNEL;
+          };
+
+          const client = this.getFirstClient(clientReq.headers.host, filter);
 
           if (!client) {
             this.dnsServer.resolve(clientReq.headers.host, (err, addresses) => {
@@ -76,12 +84,26 @@ class TCPRouter extends Router {
             return;
           }
 
+          if (
+            httpsSrv.getRouterHost() == client.dstHost &&
+          httpsSrv.getRouterPort() == client.dstPort
+          ) {
+            logger.error(
+                'Endless loop blocked',
+                httpsSrv.getRouterHost(),
+                httpsSrv.getRouterPort(),
+                client.dstHost,
+                client.dstPort,
+            );
+            return;
+          }
+
           httpsSrv.createTunnel(
               clientReq,
               clientRes,
               client.srcHost,
               client.dstHost,
-              client.dstPath,
+              client.dstPort,
               client.dstPath,
               CONN_TYPE.HTTPS_HTTPS_PROXY,
           );
@@ -162,7 +184,7 @@ class TCPRouter extends Router {
     // [TODO]: improve. It could generate unpredictable
     // issues if you need to redirect a local service to the same
     // port of the source
-    /* if (sniName === dstHost && this.localport === dstPort) {
+    if (!client && sniName === dstHost && this.localport === dstPort) {
       logger.log('TCP Router: resolving with DNS');
       // avoid infinite loops, try with DNS
       this.dnsServer.resolve(dstHost, (err, addresses) => {
@@ -175,7 +197,7 @@ class TCPRouter extends Router {
       });
 
       return;
-    }*/
+    }
 
     const clientSocket = net.connect({
       port: dstPort,
@@ -213,13 +235,18 @@ class TCPRouter extends Router {
    * Get first client for a registered host
    *
    * @param {string} srcHost - source host
+   * @param filter - filter callback
    * @returns {import("../lib/ClientInfo")} - clients information
    */
-  getFirstClient(srcHost) {
+  getFirstClient(srcHost, filter = undefined) {
     if (!this.clients[srcHost]) return null;
 
-    const keys = Object.keys(this.clients[srcHost]);
-    return this.clients[srcHost][keys[0]];
+    const clients = filter ?
+      Object.values(this.clients[srcHost]).filter(filter) :
+      this.clients[srcHost];
+
+    const keys = Object.keys(clients);
+    return clients[keys[0]];
   }
 }
 

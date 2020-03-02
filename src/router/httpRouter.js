@@ -103,6 +103,7 @@ class HTTPRouter extends Router {
     // disable cors
     clientRes.setHeader('Access-Control-Allow-Origin', '*');
     clientRes.setHeader('Access-Control-Request-Method', '*');
+    clientRes.setHeader('Access-Control-Allow-Methods', '*');
     clientRes.setHeader('Access-Control-Allow-Headers', '*');
     if (clientReq.method === 'OPTIONS') {
       clientRes.writeHead(200);
