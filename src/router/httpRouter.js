@@ -6,6 +6,7 @@ const path = require('path');
 const Router = require('../lib/Router');
 const {CONN_TYPE} = require('../def/const');
 const logger = require('./logger');
+const {Events} = require('../lib/EventManager');
 
 class HTTPRouter extends Router {
   /**
@@ -121,22 +122,7 @@ class HTTPRouter extends Router {
         this.unregister(client);
       }
 
-      this.dnsServer.resolve(clientReq.headers.host, (err, addresses) => {
-        if (!err) {
-          logger.debug(`${this.type} Router: Resolving by remote DNS`);
-          this.createTunnel(
-              clientReq,
-              clientRes,
-              clientReq.headers.host,
-              addresses[0],
-            this.isSSL ? 443 : 80,
-            clientReq.url,
-            this.isSSL ? CONN_TYPE.HTTPS_HTTPS_PROXY : CONN_TYPE.HTTP_HTTP_PROXY,
-          );
-        } else {
-          logger.error(err);
-        }
-      });
+      this.evtMgr.emit(Events.OnHTTPNoClientFound, this, clientReq, clientRes);
 
       return;
     }

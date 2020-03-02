@@ -1,8 +1,9 @@
 const net = require('net');
 const sniReader = require('../lib/sniReader');
 const Router = require('../lib/Router');
-const {TLS_ROUTER_PORT} = require('../def/const');
+const {TLS_ROUTER_PORT, CONN_TYPE} = require('../def/const');
 const logger = require('./logger');
+const {Events} = require('../lib/EventManager');
 
 class TCPRouter extends Router {
   /**
@@ -38,18 +39,67 @@ class TCPRouter extends Router {
       });
     });
 
+    this.evtMgr.on(
+        Events.OnHTTPSNoClientFound,
+        /**
+         * @param {import("./httpRouter")} httpsSrv - http router instance
+         * @param {*} clientReq - client request
+         * @param {*} clientRes - client response
+         */
+        (httpsSrv, clientReq, clientRes) => {
+          if (!httpsSrv.isSSL) {
+            return;
+          }
+
+          const client = this.getFirstClient(clientReq.headers.host);
+
+          if (!client) {
+            this.dnsServer.resolve(clientReq.headers.host, (err, addresses) => {
+              if (!err) {
+                logger.debug(`${httpsSrv.type} Router: Resolving by remote DNS`);
+                httpsSrv.createTunnel(
+                    clientReq,
+                    clientRes,
+                    clientReq.headers.host,
+                    addresses[0],
+                httpsSrv.isSSL ? 443 : 80,
+                clientReq.url,
+                httpsSrv.isSSL ?
+                  CONN_TYPE.HTTPS_HTTPS_PROXY :
+                  CONN_TYPE.HTTP_HTTP_PROXY,
+                );
+              } else {
+                logger.error(err);
+              }
+            });
+
+            return;
+          }
+
+          httpsSrv.createTunnel(
+              clientReq,
+              clientRes,
+              client.srcHost,
+              client.dstHost,
+              client.dstPath,
+              client.dstPath,
+              CONN_TYPE.HTTPS_HTTPS_PROXY,
+          );
+        },
+    );
+
     this.srvHandler = server.listen(this.localport, '0.0.0.0');
     if (this.srvHandler) {
       logger.info('TCP Router listening on ', this.localport, '0.0.0.0');
     }
   }
 
-  initSession(serverSocket, sniName) {
+  initSession(serverSocket, sniName, skipHttpsCheck = false) {
     // if there's an HTTPS Proxy registered
     // on requested host, then process
     // it first.
     const httpsClients = this.httpsRouter.getClients(sniName);
-    if (httpsClients && Object.keys(httpsClients).length) {
+    if (!skipHttpsCheck && httpsClients && Object.keys(httpsClients).length) {
       logger.debug({
         sniName,
         hostname: this.httpsRouter.getRouterHost(),
@@ -71,8 +121,6 @@ class TCPRouter extends Router {
     }
 
     const client = this.getFirstClient(sniName);
-
-    logger.debug(client);
 
     if (!client) {
       this.dnsServer.resolve(sniName, (err, addresses) => {
@@ -111,6 +159,9 @@ class TCPRouter extends Router {
   }
 
   createTunnel(serverSocket, sniName, dstHost, dstPort, client = null) {
+    // [TODO]: improve. It could generate unpredictable
+    // issues if you need to redirect a local service to the same
+    // port of the source. However, for now it's safer to do it
     if (sniName === dstHost && this.localport === dstPort) {
       logger.log('TCP Router: resolving with DNS');
       // avoid infinite loops, try with DNS
