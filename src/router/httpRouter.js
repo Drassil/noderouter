@@ -29,13 +29,15 @@ class HTTPRouter extends Router {
         __dirname,
         '..',
         'conf',
-        'api-gateway-alpw4aeiqq-ew.a.run.app.pkey',
+        'dist',
+        'localhost.pkey',
     );
     const certPath = path.join(
         __dirname,
         '..',
         'conf',
-        'api-gateway-alpw4aeiqq-ew.a.run.app.crt',
+        'dist',
+        'localhost.crt',
     );
 
     this.server = this.isSSL ?
