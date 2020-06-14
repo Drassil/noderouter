@@ -1,6 +1,6 @@
 {
   "name": "@acore/noderouter",
-  "version": "0.1.73",
+  "version": "0.1.74",
   "description": "",
   "main": "src/router/index.js",
   "bin": {
