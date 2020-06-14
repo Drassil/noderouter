@@ -8,7 +8,8 @@
     "noderouter-client": "src/client/run.js"
   },
   "scripts": {
-    "linter": "npx install-changed && npx tsc && npx eslint --cache .",
+    "check": "npx install-changed &&  npm run test && npx tsc && npm run lint -- --fix",
+    "lint": "npx eslint --cache .",
     "test": "jest",
     "doc": "typedoc -out docs/jsdoc src",
     "start": "npm run start:router",
@@ -59,7 +60,7 @@
   },
   "lint-staged": {
     "**/*.(js)": [
-      "npm run linter -- --fix",
+      "npm run check",
       "git add"
     ]
   },

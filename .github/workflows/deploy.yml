@@ -1,11 +1,11 @@
-name: npm-publish
+name: deploy
 on:
   push:
     branches:
       - master
 jobs:
-  npm-publish:
-    name: npm-publish
+  npm-deploy:
+    name: node-deploy
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
@@ -19,6 +19,22 @@ jobs:
       with:
         node-version: '12.x'
         registry-url: 'https://registry.npmjs.org'
+    - run: npm run check
     - run: npm publish --access public
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+  docker-deploy:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: docker login --username ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_TOKEN }}
+    - run: npm run docker:push

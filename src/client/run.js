@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const {ClientMgr} = require('./index');
 const fs = require('fs');
 const path = require('path');

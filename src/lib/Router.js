@@ -1,3 +1,4 @@
+// @ts-nocheck
 require('../def/jsdoc');
 const ClientInfo = require('./ClientInfo');
 const assert = require('assert');

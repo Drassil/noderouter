@@ -1,3 +1,4 @@
+// @ts-nocheck
 const assert = require('assert');
 
 const {TTL, TTL_WAIT} = require('../def/const');

@@ -235,7 +235,7 @@ class TCPRouter extends Router {
    * Get first client for a registered host
    *
    * @param {string} srcHost - source host
-   * @param filter - filter callback
+   * @param {any} filter - filter callback
    * @returns {import("../lib/ClientInfo")} - clients information
    */
   getFirstClient(srcHost, filter = undefined) {
