@@ -1,8 +1,12 @@
 {
   "name": "noderouter",
-  "version": "0.1.0",
+  "version": "0.1.61",
   "description": "",
-  "main": "index.js",
+  "main": "src/router/index.js",
+  "bin": {
+    "noderouter" : "src/router/index.js",
+    "noderouter-client" : "src/client/run.js"
+  },
   "scripts": {
     "linter": "npx install-changed && npx tsc && npx eslint --cache .",
     "test": "jest",
