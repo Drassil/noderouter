@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   node-router:
-    image: azerothcore/noderouter:latest
+    image: acore/noderouter:latest
     restart: always
     environment:
       - HTTPS=0
@@ -16,7 +16,7 @@ services:
       - "443:443"
       - "4010:4010"
   nr-client:
-    image: azerothcore/noderouter-client:latest
+    image: acore/noderouter-client:latest
     restart: always
     environment:
       - NR_HOSTS_FILE=src/conf/dist/hosts.json
