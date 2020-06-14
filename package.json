@@ -1,6 +1,6 @@
 {
   "name": "noderouter",
-  "version": "0.1.63",
+  "version": "0.1.64",
   "description": "",
   "main": "src/router/index.js",
   "bin": {
