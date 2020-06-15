@@ -72,7 +72,7 @@ kramdown:
 defaults:
  - 
     scope:
-      path: "wiki"
+      path: ""
     values:
       permalink: /:basename
  -
