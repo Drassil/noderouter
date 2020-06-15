@@ -4,8 +4,19 @@ permalink: /
 
 # Noderouter
 
-Noderouter is an HTTP/TCP programmable proxying library and standalone software. 
-It can be used to trasparently tunneling any kind of traffic based on TCP and HTTP[S].
+Noderouter is an HTTP/TCP programmable proxy application that can be used as library and a standalone software.
+
+**Features:**
+
+- completely written in nodejs without any external dependency to be secure and lighting fast!
+- service-discovery mechanism
+- TCP tunneling useful for passthrough SSL connections
+- integrated DNS to redirect specific traffic on internet
+- supports both HTTP and HTTPS proxy
+- supports path-based routing
+- can run inside docker
+
+Noderouter can be used to trasparently tunneling any kind of traffic based on TCP and HTTP[S].
 
 A common usage of noderouter is the redirection of traffic based on url rules to different
 local or remote address. In this way you can have several applications with different ports
