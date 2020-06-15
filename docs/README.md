@@ -17,7 +17,7 @@ while the others will be resolved by the DNS.
 
 Example:
 
-![model](https://docs.google.com/drawings/d/e/2PACX-1vTIHiqDQgWAQ33h1tA_bkVUkILSZj4156PMkDv5T1tbXKDOOZcRtD5fTUUwS0RthQpQbjolV8uwfoBw/pub?w=472&amp;h=235)
+<img src="https://docs.google.com/drawings/d/e/2PACX-1vTIHiqDQgWAQ33h1tA_bkVUkILSZj4156PMkDv5T1tbXKDOOZcRtD5fTUUwS0RthQpQbjolV8uwfoBw/pub?w=944&amp;h=470">
 
 ## Getting started
 
