@@ -40,7 +40,7 @@ git clone https://github.com/azerothcore/noderouter.git && cd noderouter
 ```
 
 
-### With docker
+#### With docker
 
 ```
 docker pull @acore/noderouter
@@ -48,7 +48,7 @@ docker pull @acore/noderouter
 
 NOTE: you can pull the image so you can use it later or directly run it
 
-### hosts file
+### Hosts file
 
 There are several way to configure the noderouter.
 Basically, the node router exposes an http api with the `/register` and `/unregister` actions.
