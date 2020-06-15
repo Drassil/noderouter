@@ -8,8 +8,8 @@ Noderouter is an HTTP/TCP programmable proxy application that can be used as lib
 
 **Features:**
 
-- completely written in nodejs without any external dependency to be secure and lighting fast!
-- service-discovery mechanism
+- completely written in nodejs without any external dependency to be secure and lightning fast!
+- integrated service-discovery mechanism
 - TCP tunneling useful for passthrough SSL connections
 - integrated DNS to redirect specific traffic on internet
 - supports both HTTP and HTTPS proxy
