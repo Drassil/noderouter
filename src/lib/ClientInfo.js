@@ -1,7 +1,7 @@
 // @ts-nocheck
 const assert = require('assert');
 
-const {TTL, TTL_WAIT} = require('../def/const');
+const {TTL, TTL_WAIT} = require('../conf');
 
 /**
  * This class is used to ensure that data retrieved from clients

@@ -10,7 +10,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const {promisify} = require('util');
-const {API_PORT, CONN_TYPE, TTL} = require('../def/const');
+const {API_PORT, CONN_TYPE, TTL} = require('../conf');
 const Logger = require('../lib/Logger');
 
 /**

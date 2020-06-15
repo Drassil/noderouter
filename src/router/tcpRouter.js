@@ -1,7 +1,8 @@
 const net = require('net');
 const sniReader = require('../lib/sniReader');
 const Router = require('../lib/Router');
-const {TLS_ROUTER_PORT, CONN_TYPE} = require('../def/const');
+const {CONN_TYPE} = require('../def/const');
+const {TLS_ROUTER_PORT} = require('../conf');
 const logger = require('./logger');
 const {Events} = require('../lib/EventManager');
 

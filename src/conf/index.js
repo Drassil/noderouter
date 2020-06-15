@@ -1,11 +1,11 @@
 const {mergeDeep} = require('../lib/utils');
-const _confDef = require('./dist/conf.js');
+const _confDef = require('./dist/routerConf.js');
 
 /** @type {_confDef} */
 let mConf;
 try {
   // @ts-ignore
-  const _conf = require('./conf.js');
+  const _conf = require('./routerConf.js');
   delete _conf.default;
   delete _confDef.default;
 

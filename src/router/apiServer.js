@@ -11,7 +11,7 @@ const {
   TLS_ROUTER_PORT,
   HTTP_ROUTER_PORT,
   CONN_TYPE,
-} = require('../def/const');
+} = require('../conf');
 const {dnsAddresses} = require('../conf');
 
 /**

@@ -3,8 +3,11 @@
 const {ClientMgr} = require('./index');
 const fs = require('fs');
 const path = require('path');
+const cli = require('../lib/CLI');
 
-const arg = process.argv[2];
+const argv = cli(process.argv.slice(2));
+
+const arg = argv._[0];
 
 const file = arg ? arg : process.env.NR_HOSTS_FILE;
 

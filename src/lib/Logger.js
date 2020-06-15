@@ -1,5 +1,3 @@
-const {getBoolean} = require('./utils');
-
 /**
  * @typedef {Object} logOpts - options for logger
  * @property {string} [prefix] - prefix string to use in logs
@@ -20,11 +18,11 @@ module.exports = class Logger {
    */
   constructor({
     prefix = 'Noderouter:',
-    debug = getBoolean(process.env.NR_LOG_DEBUG, false),
-    error = getBoolean(process.env.NR_LOG_ERROR, true),
-    info = getBoolean(process.env.NR_LOG_INFO, true),
-    warn = getBoolean(process.env.NR_LOG_WARN, true),
-    withTrace = getBoolean(process.env.NR_LOG_WITH_TRACE, true),
+    debug = false,
+    error = true,
+    info = true,
+    warn = true,
+    withTrace = true,
   }) {
     this.debug = function(...args) {
       debug && console.debug.apply(null, [prefix, ...args]);
