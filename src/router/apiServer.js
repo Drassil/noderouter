@@ -5,14 +5,15 @@ const TCPRouter = require('./tcpRouter');
 const HTTPRouter = require('./httpRouter');
 const ClientInfo = require('../lib/ClientInfo');
 const logger = require('./logger');
-const {EventManager, Events} = require('../lib/EventManager');
+const { EventManager, Events } = require('../lib/EventManager');
 const {
-  API_PORT,
+  CONN_TYPE,
+} = require('../def/const');
+const { API_PORT,
   TLS_ROUTER_PORT,
   HTTP_ROUTER_PORT,
-  CONN_TYPE,
+  dnsAddresses
 } = require('../conf');
-const {dnsAddresses} = require('../conf');
 
 /**
  * Class to create a router service
@@ -43,40 +44,40 @@ class ApiServer {
 
     this.evtMgr = new EventManager(Events);
     this.httpRouter = new HTTPRouter(
-        httpRouterPort,
-        this.dnsServer,
-        this.evtMgr,
+      httpRouterPort,
+      this.dnsServer,
+      this.evtMgr,
     );
     this.httpsRouter = new HTTPRouter(0, this.dnsServer, this.evtMgr, true);
     this.tcpRouter = new TCPRouter(
-        tlsRouterPort,
-        this.httpsRouter,
-        this.dnsServer,
-        this.evtMgr,
+      tlsRouterPort,
+      this.httpsRouter,
+      this.dnsServer,
+      this.evtMgr,
     );
 
     const serverHandler = server
-        .createServer((req, res) => {
-          if (req.method !== 'POST') return;
+      .createServer((req, res) => {
+        if (req.method !== 'POST') return;
 
-          res.writeHead(200, {'Content-Type': 'application/json'});
+        res.writeHead(200, { 'Content-Type': 'application/json' });
 
-          switch (req.url) {
-            case '/register':
-              this.register(req, res);
-              break;
-            case '/unregister':
-              this.unregister(req, res);
-              break;
-            default:
-              logger.error('No API on ' + req.url);
-              res.end('No API on ' + req.url);
-              break;
-          }
-        })
-        .listen(apiPort, () => {
-          logger.info('API server listening on ', serverHandler.address());
-        });
+        switch (req.url) {
+          case '/register':
+            this.register(req, res);
+            break;
+          case '/unregister':
+            this.unregister(req, res);
+            break;
+          default:
+            logger.error('No API on ' + req.url);
+            res.end('No API on ' + req.url);
+            break;
+        }
+      })
+      .listen(apiPort, () => {
+        logger.info('API server listening on ', serverHandler.address());
+      });
   }
 
   register(req, res) {

@@ -89,7 +89,15 @@ Host.json file example:
         "dstPath": "/to/this/other/path,
         "timeToLive": 300000
       }
-    ]
+    ],
+    "options": {
+      "enable": true,
+      "routerHost": "localhost",
+      "httpsApi": false,
+      "logOpts": {
+        "debug": true
+      }
+    }
   }
 }
 ```
