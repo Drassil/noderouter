@@ -161,6 +161,23 @@ In alternative, you can configure your docker-compose with the noderouter image 
 
 - [test coverage](coverage/lcov-report)
 
+### Host object
+
+The hosts array that you can write inside the hosts.json or that you can pass to the API endpoints is composed
+by the following properties:
+
+```
+- {number} connType            : type of connection, see "Connection types enum"
+- {string} srcHost             : source host
+- {string} dstHost             : destination host
+- {number} dstPort             : destination port
+- {string} signature           : the client signature is an unique string to identify your client in the router registry. 
+If you use our integrated client this parameter is optional and the signature will be automatically generated based on host information.
+- {optional string} srcPath    : source path. It supports a regex matching rule
+- {optional string} dstPath    : destination path. It supports a regex matching rule
+- {optional number} timeToLive : TTL for renew the registration. If you put a value > 0 your client needs to refresh the connection before that the TTL expires
+```
+
 ### Connection types enum
 
 ```
