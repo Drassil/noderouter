@@ -4,7 +4,7 @@ permalink: /
 
 # Noderouter
 
-Noderouter is an HTTP/TCP programmable proxy application that can be used as library and a standalone software.
+Noderouter is an HTTP/TCP programmable proxy application that can be used as library and as a standalone software.
 
 **Features:**
 
