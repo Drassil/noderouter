@@ -29,7 +29,7 @@ module.exports = class Logger {
     };
     this.error = function(...args) {
       error &&
-        (withTrace ? console.error : console.trace).apply(null, [
+        (withTrace ? console.trace : console.error).apply(null, [
           prefix,
           ...args,
         ]);

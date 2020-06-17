@@ -63,6 +63,7 @@ class TCPRouter extends Router {
           const client = this.getFirstClient(clientReq.headers.host, filter);
 
           if (!client) {
+            logger.debug(`Tring to resolve ${clientReq.headers.host} with DNS`);
             this.dnsServer.resolve(clientReq.headers.host, (err, addresses) => {
               if (!err) {
                 logger.debug(`${httpsSrv.type} Router: Resolving by remote DNS`);
@@ -146,6 +147,7 @@ class TCPRouter extends Router {
     const client = this.getFirstClient(sniName);
 
     if (!client) {
+      logger.debug(`Find ${sniName} with DNS...`);
       this.dnsServer.resolve(sniName, (err, addresses) => {
         if (!err) {
           logger.debug('Resolving by remote DNS');
