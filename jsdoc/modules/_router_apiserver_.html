@@ -106,19 +106,57 @@
 					<div class="tsd-signature tsd-kind-icon">API_<wbr>PORT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e7e5345/src/router/apiServer.js#L10">src/router/apiServer.js:10</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/75b5086/src/router/apiServer.js#L12">src/router/apiServer.js:12</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
 					<a name="conn_type" class="tsd-anchor"></a>
 					<h3>CONN_<wbr>TYPE</h3>
-					<div class="tsd-signature tsd-kind-icon">CONN_<wbr>TYPE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<div class="tsd-signature tsd-kind-icon">CONN_<wbr>TYPE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>HTTPS_HTTPS_PROXY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>HTTPS_HTTP_PROXY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>HTTP_HTTP_PROXY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>TLS_TUNNEL<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e7e5345/src/router/apiServer.js#L13">src/router/apiServer.js:13</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/75b5086/src/router/apiServer.js#L10">src/router/apiServer.js:10</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>HTTPS_<wbr>HTTPS_<wbr>PROXY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>define a tls -&gt; https -&gt; service (on https) proxy with path support</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>HTTPS_<wbr>HTTP_<wbr>PROXY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>define a tls -&gt; https -&gt; service (on http) proxy with path support</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>HTTP_<wbr>HTTP_<wbr>PROXY<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>define an http -&gt; service (http) proxy with path support</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>TLS_<wbr>TUNNEL<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>define a tls -&gt; service a TCP tunnel with TLS, SNI &amp; SSL
+										Passthrough support, but no proxy path possible</p>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
 					<a name="clientinfo" class="tsd-anchor"></a>
@@ -126,7 +164,7 @@
 					<div class="tsd-signature tsd-kind-icon">Client<wbr>Info<span class="tsd-signature-symbol">:</span> <a href="../classes/_lib_clientinfo_.clientinfo.html" class="tsd-signature-type">ClientInfo</a><span class="tsd-signature-symbol"> = require(&#x27;../lib/ClientInfo&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e7e5345/src/router/apiServer.js#L6">src/router/apiServer.js:6</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/75b5086/src/router/apiServer.js#L6">src/router/apiServer.js:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -136,7 +174,7 @@
 					<div class="tsd-signature tsd-kind-icon">Event<wbr>Manager<span class="tsd-signature-symbol">:</span> <a href="../classes/_lib_eventmanager_.eventmanager.html" class="tsd-signature-type">EventManager</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e7e5345/src/router/apiServer.js#L8">src/router/apiServer.js:8</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/75b5086/src/router/apiServer.js#L8">src/router/apiServer.js:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -146,7 +184,7 @@
 					<div class="tsd-signature tsd-kind-icon">Events<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>OnHTTPNoClientFound<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e7e5345/src/router/apiServer.js#L8">src/router/apiServer.js:8</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/75b5086/src/router/apiServer.js#L8">src/router/apiServer.js:8</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -164,7 +202,7 @@
 					<div class="tsd-signature tsd-kind-icon">HTTPRouter<span class="tsd-signature-symbol">:</span> <a href="../classes/_router_httprouter_.httprouter.html" class="tsd-signature-type">HTTPRouter</a><span class="tsd-signature-symbol"> = require(&#x27;./httpRouter&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e7e5345/src/router/apiServer.js#L5">src/router/apiServer.js:5</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/75b5086/src/router/apiServer.js#L5">src/router/apiServer.js:5</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -174,7 +212,7 @@
 					<div class="tsd-signature tsd-kind-icon">HTTP_<wbr>ROUTER_<wbr>PORT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e7e5345/src/router/apiServer.js#L12">src/router/apiServer.js:12</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/75b5086/src/router/apiServer.js#L14">src/router/apiServer.js:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -184,7 +222,7 @@
 					<div class="tsd-signature tsd-kind-icon">TCPRouter<span class="tsd-signature-symbol">:</span> <a href="../classes/_router_tcprouter_.tcprouter.html" class="tsd-signature-type">TCPRouter</a><span class="tsd-signature-symbol"> = require(&#x27;./tcpRouter&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e7e5345/src/router/apiServer.js#L4">src/router/apiServer.js:4</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/75b5086/src/router/apiServer.js#L4">src/router/apiServer.js:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -194,7 +232,7 @@
 					<div class="tsd-signature tsd-kind-icon">TLS_<wbr>ROUTER_<wbr>PORT<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e7e5345/src/router/apiServer.js#L11">src/router/apiServer.js:11</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/75b5086/src/router/apiServer.js#L13">src/router/apiServer.js:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -204,7 +242,7 @@
 					<div class="tsd-signature tsd-kind-icon">dns<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;dns&quot;</span><span class="tsd-signature-symbol"> = require(&#x27;dns&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e7e5345/src/router/apiServer.js#L3">src/router/apiServer.js:3</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/75b5086/src/router/apiServer.js#L3">src/router/apiServer.js:3</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -214,7 +252,7 @@
 					<div class="tsd-signature tsd-kind-icon">dns<wbr>Addresses<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e7e5345/src/router/apiServer.js#L15">src/router/apiServer.js:15</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/75b5086/src/router/apiServer.js#L15">src/router/apiServer.js:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -224,7 +262,7 @@
 					<div class="tsd-signature tsd-kind-icon">http<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;http&quot;</span><span class="tsd-signature-symbol"> = require(&#x27;http&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e7e5345/src/router/apiServer.js#L1">src/router/apiServer.js:1</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/75b5086/src/router/apiServer.js#L1">src/router/apiServer.js:1</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -234,7 +272,7 @@
 					<div class="tsd-signature tsd-kind-icon">https<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;https&quot;</span><span class="tsd-signature-symbol"> = require(&#x27;https&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e7e5345/src/router/apiServer.js#L2">src/router/apiServer.js:2</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/75b5086/src/router/apiServer.js#L2">src/router/apiServer.js:2</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -244,7 +282,7 @@
 					<div class="tsd-signature tsd-kind-icon">logger<span class="tsd-signature-symbol">:</span> <a href="_client_index_.html#logger" class="tsd-signature-type">Logger</a><span class="tsd-signature-symbol"> = require(&#x27;./logger&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e7e5345/src/router/apiServer.js#L7">src/router/apiServer.js:7</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/75b5086/src/router/apiServer.js#L7">src/router/apiServer.js:7</a></li>
 						</ul>
 					</aside>
 				</section>
