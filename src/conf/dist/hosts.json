@@ -25,7 +25,7 @@
       "routerHost": "noderouter.localhost",
       "httpsApi": false,
       "logOpts": {
-        "debug": true
+        "debug": false
       }
     }
   }

@@ -7,6 +7,7 @@ module.exports = {
   HTTP_ROUTER_PORT: process.env.NR_HTTP_ROUTER_PORT || 80,
   API_PORT: process.env.NR_API_PORT || 4010,
   dnsAddresses: [process.env.NR_DNS_1 || '8.8.8.8', process.env.NR_DNS_2 || '8.8.4.4'],
+  hostFile: process.env.NR_HOSTS_FILE || undefined,
   logger: {
     prefix: process.env.NR_LOG_PREFIX || 'NodeRouter',
     debug: getBoolean(process.env.NR_LOG_DEBUG, false),

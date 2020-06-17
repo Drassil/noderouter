@@ -4,6 +4,7 @@ const ApiServer = require('./apiServer');
 const fs = require('fs');
 const path = require('path');
 const cli = require('../lib/CLI');
+const { hostFile } = require("../conf");
 
 /**
  *
@@ -23,18 +24,18 @@ function showHelp() {
 const argv = cli(process.argv.slice(2), {
   string: ['hosts', 'apiPort', 'tslPort', 'httpPort'],
   boolean: ['h', 'apiSSL'],
-  alias: {h: 'help', hosts: 'f'},
+  alias: { h: 'help', hosts: 'f' },
   default: [],
   unknown: showHelp,
 });
 
 if (argv.help) showHelp();
 
-process.on('uncaughtException', function(error) {
+process.on('uncaughtException', function (error) {
   console.error('Uncaught Exception: ', error);
 });
 
-process.on('SIGINT', function() {
+process.on('SIGINT', function () {
   process.exit();
 });
 
@@ -47,10 +48,10 @@ new ApiServer({
 });
 
 // if filename specified, then run client too
-const file = argv.hosts || process.env.NR_HOSTS_FILE;
+const file = argv.hosts || hostFile;
 
 if (file && fs.existsSync(file)) {
-  const {ClientMgr} = require('../client/index');
+  const { ClientMgr } = require('../client/index');
 
   ClientMgr.registerHostsWithFile(path.resolve(file));
 }
