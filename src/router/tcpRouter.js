@@ -1,10 +1,9 @@
 const net = require('net');
-const sniReader = require('../lib/sniReader');
-const Router = require('../lib/Router');
-const {CONN_TYPE} = require('../def/const');
-const {TLS_ROUTER_PORT} = require('../conf');
-const logger = require('./logger');
-const {Events} = require('../lib/EventManager');
+const sniReader = require('@acore/noderouter/src/lib/sniReader');
+const Router = require('@acore/noderouter/src/lib/Router');
+const {CONN_TYPE} = require('@acore/noderouter/src/def/const');
+const {Events} = require('@acore/noderouter/src/lib/EventManager');
+const {promisify} = require('util');
 
 class TCPRouter extends Router {
   /**
@@ -15,14 +14,15 @@ class TCPRouter extends Router {
    * @instance
    * @param {import("dns").Resolver} dnsServer - dns server instance
    * @param {Object} evtMgr - event manager instance
+   * @param {import('/lib/Logger')} logger - Logger instance
    */
-  constructor(localport, httpsRouter, dnsServer, evtMgr) {
-    super(localport, 'TCP', evtMgr);
+  constructor(localport, httpsRouter, dnsServer, evtMgr, logger) {
+    super(localport, 'TCP', evtMgr, logger);
 
     this.httpsRouter = httpsRouter;
     this.dnsServer = dnsServer;
 
-    const server = net.createServer((serverSocket) => {
+    this.server = net.createServer((serverSocket) => {
       sniReader(serverSocket, (err, sniName) => {
         if (err) {
           // logger.error(err);
@@ -53,7 +53,7 @@ class TCPRouter extends Router {
           }
 
           /**
-           * @param {import("../lib/ClientInfo")} value - array value
+           * @param {import("/lib/ClientInfo")} value - array value
            * @returns {boolean} - condition
            */
           const filter = (value) => {
@@ -111,14 +111,17 @@ class TCPRouter extends Router {
           );
         },
     );
+  }
 
-    this.srvHandler = server.listen(this.localport, '0.0.0.0');
+  async listen() {
+    this.srvHandler = await promisify((cb) => this.server.listen(this.localport, '0.0.0.0', () => cb(null, this.server)))();
     if (this.srvHandler) {
-      logger.info('TCP Router listening on ', this.localport, '0.0.0.0');
+      this.logger.info('TCP Router listening on ', this.localport, '0.0.0.0');
     }
   }
 
   initSession(serverSocket, sniName, skipHttpsCheck = false) {
+    const logger = this.logger;
     // if there's an HTTPS Proxy registered
     // on requested host, then process
     // it first.
@@ -155,7 +158,7 @@ class TCPRouter extends Router {
               serverSocket,
               sniName,
               addresses[0],
-              TLS_ROUTER_PORT,
+              this.localport,
           );
         } else {
           logger.error(err);
@@ -166,10 +169,10 @@ class TCPRouter extends Router {
     }
 
     if (client.isExpired()) {
-      logger.info('Client expired! Unregistering...');
-      this.unregister(client);
+      logger.info('Client expired! Deregistering...');
+      this.deregister(client);
       // trying with external connection
-      this.createTunnel(serverSocket, sniName, sniName, TLS_ROUTER_PORT);
+      this.createTunnel(serverSocket, sniName, sniName, this.localport);
       return false;
     }
 
@@ -184,6 +187,7 @@ class TCPRouter extends Router {
   }
 
   createTunnel(serverSocket, sniName, dstHost, dstPort, client = null) {
+    const logger = this.logger;
     // [TODO]: improve. It could generate unpredictable
     // issues if you need to redirect a local service to the same
     // port of the source
@@ -218,7 +222,7 @@ class TCPRouter extends Router {
       );
     });
     clientSocket.on('error', (err) => {
-      if (client) this.unregister(client);
+      if (client) this.deregister(client);
       logger.error(sniName, 'Client socket reported', err);
       serverSocket.end();
     });
@@ -239,7 +243,7 @@ class TCPRouter extends Router {
    *
    * @param {string} srcHost - source host
    * @param {any} filter - filter callback
-   * @returns {import("../lib/ClientInfo")} - clients information
+   * @returns {import("/lib/ClientInfo")} - clients information
    */
   getFirstClient(srcHost, filter = undefined) {
     if (!this.clients[srcHost]) return null;

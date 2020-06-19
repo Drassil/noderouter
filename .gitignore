@@ -68,6 +68,7 @@ package-lock.json
 .env
 
 packagehash.txt
+package-lock.json
 
 src/conf/*
 !src/conf/dist

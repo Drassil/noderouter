@@ -3,7 +3,7 @@ services:
   node-router:
     image: node:12-slim
     restart: always
-    command: npm run start:router
+    command: bash -c "npm run postinstall && npm run start:router"
     working_dir: /usr/src/service
     volumes:
       - type: bind
@@ -26,7 +26,7 @@ services:
   nr-client:
     image: node:12-slim
     restart: always
-    command: npm run start:client
+    command: bash -c "npm run postinstall && npm run start:client"
     working_dir: /usr/src/service
     volumes:
       - type: bind

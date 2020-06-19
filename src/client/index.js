@@ -10,8 +10,8 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const {promisify} = require('util');
-const {API_PORT, CONN_TYPE, TTL} = require('../conf');
-const Logger = require('../lib/Logger');
+const {API_PORT, CONN_TYPE, TTL} = require('@acore/noderouter/src/conf');
+const Logger = require('@acore/noderouter/src/lib/Logger');
 
 /**
  * @typedef {Object} NRClientOptions
@@ -20,7 +20,7 @@ const Logger = require('../lib/Logger');
  * @property {boolean} [httpsApi] - connect to router via https
  * @property {boolean} [enable] - a simple switch to enable/disable
  * the router configuration
- * @property {import("../lib/Logger").logOpts} logOpts - Logger options
+ * @property {import("/lib/Logger").logOpts} logOpts - Logger options
  */
 
 const readFileAsync = promisify(fs.readFile);
@@ -92,7 +92,7 @@ class ClientMgr {
         isLocal,
         srcPath = null,
         dstPath = null,
-        timeToLive = TTL,
+        timeToLive = parseInt(`${TTL}`),
       },
       {
         enable = true,
@@ -100,7 +100,7 @@ class ClientMgr {
         httpsApi = false,
         logOpts = {},
       },
-      callback = (res) => {},
+      callback = (res) => { },
   ) {
     if (enable === false) {
       return;
@@ -162,9 +162,10 @@ class ClientMgr {
             },
         );
 
+        const retryTime = parseInt(`${TTL}`);
         request.on('error', (e) => {
           logger.error('Cannot reach the router', e);
-          setTimeout(sendRequest, TTL); // retry after a default TTL cycle
+          setTimeout(sendRequest, retryTime); // retry after a default TTL cycle
           reject(e);
         });
 
@@ -189,10 +190,10 @@ class ClientMgr {
    * @param {NRClientOptions} options - Router options
    * @param {Function} cb - Callback function
    */
-  static unregisterHost(
+  static deregisterHost(
       signature,
       {routerHost = os.hostname(), httpsApi = false, logOpts = {}},
-      cb = (statusCode) => {},
+      cb = (statusCode) => { },
   ) {
     const client = httpsApi ? https : http;
 
@@ -204,7 +205,7 @@ class ClientMgr {
         {
           hostname,
           port: API_PORT,
-          path: '/unregister',
+          path: '/deregister',
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -214,7 +215,7 @@ class ClientMgr {
         (res) => {
           switch (res.statusCode) {
             case 200:
-              logger.log('Unregistered!');
+              logger.log('Deregistered!');
               break;
             default:
               logger.log('Unknown status');
@@ -229,11 +230,11 @@ class ClientMgr {
       logger.error('Cannot reach the noderouter', e);
     });
 
-    request.end(signature, () => logger.log('Unregistering...'));
+    request.end(signature, () => logger.log('Deregistering...'));
   }
 
-  static unregisterHosts(signatures, options, cb = () => {}) {
-    signatures.map((s) => ClientMgr.unregisterHost(s, options, cb));
+  static deregisterHosts(signatures, options, cb = () => { }) {
+    signatures.map((s) => ClientMgr.deregisterHost(s, options, cb));
   }
 }
 
@@ -243,6 +244,6 @@ module.exports = {
   registerHostsWithFile: ClientMgr.registerHostsWithFile,
   registerHost: ClientMgr.registerHost,
   registerHosts: ClientMgr.registerHosts,
-  unregisterHost: ClientMgr.unregisterHost,
-  unregisterHosts: ClientMgr.unregisterHosts,
+  deregisterHost: ClientMgr.deregisterHost,
+  deregisterHosts: ClientMgr.deregisterHosts,
 };

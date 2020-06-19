@@ -5,6 +5,8 @@ COPY . .
 
 ENV DOCKER_CONTAINER=1
 
+RUN npm run postinstall
+
 CMD [ "npm","run","start:router"]
 
 EXPOSE 80 443 60001

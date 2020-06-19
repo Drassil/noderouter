@@ -3,10 +3,10 @@ const https = require('https');
 const tls = require('tls');
 const fs = require('fs');
 const path = require('path');
-const Router = require('../lib/Router');
-const {CONN_TYPE} = require('../def/const');
-const logger = require('./logger');
-const {Events} = require('../lib/EventManager');
+const Router = require('@acore/noderouter/src/lib/Router');
+const {CONN_TYPE} = require('@acore/noderouter/src/def/const');
+const {Events} = require('@acore/noderouter/src/lib/EventManager');
+const {promisify} = require('util');
 
 class HTTPRouter extends Router {
   /**
@@ -15,10 +15,11 @@ class HTTPRouter extends Router {
    * @param {number} localport - Local port
    * @param {Object} dnsServer - dns server instance
    * @param {Object} evtMgr - event manager instance
+   * @param {import('/lib/Logger')} logger - Logger instance
    * @param {boolean} isSSL - is https or http
    */
-  constructor(localport, dnsServer, evtMgr, isSSL = false) {
-    super(localport, isSSL ? 'HTTPS' : 'HTTP', evtMgr);
+  constructor(localport, dnsServer, evtMgr, logger, isSSL = false) {
+    super(localport, isSSL ? 'HTTPS' : 'HTTP', evtMgr, logger);
 
     this.isSSL = isSSL;
     this.dnsServer = dnsServer;
@@ -45,26 +46,26 @@ class HTTPRouter extends Router {
           {
             rejectUnauthorized: false,
             /* SNICallback: (domain, cb) => {
-            if (cb) {
-              cb(null, this.getSecureContext(domain).context);
-            } else {
-              // compatibility for older versions of node
-              return this.getSecureContext(domain).context;
-            }
-          },*/
+          if (cb) {
+            cb(null, this.getSecureContext(domain).context);
+          } else {
+            // compatibility for older versions of node
+            return this.getSecureContext(domain).context;
+          }
+        },*/
             key: fs.readFileSync(pkeyPath),
             cert: fs.readFileSync(certPath),
           },
           this.onRequest.bind(this),
       ) :
       http.createServer(this.onRequest.bind(this));
+  }
 
+  async listen() {
+    const logger = this.logger;
     this.srvHandler = this.isSSL ?
-      this.server.listen(this.localport, (err) => {
-        console.log(err);
-      }) :
-      this.server.listen(this.localport, '0.0.0.0');
-
+      await promisify((cb) => this.server.listen(this.localport, () => cb(null, this.server)))() :
+      await promisify((cb) => this.server.listen(this.localport, '0.0.0.0', () => cb(null, this.server)))();
     this.srvHandler.on('error', (err) => {
       logger.error('error', err);
     });
@@ -83,6 +84,7 @@ class HTTPRouter extends Router {
 
   // function to pick out the key + certs dynamically based on the domain name
   getSecureContext(domain) {
+    const logger = this.logger;
     if (this.certsMap[domain]) return this.certsMap[domain];
 
     const pkeyPath = path.join(__dirname, '..', 'conf', domain + '.pkey');
@@ -100,6 +102,7 @@ class HTTPRouter extends Router {
   }
 
   onRequest(clientReq, clientRes) {
+    const logger = this.logger;
     logger.log('request started from: ', clientReq.headers.host);
 
     // disable cors
@@ -113,7 +116,7 @@ class HTTPRouter extends Router {
       return;
     }
 
-    /** @type {import("../lib/ClientInfo")} */
+    /** @type {import("/lib/ClientInfo")} */
     const client = this.getClientBySrcPath(
         clientReq.headers.host,
         clientReq.url,
@@ -121,8 +124,8 @@ class HTTPRouter extends Router {
 
     if (!client || client.isExpired()) {
       if (client && client.isExpired()) {
-        logger.log('Client expired! Unregistering...');
-        this.unregister(client);
+        logger.log('Client expired! Deregistering...');
+        this.deregister(client);
       }
 
       this.evtMgr.emit(Events.OnHTTPNoClientFound, this, clientReq, clientRes);
@@ -162,6 +165,7 @@ class HTTPRouter extends Router {
       dstPath,
       connType,
   ) {
+    const logger = this.logger;
     // if (srcHost === dstHost && this.localport === dstPort) return; // avoid infinite loops
     const options = {
       hostname: dstHost,
@@ -182,7 +186,7 @@ class HTTPRouter extends Router {
     );
 
     const proxy = protocol.request(options, (res) => {
-      // if (res.statusCode != 200 && client) this.unregister(client);
+      // if (res.statusCode != 200 && client) this.deregister(client);
 
       logger.debug(
           srcHost,

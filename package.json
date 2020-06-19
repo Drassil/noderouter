@@ -1,6 +1,10 @@
 {
   "name": "@acore/noderouter",
-  "version": "0.3.7",
+  "_moduleAliases": {
+    "@acore/noderouter": "../"
+  },
+  "_moduleAliasIgnoreWarning": true,
+  "version": "0.9.0",
   "description": "",
   "main": "src/router/index.js",
   "bin": {
@@ -33,10 +37,11 @@
     "docker:build:client": "docker build -t acore/noderouter-client -f NRClient.Dockerfile . && docker tag acore/noderouter-client acore/noderouter-client:latest",
     "docker:push": "npm run docker:push:client && npm run docker:push:router",
     "docker:push:router": "npm run docker:build:router && docker push acore/noderouter:latest",
-    "docker:push:client": "npm run docker:build:client && docker push acore/noderouter-client:latest"
+    "docker:push:client": "npm run docker:build:client && docker push acore/noderouter-client:latest",
+    "postinstall": "npx link-module-alias"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Yehonal",
+  "license": "AGPL3",
   "devDependencies": {
     "@types/jest": "^25.1.3",
     "@types/node": "^12.12.28",
@@ -52,6 +57,7 @@
     "install-changed": "^1.1.0",
     "jest": "^25.1.0",
     "jest-cli": "^25.1.0",
+    "link-module-alias": "^1.2.0",
     "lint-staged": "^10.0.8",
     "pm2": "^4.2.3",
     "prettier-eslint": "^9.0.1",

@@ -3,7 +3,7 @@
 const {ClientMgr} = require('./index');
 const fs = require('fs');
 const path = require('path');
-const cli = require('../lib/CLI');
+const cli = require('@acore/noderouter/src/lib/CLI');
 
 const argv = cli(process.argv.slice(2));
 

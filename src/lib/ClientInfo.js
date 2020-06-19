@@ -1,8 +1,6 @@
 // @ts-nocheck
 const assert = require('assert');
 
-const {TTL, TTL_WAIT} = require('../conf');
-
 /**
  * This class is used to ensure that data retrieved from clients
  * are valid.
@@ -20,8 +18,9 @@ class ClientInfo {
     dstPort,
     srcPath,
     dstPath,
-    timeToLive = TTL,
+    timeToLive,
     signature,
+    _timeToLiveWait,
   }) {
     // Following assertion are needed to validate network data
     assert(
@@ -50,6 +49,7 @@ class ClientInfo {
     this.timeToLive = timeToLive;
     this.signature = signature;
     this.timer = Date.now();
+    this._timeToLiveWait=_timeToLiveWait;
   }
 
   refreshTimer() {
@@ -59,7 +59,7 @@ class ClientInfo {
   isExpired() {
     return (
       this.timeToLive > 0 &&
-      this.timer + this.timeToLive + TTL_WAIT < Date.now()
+      this.timer + this.timeToLive + this._timeToLiveWait < Date.now()
     );
   }
 

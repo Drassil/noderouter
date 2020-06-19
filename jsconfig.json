@@ -8,7 +8,15 @@
     "noEmit": true,
     "skipLibCheck": true,
     "moduleResolution": "node",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@acore/noderouter/*" : [
+        "*"
+      ],
+      "/*" : [
+        "./src/*"
+      ]
+    }
   },
   "include": ["src"]
 }

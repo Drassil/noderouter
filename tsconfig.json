@@ -4,6 +4,7 @@
     "allowJs": true,
     "checkJs": true,
     "preserveSymlinks": true,
-    "maxNodeModuleJsDepth": 0
+    "maxNodeModuleJsDepth": 0,
+    "baseUrl": "."
   }
 }

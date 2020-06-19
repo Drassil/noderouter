@@ -1,5 +1,5 @@
 // @ts-nocheck
-require('../def/jsdoc');
+require('@acore/noderouter/src/def/jsdoc');
 const ClientInfo = require('./ClientInfo');
 const assert = require('assert');
 const os = require('os');
@@ -12,8 +12,10 @@ class Router {
    * @param {string} type - type of router (tcp/http/https)
    * @instance
    * @param {import('events').EventEmitter} evtMgr - event manager instance
+   * @instance
+   * @param {import('/lib/Logger')} logger - Logger instance
    */
-  constructor(localport, type, evtMgr) {
+  constructor(localport, type, evtMgr, logger) {
     /** @type {Object.<string, Object.<string, ClientInfo>>} - client map of
         hostname -> info*/
     this.clients = {};
@@ -21,6 +23,8 @@ class Router {
     this.type = type;
     /** @type {number} - listening port for the tunnel */
     this.localport = localport;
+
+    this.logger = logger;
 
     this.evtMgr = evtMgr;
 
@@ -153,13 +157,13 @@ class Router {
    * @param {ClientInfo} clientInfo - Client information
    * @returns {number} - http status code
    */
-  unregister(clientInfo) {
+  deregister(clientInfo) {
     assert(clientInfo instanceof ClientInfo);
 
     this.removeClient(clientInfo);
 
     console.debug(
-        `Unregistered ${this.type} tunnel: ${
+        `Deregistered ${this.type} tunnel: ${
           clientInfo.srcHost
         }:${this.getRouterPort()} <==> ${clientInfo.dstHost}:${
           clientInfo.dstPort

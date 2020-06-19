@@ -59,10 +59,9 @@ docker pull @acore/noderouter
 
 NOTE: you can pull the image so you can use it later or directly run it
 
-### Hosts file
+#### Hosts file
 
-There are several way to configure the noderouter.
-Basically, the node router exposes an http api with the `/register` and `/unregister` actions.
+The node router exposes an http api with the `/register` and `/deregister` action that you can use to register/deregister your hosts.
 These actions can be used to register a **proxy/tunnel** passing a json string to configure them and managing the **TTL** (see documentation for more info)
 
 However, the integrated noderouter client simplifies this process for you so you only need to create a proper json file for your hosts
@@ -102,18 +101,29 @@ Host.json file example:
 }
 ```
 
+**NOTE:** to preload hosts directly at the router start, check the "configuration" section of this documentation.
+
 ### Run
 
 #### With npm
 
 if you installed with -g flag then you can run it with the following command
 
+To start the router:
+
 ```
-noderouter --hosts hosts.json
+noderouter
 ```
 
-The commands above runs both the router and the client at the same time to register hosts defined inside your hosts.json.
-You can avoid the **--hosts** option if you're going to implement your own client.
+To start the client with your host list:
+
+```
+noderouter-client hosts.json
+```
+
+
+The commands above runs both the router and the client to register hosts defined inside your hosts.json.
+You can avoid the client command if you're going to implement your own client.
 
 Run this command: `noderouter --help`
 
@@ -123,7 +133,7 @@ for the complete list of available options:
 Usage: noderouter [OPTIONS]
 Options:
   -h, --help : show help information
-  -f, --hosts    : run the client with an host.json file, if not specified no hosts will be registered now
+  -c, --conf    : run the client with a custom configuration file
   --apiPort  : set the listening port for noderouter API
   --httpPort : set the listening port for the http proxy
   --tslPort  : set the listening port for the TSL proxy
@@ -135,15 +145,22 @@ Options:
 If you've cloned the repo with git clone then you can "cd" inside that folder and use npm to run noderouter with several strategies.
 For example:
 
+Run the router first:
 ```
-npm run start:router -- --hosts hosts.json
+npm run start:router
 ```
 
-The command above works in the same way of `noderouter --hosts hosts.json` command showed inside the previous pharagraph
+Then eventually the client:
+
+```
+npm run start:client host.js
+```
+
+The command above works in the same way of `noderouter` and `noderouter-client hosts.json` commands showed previously
 
 you can run `npm run` for the entire list of npm scripts or just take a look at package.json file
 
-NOTE: you can use `yarn run` in the same way
+NOTE: `yarn run` works aswell
 
 #### With docker
 
@@ -155,13 +172,7 @@ To run it directly with docker run you  can use the following command:
 
 However, you must open ports and set the correct environment variables. Check docker run documentation for it: `https://docs.docker.com/engine/reference/run/`
 
-You can check the environment variable available here:
-
-[.env.dist-client](https://github.com/azerothcore/noderouter/blob/master/.env.dist-client)
-
-[.env.dist-router](https://github.com/azerothcore/noderouter/blob/master/.env.dist-router)
-
-In alternative, you can configure your docker-compose with the noderouter image from the docker hub.
+In alternative, you can configure your own docker-compose with the noderouter image from the docker hub.
 
 ## Documentation
 
@@ -202,6 +213,33 @@ If you use our integrated client this parameter is optional and the signature wi
   }
 ```
 
+### Router configuration
+
+Some configurations for the router can be changed during the startup using command line options.
+
+But if you need more control on router settings then you can create a `routerConf.js` file inside the /src/
+
+and copy configurations from the original file:
+
+`https://github.com/azerothcore/noderouter/blob/master/src/conf/dist/routerConf.js`
+
+NOTE: your custom file will override default conf properties with a merge strategy.
+
+You can change these options in several ways (ordered by importance):
+
+1. with environment variables
+2. creating a routerConf.js file under /src/conf folder (only for users who downloaded it with git, this file it's git-ignored)
+3. with command line options
+4. with the -c/--conf command line argument or the env NR_CONF_FILE to load a custom conf file (suggested when installed with npm or with docker)
+
+### Environment variables
+
+You can check the environment variable available here:
+
+[.env.dist-client](https://github.com/azerothcore/noderouter/blob/master/.env.dist-client)
+
+[.env.dist-router](https://github.com/azerothcore/noderouter/blob/master/.env.dist-router)
+
 ### API endpoints
 
 The router has its own API so you can create your own client in any language you want or just reuse the noderouter internal one programmatically.
@@ -215,14 +253,19 @@ For instance, to register/unregister an host you can also use curl:
 ```
 curl --header "Content-Type: application/json" \
      --request POST \
-     --data '{"hosts": [{"connType": 4, "srcHost": "www.myfirstdomain.com", "dstHost": "localhost", "dstPort": 60000, "timeToLive": 300000}}' \
+     --data '{"hosts": [{"connType": 4, "srcHost": "www.myfirstdomain.com", "dstHost": "localhost", "dstPort": 60000, "timeToLive": 0}}' \
      http://localhost:4010/register
 
 curl --header "Content-Type: application/json" \
      --request POST \
-     --data '{"hosts": [{"connType": 4, "srcHost": "www.myfirstdomain.com", "dstHost": "localhost", "dstPort": 60000, "timeToLive": 300000}}' \
+     --data '{"hosts": [{"connType": 4, "srcHost": "www.myfirstdomain.com", "dstHost": "localhost", "dstPort": 60000, "timeToLive": 0}}' \
      http://localhost:4010/unregister
 ```
+
+## TODO:
+
+- Implement test layer
+- Add more configurations based on user feedback
 
 
 
