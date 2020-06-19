@@ -4,7 +4,7 @@
     "@acore/noderouter": "../"
   },
   "_moduleAliasIgnoreWarning": true,
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "",
   "main": "src/router/index.js",
   "bin": {
