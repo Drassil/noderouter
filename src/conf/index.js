@@ -5,8 +5,9 @@ const path = require('path');
 
 let mConf = _confDef;
 
-if (fs.existsSync(path.join(__dirname, './routerConf.js'))) {
-  const _conf = require('./routerConf.js');
+const confPath = path.join(__dirname, './routerConf.js');
+if (fs.existsSync(confPath)) {
+  const _conf = require(confPath);
   delete _conf.default;
   delete _confDef.default;
 
