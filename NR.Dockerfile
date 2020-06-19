@@ -5,7 +5,7 @@ COPY . .
 
 ENV DOCKER_CONTAINER=1
 
-RUN npm run postinstall
+RUN npm run prepare
 
 CMD [ "npm","run","start:router"]
 
