@@ -38,7 +38,7 @@
     "docker:push": "npm run docker:push:client && npm run docker:push:router",
     "docker:push:router": "npm run docker:build:router && docker push acore/noderouter:latest",
     "docker:push:client": "npm run docker:build:client && docker push acore/noderouter-client:latest",
-    "postinstall": "npx link-module-alias"
+    "prepare": "npx link-module-alias"
   },
   "author": "Yehonal",
   "license": "AGPL3",
