@@ -84,12 +84,12 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_client_index_.clientmgr.html#deregisterhost" class="tsd-kind-icon">deregister<wbr>Host</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_client_index_.clientmgr.html#deregisterhosts" class="tsd-kind-icon">deregister<wbr>Hosts</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_client_index_.clientmgr.html#readjson" class="tsd-kind-icon">read<wbr>Json</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_client_index_.clientmgr.html#registerhost" class="tsd-kind-icon">register<wbr>Host</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_client_index_.clientmgr.html#registerhosts" class="tsd-kind-icon">register<wbr>Hosts</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_client_index_.clientmgr.html#registerhostswithfile" class="tsd-kind-icon">register<wbr>Hosts<wbr>With<wbr>File</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_client_index_.clientmgr.html#unregisterhost" class="tsd-kind-icon">unregister<wbr>Host</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_client_index_.clientmgr.html#unregisterhosts" class="tsd-kind-icon">unregister<wbr>Hosts</a></li>
 							</ul>
 						</section>
 					</div>
@@ -97,6 +97,89 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="deregisterhost" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> deregister<wbr>Host</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">deregister<wbr>Host<span class="tsd-signature-symbol">(</span>signature<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, __namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>httpsApi<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>logOpts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>routerHost<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span>, cb<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/client/index.js#L193">src/client/index.js:193</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Handles deregistration of a single service connection tunnel
+									with the noderouter service</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>signature: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Client signature</p>
+									</div>
+								</li>
+								<li>
+									<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>httpsApi<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>logOpts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>routerHost<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter">
+											<h5>https<wbr>Api<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+										</li>
+										<li class="tsd-parameter">
+											<h5>log<wbr>Opts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></h5>
+											<ul class="tsd-parameters">
+											</ul>
+										</li>
+										<li class="tsd-parameter">
+											<h5>router<wbr>Host<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+										</li>
+									</ul>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> cb: <span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol"> = (statusCode) &#x3D;&gt; { }</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Callback function</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="deregisterhosts" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> deregister<wbr>Hosts</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">deregister<wbr>Hosts<span class="tsd-signature-symbol">(</span>signatures<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, cb<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/client/index.js#L236">src/client/index.js:236</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>signatures: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> cb: <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = () &#x3D;&gt; { }</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
 					<a name="readjson" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> read<wbr>Json</h3>
@@ -107,7 +190,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/client/index.js#L29">src/client/index.js:29</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/client/index.js#L29">src/client/index.js:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -130,7 +213,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/client/index.js#L86">src/client/index.js:86</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/client/index.js#L86">src/client/index.js:86</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -190,7 +273,7 @@
 									</ul>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> callback: <span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol"> = (res) &#x3D;&gt; {}</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> callback: <span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol"> = (res) &#x3D;&gt; { }</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Callback function</p>
 									</div>
@@ -213,7 +296,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/client/index.js#L65">src/client/index.js:65</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/client/index.js#L65">src/client/index.js:65</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -257,7 +340,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/client/index.js#L41">src/client/index.js:41</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/client/index.js#L41">src/client/index.js:41</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -279,89 +362,6 @@
 								<li>a Promise that will return
 								the signature array</li>
 							</ul>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="unregisterhost" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> unregister<wbr>Host</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">unregister<wbr>Host<span class="tsd-signature-symbol">(</span>signature<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, __namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>httpsApi<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>logOpts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>routerHost<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span>, cb<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/client/index.js#L192">src/client/index.js:192</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Handles deregistration of a single service connection tunnel
-									with the noderouter service</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>signature: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Client signature</p>
-									</div>
-								</li>
-								<li>
-									<h5>__namedParameters: <span class="tsd-signature-symbol">{ </span>httpsApi<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>logOpts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">; </span>routerHost<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter">
-											<h5>https<wbr>Api<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
-										</li>
-										<li class="tsd-parameter">
-											<h5>log<wbr>Opts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></h5>
-											<ul class="tsd-parameters">
-											</ul>
-										</li>
-										<li class="tsd-parameter">
-											<h5>router<wbr>Host<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
-										</li>
-									</ul>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> cb: <span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol"> = (statusCode) &#x3D;&gt; {}</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Callback function</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="unregisterhosts" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> unregister<wbr>Hosts</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">unregister<wbr>Hosts<span class="tsd-signature-symbol">(</span>signatures<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, cb<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/client/index.js#L235">src/client/index.js:235</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>signatures: <span class="tsd-signature-type">any</span></h5>
-								</li>
-								<li>
-									<h5>options: <span class="tsd-signature-type">any</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> cb: <span class="tsd-signature-type">(Anonymous function)</span><span class="tsd-signature-symbol"> = () &#x3D;&gt; {}</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -425,9 +425,6 @@
 						<a href="../modules/_router_index_.html">&quot;router/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="../modules/_router_logger_.html">&quot;router/logger&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
 						<a href="../modules/_router_tcprouter_.html">&quot;router/tcp<wbr>Router&quot;</a>
 					</li>
 				</ul>
@@ -440,6 +437,12 @@
 						<a href="_client_index_.clientmgr.html" class="tsd-kind-icon">Client<wbr>Mgr</a>
 						<ul>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="_client_index_.clientmgr.html#deregisterhost" class="tsd-kind-icon">deregister<wbr>Host</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="_client_index_.clientmgr.html#deregisterhosts" class="tsd-kind-icon">deregister<wbr>Hosts</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="_client_index_.clientmgr.html#readjson" class="tsd-kind-icon">read<wbr>Json</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
@@ -450,12 +453,6 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="_client_index_.clientmgr.html#registerhostswithfile" class="tsd-kind-icon">register<wbr>Hosts<wbr>With<wbr>File</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="_client_index_.clientmgr.html#unregisterhost" class="tsd-kind-icon">unregister<wbr>Host</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="_client_index_.clientmgr.html#unregisterhosts" class="tsd-kind-icon">unregister<wbr>Hosts</a>
 							</li>
 						</ul>
 					</li>

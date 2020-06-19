@@ -96,17 +96,18 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_router_httprouter_.httprouter.html#createtunnel" class="tsd-kind-icon">create<wbr>Tunnel</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_router_httprouter_.httprouter.html#deregister" class="tsd-kind-icon">deregister</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_router_httprouter_.httprouter.html#getclientbysignature" class="tsd-kind-icon">get<wbr>Client<wbr>BySignature</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_router_httprouter_.httprouter.html#getclientbysrcpath" class="tsd-kind-icon">get<wbr>Client<wbr>BySrc<wbr>Path</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_router_httprouter_.httprouter.html#getclients" class="tsd-kind-icon">get<wbr>Clients</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_router_httprouter_.httprouter.html#getrouterhost" class="tsd-kind-icon">get<wbr>Router<wbr>Host</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_router_httprouter_.httprouter.html#getrouterport" class="tsd-kind-icon">get<wbr>Router<wbr>Port</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_router_httprouter_.httprouter.html#getsecurecontext" class="tsd-kind-icon">get<wbr>Secure<wbr>Context</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_router_httprouter_.httprouter.html#listen" class="tsd-kind-icon">listen</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_router_httprouter_.httprouter.html#onrequest" class="tsd-kind-icon">on<wbr>Request</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_router_httprouter_.httprouter.html#register" class="tsd-kind-icon">register</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_router_httprouter_.httprouter.html#removeclient" class="tsd-kind-icon">remove<wbr>Client</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_router_httprouter_.httprouter.html#setclient" class="tsd-kind-icon">set<wbr>Client</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_router_httprouter_.httprouter.html#unregister" class="tsd-kind-icon">unregister</a></li>
 							</ul>
 						</section>
 					</div>
@@ -118,14 +119,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new HTTPRouter<span class="tsd-signature-symbol">(</span>localport<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, dnsServer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, evtMgr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, isSSL<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_router_httprouter_.httprouter.html" class="tsd-signature-type">HTTPRouter</a></li>
+						<li class="tsd-signature tsd-kind-icon">new HTTPRouter<span class="tsd-signature-symbol">(</span>localport<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, dnsServer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, evtMgr<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, logger<span class="tsd-signature-symbol">: </span><a href="../modules/_client_index_.html#logger" class="tsd-signature-type">Logger</a>, isSSL<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_router_httprouter_.httprouter.html" class="tsd-signature-type">HTTPRouter</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_lib_router_.router.html">Router</a>.<a href="_lib_router_.router.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/router/httpRouter.js#L11">src/router/httpRouter.js:11</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/router/httpRouter.js#L11">src/router/httpRouter.js:11</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -160,6 +161,14 @@
 									</div>
 								</li>
 								<li>
+									<h5>logger: <a href="../modules/_client_index_.html#logger" class="tsd-signature-type">Logger</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Logger instance</p>
+										</div>
+									</div>
+								</li>
+								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> isSSL: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
@@ -185,7 +194,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/router/httpRouter.js#L156">src/router/httpRouter.js:156</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/router/httpRouter.js#L159">src/router/httpRouter.js:159</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -240,6 +249,41 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="deregister" class="tsd-anchor"></a>
+					<h3>deregister</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">deregister<span class="tsd-signature-symbol">(</span>clientInfo<span class="tsd-signature-symbol">: </span><a href="_lib_clientinfo_.clientinfo.html" class="tsd-signature-type">ClientInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_lib_router_.router.html">Router</a>.<a href="_lib_router_.router.html#deregister">deregister</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/lib/Router.js#L160">src/lib/Router.js:160</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Remove a client from the router</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>clientInfo: <a href="_lib_clientinfo_.clientinfo.html" class="tsd-signature-type">ClientInfo</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Client information</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<ul>
+								<li>http status code</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="getclientbysignature" class="tsd-anchor"></a>
 					<h3>get<wbr>Client<wbr>BySignature</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -250,7 +294,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_router_.router.html">Router</a>.<a href="_lib_router_.router.html#getclientbysignature">getClientBySignature</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/lib/Router.js#L57">src/lib/Router.js:57</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/lib/Router.js#L61">src/lib/Router.js:61</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -291,7 +335,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_router_.router.html">Router</a>.<a href="_lib_router_.router.html#getclientbysrcpath">getClientBySrcPath</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/lib/Router.js#L72">src/lib/Router.js:72</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/lib/Router.js#L76">src/lib/Router.js:76</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -332,7 +376,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_router_.router.html">Router</a>.<a href="_lib_router_.router.html#getclients">getClients</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/lib/Router.js#L46">src/lib/Router.js:46</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/lib/Router.js#L50">src/lib/Router.js:50</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -367,7 +411,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_router_.router.html">Router</a>.<a href="_lib_router_.router.html#getrouterhost">getRouterHost</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/lib/Router.js#L34">src/lib/Router.js:34</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/lib/Router.js#L38">src/lib/Router.js:38</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -385,7 +429,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_router_.router.html">Router</a>.<a href="_lib_router_.router.html#getrouterport">getRouterPort</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/lib/Router.js#L30">src/lib/Router.js:30</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/lib/Router.js#L34">src/lib/Router.js:34</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -402,7 +446,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/router/httpRouter.js#L85">src/router/httpRouter.js:85</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/router/httpRouter.js#L86">src/router/httpRouter.js:86</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -416,6 +460,23 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="listen" class="tsd-anchor"></a>
+					<h3>listen</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">listen<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/router/httpRouter.js#L64">src/router/httpRouter.js:64</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="onrequest" class="tsd-anchor"></a>
 					<h3>on<wbr>Request</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -425,7 +486,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/router/httpRouter.js#L102">src/router/httpRouter.js:102</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/router/httpRouter.js#L104">src/router/httpRouter.js:104</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -452,7 +513,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_router_.router.html">Router</a>.<a href="_lib_router_.router.html#register">register</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/lib/Router.js#L123">src/lib/Router.js:123</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/lib/Router.js#L127">src/lib/Router.js:127</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -487,7 +548,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_router_.router.html">Router</a>.<a href="_lib_router_.router.html#removeclient">removeClient</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/lib/Router.js#L109">src/lib/Router.js:109</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/lib/Router.js#L113">src/lib/Router.js:113</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -519,7 +580,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_lib_router_.router.html">Router</a>.<a href="_lib_router_.router.html#setclient">setClient</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/lib/Router.js#L93">src/lib/Router.js:93</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/lib/Router.js#L97">src/lib/Router.js:97</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -537,41 +598,6 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-					<a name="unregister" class="tsd-anchor"></a>
-					<h3>unregister</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">unregister<span class="tsd-signature-symbol">(</span>clientInfo<span class="tsd-signature-symbol">: </span><a href="_lib_clientinfo_.clientinfo.html" class="tsd-signature-type">ClientInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<p>Inherited from <a href="_lib_router_.router.html">Router</a>.<a href="_lib_router_.router.html#unregister">unregister</a></p>
-								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/lib/Router.js#L156">src/lib/Router.js:156</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Remove a client from the router</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>clientInfo: <a href="_lib_clientinfo_.clientinfo.html" class="tsd-signature-type">ClientInfo</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Client information</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<ul>
-								<li>http status code</li>
-							</ul>
 						</li>
 					</ul>
 				</section>
@@ -635,9 +661,6 @@
 						<a href="../modules/_router_index_.html">&quot;router/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="../modules/_router_logger_.html">&quot;router/logger&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
 						<a href="../modules/_router_tcprouter_.html">&quot;router/tcp<wbr>Router&quot;</a>
 					</li>
 				</ul>
@@ -654,6 +677,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_router_httprouter_.httprouter.html#createtunnel" class="tsd-kind-icon">create<wbr>Tunnel</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_router_httprouter_.httprouter.html#deregister" class="tsd-kind-icon">deregister</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_router_httprouter_.httprouter.html#getclientbysignature" class="tsd-kind-icon">get<wbr>Client<wbr>BySignature</a>
@@ -674,6 +700,9 @@
 								<a href="_router_httprouter_.httprouter.html#getsecurecontext" class="tsd-kind-icon">get<wbr>Secure<wbr>Context</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_router_httprouter_.httprouter.html#listen" class="tsd-kind-icon">listen</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_router_httprouter_.httprouter.html#onrequest" class="tsd-kind-icon">on<wbr>Request</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -684,9 +713,6 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_router_httprouter_.httprouter.html#setclient" class="tsd-kind-icon">set<wbr>Client</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_router_httprouter_.httprouter.html#unregister" class="tsd-kind-icon">unregister</a>
 							</li>
 						</ul>
 					</li>
@@ -711,10 +737,10 @@
 						<a href="../modules/_router_httprouter_.html#https" class="tsd-kind-icon">https</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
-						<a href="../modules/_router_httprouter_.html#logger" class="tsd-kind-icon">logger</a>
+						<a href="../modules/_router_httprouter_.html#path" class="tsd-kind-icon">path</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
-						<a href="../modules/_router_httprouter_.html#path" class="tsd-kind-icon">path</a>
+						<a href="../modules/_router_httprouter_.html#promisify" class="tsd-kind-icon">promisify</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
 						<a href="../modules/_router_httprouter_.html#tls" class="tsd-kind-icon">tls</a>

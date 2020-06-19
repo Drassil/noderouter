@@ -74,10 +74,12 @@
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="_router_index_.html#apiserver" class="tsd-kind-icon">Api<wbr>Server</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="_router_index_.html#api" class="tsd-kind-icon">api</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="_router_index_.html#argv" class="tsd-kind-icon">argv</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="_router_index_.html#cli" class="tsd-kind-icon">cli</a></li>
-								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="_router_index_.html#file" class="tsd-kind-icon">file</a></li>
-								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="_router_index_.html#fs" class="tsd-kind-icon">fs</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="_router_index_.html#conf" class="tsd-kind-icon">conf</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="_router_index_.html#extraconf" class="tsd-kind-icon">extra<wbr>Conf</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="_router_index_.html#mergedeep" class="tsd-kind-icon">merge<wbr>Deep</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="_router_index_.html#path" class="tsd-kind-icon">path</a></li>
 							</ul>
 						</section>
@@ -98,17 +100,27 @@
 					<div class="tsd-signature tsd-kind-icon">Api<wbr>Server<span class="tsd-signature-symbol">:</span> <a href="../classes/_router_apiserver_.apiserver.html" class="tsd-signature-type">ApiServer</a><span class="tsd-signature-symbol"> = require(&#x27;./apiServer&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/router/index.js#L3">src/router/index.js:3</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/router/index.js#L3">src/router/index.js:3</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
+					<a name="api" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> api</h3>
+					<div class="tsd-signature tsd-kind-icon">api<span class="tsd-signature-symbol">:</span> <a href="../classes/_router_apiserver_.apiserver.html" class="tsd-signature-type">ApiServer</a><span class="tsd-signature-symbol"> = new ApiServer()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/router/index.js#L49">src/router/index.js:49</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
 					<a name="argv" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> argv</h3>
-					<div class="tsd-signature tsd-kind-icon">argv<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>_<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = cli(process.argv.slice(2), {string: [&#x27;hosts&#x27;, &#x27;apiPort&#x27;, &#x27;tslPort&#x27;, &#x27;httpPort&#x27;],boolean: [&#x27;h&#x27;, &#x27;apiSSL&#x27;],alias: {h: &#x27;help&#x27;, hosts: &#x27;f&#x27;},default: [],unknown: showHelp,})</span></div>
+					<div class="tsd-signature tsd-kind-icon">argv<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>_<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = cli(process.argv.slice(2), {string: [&#x27;conf&#x27;, &#x27;apiPort&#x27;, &#x27;tslPort&#x27;, &#x27;httpPort&#x27;],boolean: [&#x27;h&#x27;, &#x27;apiSSL&#x27;],alias: {h: &#x27;help&#x27;, conf: &#x27;c&#x27;},default: [],unknown: showHelp,})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/router/index.js#L23">src/router/index.js:23</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/router/index.js#L23">src/router/index.js:23</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -123,30 +135,123 @@
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
 					<a name="cli" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> cli</h3>
-					<div class="tsd-signature tsd-kind-icon">cli<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">exports</span><span class="tsd-signature-symbol"> = require(&#x27;../lib/CLI&#x27;)</span></div>
+					<div class="tsd-signature tsd-kind-icon">cli<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">exports</span><span class="tsd-signature-symbol"> = require(&#x27;@acore/noderouter/src/lib/CLI&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/router/index.js#L6">src/router/index.js:6</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/router/index.js#L5">src/router/index.js:5</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
-					<a name="file" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> file</h3>
-					<div class="tsd-signature tsd-kind-icon">file<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> = argv.hosts || process.env.NR_HOSTS_FILE</span></div>
+					<a name="conf" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagLet">Let</span> conf</h3>
+					<div class="tsd-signature tsd-kind-icon">conf<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>API_PORT<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>API_SSL<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>HTTP_ROUTER_PORT<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>TLS_ROUTER_PORT<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>TTL<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>TTL_WAIT<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>dnsAddresses<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>hosts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>logger<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = require(&#x27;@acore/noderouter/src/conf&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/router/index.js#L50">src/router/index.js:50</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/router/index.js#L41">src/router/index.js:41</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>API_<wbr>PORT<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>API_<wbr>SSL<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+								<div class="tsd-comment tsd-typography">
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>HTTP_<wbr>ROUTER_<wbr>PORT<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>TLS_<wbr>ROUTER_<wbr>PORT<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>TTL<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>TTL_<wbr>WAIT<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>wait time if the ping has not been sent within TTL time</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>dns<wbr>Addresses<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+								<div class="tsd-comment tsd-typography">
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>hosts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">[]</span></h5>
+								<div class="tsd-comment tsd-typography">
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>logger<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter">
+										<h5>debug<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+										<div class="tsd-comment tsd-typography">
+										</div>
+									</li>
+									<li class="tsd-parameter">
+										<h5>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+										<div class="tsd-comment tsd-typography">
+										</div>
+									</li>
+									<li class="tsd-parameter">
+										<h5>info<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+										<div class="tsd-comment tsd-typography">
+										</div>
+									</li>
+									<li class="tsd-parameter">
+										<h5>prefix<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+										<div class="tsd-comment tsd-typography">
+										</div>
+									</li>
+									<li class="tsd-parameter">
+										<h5>warn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+										<div class="tsd-comment tsd-typography">
+										</div>
+									</li>
+									<li class="tsd-parameter">
+										<h5>with<wbr>Trace<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5>
+										<div class="tsd-comment tsd-typography">
+										</div>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
+					<a name="extraconf" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> extra<wbr>Conf</h3>
+					<div class="tsd-signature tsd-kind-icon">extra<wbr>Conf<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> = argv.conf || process.env.NR_CONF_FILE</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/router/index.js#L42">src/router/index.js:42</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
-					<a name="fs" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> fs</h3>
-					<div class="tsd-signature tsd-kind-icon">fs<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;fs&quot;</span><span class="tsd-signature-symbol"> = require(&#x27;fs&#x27;)</span></div>
+					<a name="mergedeep" class="tsd-anchor"></a>
+					<h3>merge<wbr>Deep</h3>
+					<div class="tsd-signature tsd-kind-icon">merge<wbr>Deep<span class="tsd-signature-symbol">:</span> <a href="_lib_utils_.html#mergedeep" class="tsd-signature-type">mergeDeep</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/router/index.js#L4">src/router/index.js:4</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/router/index.js#L6">src/router/index.js:6</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -156,7 +261,7 @@
 					<div class="tsd-signature tsd-kind-icon">path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;path&quot;</span><span class="tsd-signature-symbol"> = require(&#x27;path&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/router/index.js#L5">src/router/index.js:5</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/router/index.js#L4">src/router/index.js:4</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -173,7 +278,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/e3d9c0c/src/router/index.js#L11">src/router/index.js:11</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/router/index.js#L11">src/router/index.js:11</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -240,9 +345,6 @@
 						<a href="_router_index_.html">&quot;router/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_router_logger_.html">&quot;router/logger&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module">
 						<a href="_router_tcprouter_.html">&quot;router/tcp<wbr>Router&quot;</a>
 					</li>
 				</ul>
@@ -253,16 +355,22 @@
 						<a href="_router_index_.html#apiserver" class="tsd-kind-icon">Api<wbr>Server</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="_router_index_.html#api" class="tsd-kind-icon">api</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
 						<a href="_router_index_.html#argv" class="tsd-kind-icon">argv</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
 						<a href="_router_index_.html#cli" class="tsd-kind-icon">cli</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
-						<a href="_router_index_.html#file" class="tsd-kind-icon">file</a>
+						<a href="_router_index_.html#conf" class="tsd-kind-icon">conf</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
-						<a href="_router_index_.html#fs" class="tsd-kind-icon">fs</a>
+						<a href="_router_index_.html#extraconf" class="tsd-kind-icon">extra<wbr>Conf</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
+						<a href="_router_index_.html#mergedeep" class="tsd-kind-icon">merge<wbr>Deep</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
 						<a href="_router_index_.html#path" class="tsd-kind-icon">path</a>
