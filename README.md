@@ -4,7 +4,7 @@ permalink: /
 
 # Noderouter
 
-Noderouter is an HTTP/TCP programmable proxy application that can be used as library and as a standalone software.
+Noderouter is an HTTP/TCP programmable proxy application that can be used as a library and as a standalone software.
 
 **Features:**
 
@@ -18,12 +18,12 @@ Noderouter is an HTTP/TCP programmable proxy application that can be used as lib
 
 Noderouter can be used to trasparently tunneling any kind of traffic based on TCP and HTTP[S].
 
-A common usage of noderouter is the redirection of traffic based on url rules to different
+A common usage of noderouter is the redirection of traffic based on url rules to a different
 local or remote address. In this way you can have several applications with different ports
-using noderouter ports as gateway.
+using noderouter ports as the gateway.
 
-Noderouter integrates a DNS to eventually redirect traffic outside, it's particulary useful
-when you've a microservice architecture but you need to test only some service locally
+Noderouter integrates a DNS to eventually redirect traffic outside, it's particularly useful
+when you've a microservice architecture but you need to test only some services locally
 while the others will be resolved by the DNS.
 
 Example:
