@@ -4,6 +4,7 @@ const ApiServer = require('./apiServer');
 const path = require('path');
 const cli = require('@acore/noderouter/src/lib/CLI');
 const {mergeDeep} = require('@acore/noderouter/src/lib/utils');
+const {version: pkgVersion} = require('@acore/noderouter/package.json');
 
 /**
  *
@@ -11,24 +12,30 @@ const {mergeDeep} = require('@acore/noderouter/src/lib/utils');
 function showHelp() {
   console.log('Usage: noderouter [OPTIONS]');
   console.log('Options:');
-  console.log('  -h, --help : show help information');
-  console.log('  -c, --conf : load configuration file');
-  console.log('  --apiPort  : set the listening port for noderouter API');
-  console.log('  --httpPort : set the listening port for the http proxy');
-  console.log('  --tslPort  : set the listening port for the TSL proxy');
-  console.log('  --apiSSL   : specify if the API is behind SSL');
+  console.log('  -h, --help      : show help information');
+  console.log('  -c, --conf      : load configuration file');
+  console.log('  --apiPort       : set the listening port for noderouter API');
+  console.log('  --httpPort      : set the listening port for the http proxy');
+  console.log('  --tslPort       : set the listening port for the TSL proxy');
+  console.log('  --apiSSL        : specify if the API is behind SSL');
+  console.log('  -v, --version   : show the noderouter version');
   process.exit();
 }
 
 const argv = cli(process.argv.slice(2), {
   string: ['conf', 'apiPort', 'tslPort', 'httpPort'],
-  boolean: ['h', 'apiSSL'],
-  alias: {h: 'help', conf: 'c'},
+  boolean: ['help', 'apiSSL', 'version'],
+  alias: {help: 'h', conf: 'c', version: 'v'},
   default: [],
   unknown: showHelp,
 });
 
 if (argv.help) showHelp();
+
+if (argv.version) {
+  console.log(pkgVersion);
+  process.exit();
+}
 
 process.on('uncaughtException', function(error) {
   console.error('Uncaught Exception: ', error);
