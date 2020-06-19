@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;lib/sniReader&quot; | @acore/noderouter</title>
+	<title>&quot;src/lib/utils&quot; | @acore/noderouter</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_lib_snireader_.html">&quot;lib/sniReader&quot;</a>
+					<a href="_src_lib_utils_.html">&quot;src/lib/utils&quot;</a>
 				</li>
 			</ul>
-			<h1>External module &quot;lib/sniReader&quot;</h1>
+			<h1>External module &quot;src/lib/utils&quot;</h1>
 		</div>
 	</div>
 </header>
@@ -73,13 +73,16 @@
 						<section class="tsd-index-section ">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="_lib_snireader_.html#inherits" class="tsd-kind-icon">inherits</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-external-module"><a href="_src_lib_utils_.html#dns" class="tsd-kind-icon">dns</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_lib_snireader_.html#protocolerror" class="tsd-kind-icon">Protocol<wbr>Error</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_lib_utils_.html#checkinternet" class="tsd-kind-icon">check<wbr>Internet</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_lib_utils_.html#getboolean" class="tsd-kind-icon">get<wbr>Boolean</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_lib_utils_.html#isobject" class="tsd-kind-icon">is<wbr>Object</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_src_lib_utils_.html#mergedeep" class="tsd-kind-icon">merge<wbr>Deep</a></li>
 							</ul>
 						</section>
 					</div>
@@ -88,12 +91,12 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Variables</h2>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module">
-					<a name="inherits" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> inherits</h3>
-					<div class="tsd-signature tsd-kind-icon">inherits<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">inherits</span><span class="tsd-signature-symbol"> = require(&#x27;util&#x27;).inherits</span></div>
+					<a name="dns" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> dns</h3>
+					<div class="tsd-signature tsd-kind-icon">dns<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;dns&quot;</span><span class="tsd-signature-symbol"> = require(&#x27;dns&#x27;)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/lib/sniReader.js#L8">src/lib/sniReader.js:8</a></li>
+							<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/fe82141/src/lib/utils.js#L1">src/lib/utils.js:1</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -101,19 +104,129 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="protocolerror" class="tsd-anchor"></a>
-					<h3>Protocol<wbr>Error</h3>
+					<a name="checkinternet" class="tsd-anchor"></a>
+					<h3>check<wbr>Internet</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">Protocol<wbr>Error<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">check<wbr>Internet<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/lib/sniReader.js#L201">src/lib/sniReader.js:201</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/fe82141/src/lib/utils.js#L26">src/lib/utils.js:26</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<ul>
+								<li>Result of the check</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="getboolean" class="tsd-anchor"></a>
+					<h3>get<wbr>Boolean</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Boolean<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, def<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/fe82141/src/lib/utils.js#L8">src/lib/utils.js:8</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>value: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>value where to extract the boolean form</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> def: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = false</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>default boolean value</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<ul>
+								<li>the extracted boolean value</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="isobject" class="tsd-anchor"></a>
+					<h3>is<wbr>Object</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Object<span class="tsd-signature-symbol">(</span>item<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/fe82141/src/lib/utils.js#L38">src/lib/utils.js:38</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>item: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Variable to check</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<ul>
+								<li>result</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="mergedeep" class="tsd-anchor"></a>
+					<h3>merge<wbr>Deep</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">merge<wbr>Deep<span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, source<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/fe82141/src/lib/utils.js#L47">src/lib/utils.js:47</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>target: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>target object</p>
+									</div>
+								</li>
+								<li>
+									<h5>source: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>source object</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<ul>
+								<li>merged object</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -125,69 +238,87 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="___tests___index_test_.html">&quot;__tests__/index.test&quot;</a>
+					<li class="label tsd-is-external">
+						<span>Internals</span>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_client_index_.html">&quot;client/index&quot;</a>
+						<a href="_src___tests___index_test_.html">&quot;src/__tests__/index.test&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_client_run_.html">&quot;client/run&quot;</a>
+						<a href="_src_client_index_.html">&quot;src/client/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_conf_dist_routerconf_.html">&quot;conf/dist/router<wbr>Conf&quot;</a>
+						<a href="_src_client_run_.html">&quot;src/client/run&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_conf_index_.html">&quot;conf/index&quot;</a>
+						<a href="_src_conf_dist_routerconf_.html">&quot;src/conf/dist/router<wbr>Conf&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_def_const_.html">&quot;def/const&quot;</a>
+						<a href="_src_conf_index_.html">&quot;src/conf/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_def_jsdoc_.html">&quot;def/jsdoc&quot;</a>
+						<a href="_src_def_const_.html">&quot;src/def/const&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_lib_cli_.html">&quot;lib/CLI&quot;</a>
+						<a href="_src_def_jsdoc_.html">&quot;src/def/jsdoc&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_lib_clientinfo_.html">&quot;lib/<wbr>Client<wbr>Info&quot;</a>
+						<a href="_src_lib_cli_.html">&quot;src/lib/CLI&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_lib_eventmanager_.html">&quot;lib/<wbr>Event<wbr>Manager&quot;</a>
+						<a href="_src_lib_clientinfo_.html">&quot;src/lib/<wbr>Client<wbr>Info&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_lib_logger_.html">&quot;lib/<wbr>Logger&quot;</a>
+						<a href="_src_lib_eventmanager_.html">&quot;src/lib/<wbr>Event<wbr>Manager&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_lib_router_.html">&quot;lib/<wbr>Router&quot;</a>
+						<a href="_src_lib_logger_.html">&quot;src/lib/<wbr>Logger&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_lib_router_.html">&quot;src/lib/<wbr>Router&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_lib_snireader_.html">&quot;src/lib/sni<wbr>Reader&quot;</a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="_lib_snireader_.html">&quot;lib/sni<wbr>Reader&quot;</a>
+						<a href="_src_lib_utils_.html">&quot;src/lib/utils&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_lib_utils_.html">&quot;lib/utils&quot;</a>
+						<a href="_src_router_apiserver_.html">&quot;src/router/api<wbr>Server&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_router_apiserver_.html">&quot;router/api<wbr>Server&quot;</a>
+						<a href="_src_router_httprouter_.html">&quot;src/router/http<wbr>Router&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_router_httprouter_.html">&quot;router/http<wbr>Router&quot;</a>
+						<a href="_src_router_index_.html">&quot;src/router/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_router_index_.html">&quot;router/index&quot;</a>
+						<a href="_src_router_tcprouter_.html">&quot;src/router/tcp<wbr>Router&quot;</a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="_router_tcprouter_.html">&quot;router/tcp<wbr>Router&quot;</a>
+					<li class="label tsd-is-external">
+						<span>Externals</span>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_package_.html">&quot;package&quot;</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module">
-						<a href="_lib_snireader_.html#inherits" class="tsd-kind-icon">inherits</a>
+						<a href="_src_lib_utils_.html#dns" class="tsd-kind-icon">dns</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="_lib_snireader_.html#protocolerror" class="tsd-kind-icon">Protocol<wbr>Error</a>
+						<a href="_src_lib_utils_.html#checkinternet" class="tsd-kind-icon">check<wbr>Internet</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_src_lib_utils_.html#getboolean" class="tsd-kind-icon">get<wbr>Boolean</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_src_lib_utils_.html#isobject" class="tsd-kind-icon">is<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_src_lib_utils_.html#mergedeep" class="tsd-kind-icon">merge<wbr>Deep</a>
 					</li>
 				</ul>
 			</nav>

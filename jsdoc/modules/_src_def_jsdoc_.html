@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;lib/CLI&quot; | @acore/noderouter</title>
+	<title>&quot;src/def/jsdoc&quot; | @acore/noderouter</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,89 +56,51 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_lib_cli_.html">&quot;lib/CLI&quot;</a>
+					<a href="_src_def_jsdoc_.html">&quot;src/def/jsdoc&quot;</a>
 				</li>
 			</ul>
-			<h1>External module &quot;lib/CLI&quot;</h1>
+			<h1>External module &quot;src/def/jsdoc&quot;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Functions</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_lib_cli_.html#haskey" class="tsd-kind-icon">has<wbr>Key</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_lib_cli_.html#isnumber" class="tsd-kind-icon">is<wbr>Number</a></li>
-							</ul>
-						</section>
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Information sent by clients to create the connection tunnel</p>
 					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Functions</h2>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="haskey" class="tsd-anchor"></a>
-					<h3>has<wbr>Key</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">has<wbr>Key<span class="tsd-signature-symbol">(</span>obj<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, keys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/lib/CLI.js#L244">src/lib/CLI.js:244</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>obj: <span class="tsd-signature-type">any</span></h5>
-								</li>
-								<li>
-									<h5>keys: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
-					<a name="isnumber" class="tsd-anchor"></a>
-					<h3>is<wbr>Number</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Number<span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/5793920/src/lib/CLI.js#L257">src/lib/CLI.js:257</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>x: <span class="tsd-signature-type">any</span></h5>
-									<div class="tsd-comment tsd-typography">
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
+					<dl class="tsd-comment-tags">
+						<dt>property</dt>
+						<dd><p>{number} connType - type of connection</p>
+						</dd>
+						<dt>property</dt>
+						<dd><p>{string} srcHost - source host</p>
+						</dd>
+						<dt>property</dt>
+						<dd><p>{string} dstHost - destination host</p>
+						</dd>
+						<dt>property</dt>
+						<dd><p>{number} dstPort - destination port</p>
+						</dd>
+						<dt>property</dt>
+						<dd><p>{string} [srcPath] - source path regex matching rule</p>
+						</dd>
+						<dt>property</dt>
+						<dd><p>{string} [dstPath] - dst path regex matching rule</p>
+						</dd>
+						<dt>property</dt>
+						<dd><p>{number} [timeToLive] - TTL for renew the registration</p>
+						</dd>
+						<dt>property</dt>
+						<dd><p>{string} [signature] - client signature</p>
+						</dd>
+						<dt>property</dt>
+						<dd><p>{boolean} [isLocal] - Deprecated: unused</p>
+						</dd>
+					</dl>
+				</div>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -147,70 +109,73 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="___tests___index_test_.html">&quot;__tests__/index.test&quot;</a>
+					<li class="label tsd-is-external">
+						<span>Internals</span>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_client_index_.html">&quot;client/index&quot;</a>
+						<a href="_src___tests___index_test_.html">&quot;src/__tests__/index.test&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_client_run_.html">&quot;client/run&quot;</a>
+						<a href="_src_client_index_.html">&quot;src/client/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_conf_dist_routerconf_.html">&quot;conf/dist/router<wbr>Conf&quot;</a>
+						<a href="_src_client_run_.html">&quot;src/client/run&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_conf_index_.html">&quot;conf/index&quot;</a>
+						<a href="_src_conf_dist_routerconf_.html">&quot;src/conf/dist/router<wbr>Conf&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_def_const_.html">&quot;def/const&quot;</a>
+						<a href="_src_conf_index_.html">&quot;src/conf/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_def_jsdoc_.html">&quot;def/jsdoc&quot;</a>
+						<a href="_src_def_const_.html">&quot;src/def/const&quot;</a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="_lib_cli_.html">&quot;lib/CLI&quot;</a>
+						<a href="_src_def_jsdoc_.html">&quot;src/def/jsdoc&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_lib_clientinfo_.html">&quot;lib/<wbr>Client<wbr>Info&quot;</a>
+						<a href="_src_lib_cli_.html">&quot;src/lib/CLI&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_lib_eventmanager_.html">&quot;lib/<wbr>Event<wbr>Manager&quot;</a>
+						<a href="_src_lib_clientinfo_.html">&quot;src/lib/<wbr>Client<wbr>Info&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_lib_logger_.html">&quot;lib/<wbr>Logger&quot;</a>
+						<a href="_src_lib_eventmanager_.html">&quot;src/lib/<wbr>Event<wbr>Manager&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_lib_router_.html">&quot;lib/<wbr>Router&quot;</a>
+						<a href="_src_lib_logger_.html">&quot;src/lib/<wbr>Logger&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_lib_snireader_.html">&quot;lib/sni<wbr>Reader&quot;</a>
+						<a href="_src_lib_router_.html">&quot;src/lib/<wbr>Router&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_lib_utils_.html">&quot;lib/utils&quot;</a>
+						<a href="_src_lib_snireader_.html">&quot;src/lib/sni<wbr>Reader&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_router_apiserver_.html">&quot;router/api<wbr>Server&quot;</a>
+						<a href="_src_lib_utils_.html">&quot;src/lib/utils&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_router_httprouter_.html">&quot;router/http<wbr>Router&quot;</a>
+						<a href="_src_router_apiserver_.html">&quot;src/router/api<wbr>Server&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_router_index_.html">&quot;router/index&quot;</a>
+						<a href="_src_router_httprouter_.html">&quot;src/router/http<wbr>Router&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_router_tcprouter_.html">&quot;router/tcp<wbr>Router&quot;</a>
+						<a href="_src_router_index_.html">&quot;src/router/index&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_src_router_tcprouter_.html">&quot;src/router/tcp<wbr>Router&quot;</a>
+					</li>
+					<li class="label tsd-is-external">
+						<span>Externals</span>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_package_.html">&quot;package&quot;</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="_lib_cli_.html#haskey" class="tsd-kind-icon">has<wbr>Key</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="_lib_cli_.html#isnumber" class="tsd-kind-icon">is<wbr>Number</a>
-					</li>
 				</ul>
 			</nav>
 		</div>
