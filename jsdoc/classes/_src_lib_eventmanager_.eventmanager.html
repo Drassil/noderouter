@@ -106,6 +106,12 @@
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><a href="_src_lib_eventmanager_.eventmanager.html#errormonitor" class="tsd-kind-icon">error<wbr>Monitor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_src_lib_eventmanager_.eventmanager.html#addlistener" class="tsd-kind-icon">add<wbr>Listener</a></li>
@@ -142,7 +148,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/b9570f4/src/lib/EventManager.js#L13">src/lib/EventManager.js:13</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/dd8735c/src/lib/EventManager.js#L13">src/lib/EventManager.js:13</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -160,6 +166,29 @@
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-static">
+					<a name="errormonitor" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> error<wbr>Monitor</h3>
+					<div class="tsd-signature tsd-kind-icon">error<wbr>Monitor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">symbol</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@types/node/events.d.ts:25</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>This symbol shall be used to install a listener for only monitoring <code>&#39;error&#39;</code>
+								events. Listeners installed using this symbol are called before the regular
+							<code>&#39;error&#39;</code> listeners are called.</p>
+						</div>
+						<p>Installing a listener using this symbol does not change the behavior once an
+							<code>&#39;error&#39;</code> event is emitted, therefore the process will still crash if no
+						regular <code>&#39;error&#39;</code> listener is installed.</p>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="addlistener" class="tsd-anchor"></a>
@@ -172,7 +201,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_lib_eventmanager_.eventmanager.html">EventManager</a>.<a href="_src_lib_eventmanager_.eventmanager.html#addlistener">addListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/globals.d.ts:617</li>
+									<li>Defined in node_modules/@types/node/globals.d.ts:636</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -217,7 +246,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides EventEmitter.emit</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/b9570f4/src/lib/EventManager.js#L37">src/lib/EventManager.js:37</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/dd8735c/src/lib/EventManager.js#L37">src/lib/EventManager.js:37</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -254,7 +283,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/b9570f4/src/lib/EventManager.js#L22">src/lib/EventManager.js:22</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/dd8735c/src/lib/EventManager.js#L22">src/lib/EventManager.js:22</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -278,7 +307,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_lib_eventmanager_.eventmanager.html">EventManager</a>.<a href="_src_lib_eventmanager_.eventmanager.html#eventnames">eventNames</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/globals.d.ts:632</li>
+									<li>Defined in node_modules/@types/node/globals.d.ts:651</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">symbol</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -296,7 +325,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_lib_eventmanager_.eventmanager.html">EventManager</a>.<a href="_src_lib_eventmanager_.eventmanager.html#getmaxlisteners">getMaxListeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/globals.d.ts:624</li>
+									<li>Defined in node_modules/@types/node/globals.d.ts:643</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -314,7 +343,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_lib_eventmanager_.eventmanager.html">EventManager</a>.<a href="_src_lib_eventmanager_.eventmanager.html#listenercount">listenerCount</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/globals.d.ts:628</li>
+									<li>Defined in node_modules/@types/node/globals.d.ts:647</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -338,7 +367,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_lib_eventmanager_.eventmanager.html">EventManager</a>.<a href="_src_lib_eventmanager_.eventmanager.html#listeners">listeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/globals.d.ts:625</li>
+									<li>Defined in node_modules/@types/node/globals.d.ts:644</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -362,7 +391,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_lib_eventmanager_.eventmanager.html">EventManager</a>.<a href="_src_lib_eventmanager_.eventmanager.html#off">off</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/globals.d.ts:621</li>
+									<li>Defined in node_modules/@types/node/globals.d.ts:640</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -407,7 +436,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides EventEmitter.on</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/b9570f4/src/lib/EventManager.js#L54">src/lib/EventManager.js:54</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/dd8735c/src/lib/EventManager.js#L54">src/lib/EventManager.js:54</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -447,7 +476,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides EventEmitter.once</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/b9570f4/src/lib/EventManager.js#L67">src/lib/EventManager.js:67</a></li>
+									<li>Defined in <a href="https://github.com/azerothcore/noderouter/blob/dd8735c/src/lib/EventManager.js#L67">src/lib/EventManager.js:67</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -487,7 +516,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_lib_eventmanager_.eventmanager.html">EventManager</a>.<a href="_src_lib_eventmanager_.eventmanager.html#prependlistener">prependListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/globals.d.ts:630</li>
+									<li>Defined in node_modules/@types/node/globals.d.ts:649</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -532,7 +561,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_lib_eventmanager_.eventmanager.html">EventManager</a>.<a href="_src_lib_eventmanager_.eventmanager.html#prependoncelistener">prependOnceListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/globals.d.ts:631</li>
+									<li>Defined in node_modules/@types/node/globals.d.ts:650</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -577,7 +606,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_lib_eventmanager_.eventmanager.html">EventManager</a>.<a href="_src_lib_eventmanager_.eventmanager.html#rawlisteners">rawListeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/globals.d.ts:626</li>
+									<li>Defined in node_modules/@types/node/globals.d.ts:645</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -601,7 +630,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_lib_eventmanager_.eventmanager.html">EventManager</a>.<a href="_src_lib_eventmanager_.eventmanager.html#removealllisteners">removeAllListeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/globals.d.ts:622</li>
+									<li>Defined in node_modules/@types/node/globals.d.ts:641</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -625,7 +654,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_lib_eventmanager_.eventmanager.html">EventManager</a>.<a href="_src_lib_eventmanager_.eventmanager.html#removelistener">removeListener</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/globals.d.ts:620</li>
+									<li>Defined in node_modules/@types/node/globals.d.ts:639</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -670,7 +699,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_src_lib_eventmanager_.eventmanager.html">EventManager</a>.<a href="_src_lib_eventmanager_.eventmanager.html#setmaxlisteners">setMaxListeners</a></p>
 								<ul>
-									<li>Defined in node_modules/@types/node/globals.d.ts:623</li>
+									<li>Defined in node_modules/@types/node/globals.d.ts:642</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -812,6 +841,9 @@
 							</li>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
 								<a href="_src_lib_eventmanager_.eventmanager.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-static">
+								<a href="_src_lib_eventmanager_.eventmanager.html#errormonitor" class="tsd-kind-icon">error<wbr>Monitor</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_src_lib_eventmanager_.eventmanager.html#addlistener" class="tsd-kind-icon">add<wbr>Listener</a>
