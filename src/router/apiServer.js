@@ -37,7 +37,7 @@ class ApiServer {
     hosts,
   }) {
     const server = ssl ? https : http;
-    this.dnsServer = new dns.Resolver();
+    this.dnsServer = dns;
 
     const logger = this.logger = new Logger(loggerConf);
 

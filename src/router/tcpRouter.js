@@ -12,7 +12,7 @@ class TCPRouter extends Router {
    * @param {number} localport - port to open for this router
    * @param {import("./httpRouter")} httpsRouter - https router instance
    * @instance
-   * @param {import("dns").Resolver} dnsServer - dns server instance
+   * @param {import("dns")} dnsServer - dns server instance
    * @param {Object} evtMgr - event manager instance
    * @param {import('/lib/Logger')} logger - Logger instance
    */
