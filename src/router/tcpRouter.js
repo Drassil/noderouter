@@ -29,7 +29,7 @@ class TCPRouter extends Router {
           serverSocket.end();
         } else if (sniName) {
           serverSocket.on('error', function(err) {
-            logger.error('Socket error: ' + err);
+            logger.warn('Socket error: ' + err);
             serverSocket.end();
           });
           this.initSession(serverSocket, sniName);
@@ -64,7 +64,7 @@ class TCPRouter extends Router {
 
           if (!client) {
             logger.debug(`Tring to resolve ${clientReq.headers.host} with DNS`);
-            this.dnsServer.resolve(clientReq.headers.host, (err, addresses) => {
+            this.dnsServer.lookup(clientReq.headers.host, (err, addresses) => {
               if (!err) {
                 logger.debug(`${httpsSrv.type} Router: Resolving by remote DNS`);
                 httpsSrv.createTunnel(
@@ -151,7 +151,7 @@ class TCPRouter extends Router {
 
     if (!client) {
       logger.debug(`Find ${sniName} with DNS...`);
-      this.dnsServer.resolve(sniName, (err, addresses) => {
+      this.dnsServer.lookup(sniName, (err, addresses) => {
         if (!err) {
           logger.debug('Resolving by remote DNS');
           this.createTunnel(
@@ -194,7 +194,7 @@ class TCPRouter extends Router {
     if (!client && sniName === dstHost && this.localport === dstPort) {
       logger.log('TCP Router: resolving with DNS');
       // avoid infinite loops, try with DNS
-      this.dnsServer.resolve(dstHost, (err, addresses) => {
+      this.dnsServer.lookup(dstHost, (err, addresses) => {
         if (err) {
           logger.error(err);
           return;
@@ -227,7 +227,7 @@ class TCPRouter extends Router {
       serverSocket.end();
     });
     serverSocket.on('error', function(err) {
-      logger.error(
+      logger.warn(
           serverSocket.remoteAddress,
           'Server socket reported',
           err.code,
