@@ -64,14 +64,22 @@ class TCPRouter extends Router {
 
           if (!client) {
             logger.debug(`Tring to resolve ${clientReq.headers.host} with DNS`);
-            this.dnsServer.lookup(clientReq.headers.host, (err, addresses) => {
+
+            // TODO: support for IPV6
+            const options = {
+              // Setting family as 4 i.e. IPv4
+              family: 4,
+              hints: this.dnsServer.ADDRCONFIG | this.dnsServer.V4MAPPED,
+            };
+
+            this.dnsServer.lookup(clientReq.headers.host, options, (err, address) => {
               if (!err) {
                 logger.debug(`${httpsSrv.type} Router: Resolving by remote DNS`);
                 httpsSrv.createTunnel(
                     clientReq,
                     clientRes,
                     clientReq.headers.host,
-                    addresses[0],
+                    address,
                 httpsSrv.isSSL ? 443 : 80,
                 clientReq.url,
                 httpsSrv.isSSL ?
@@ -151,14 +159,23 @@ class TCPRouter extends Router {
 
     if (!client) {
       logger.debug(`Find ${sniName} with DNS...`);
-      this.dnsServer.lookup(sniName, (err, addresses) => {
+      // TODO: support for IPV6
+      const options = {
+        // Setting family as 4 i.e. IPv4
+        family: 4,
+        hints: this.dnsServer.ADDRCONFIG | this.dnsServer.V4MAPPED,
+      };
+
+      this.dnsServer.lookup(sniName, options, (err, address) => {
         if (!err) {
           logger.debug('Resolving by remote DNS');
           this.createTunnel(
               serverSocket,
               sniName,
-              addresses[0],
+              address,
               this.localport,
+              null,
+              'DNS Resolver',
           );
         } else {
           logger.error(err);
@@ -172,7 +189,7 @@ class TCPRouter extends Router {
       logger.info('Client expired! Deregistering...');
       this.deregister(client);
       // trying with external connection
-      this.createTunnel(serverSocket, sniName, sniName, this.localport);
+      this.createTunnel(serverSocket, sniName, sniName, this.localport, null, 'Expiration');
       return false;
     }
 
@@ -182,25 +199,33 @@ class TCPRouter extends Router {
         client.dstHost,
         client.dstPort,
         client,
+        'Init session',
     );
     return true;
   }
 
-  createTunnel(serverSocket, sniName, dstHost, dstPort, client = null) {
+  createTunnel(serverSocket, sniName, dstHost, dstPort, client = null, description='No description') {
     const logger = this.logger;
     // [TODO]: improve. It could generate unpredictable
     // issues if you need to redirect a local service to the same
     // port of the source
     if (!client && sniName === dstHost && this.localport === dstPort) {
       logger.log('TCP Router: resolving with DNS');
+      // TODO: support for IPV6
+      const options = {
+        // Setting family as 4 i.e. IPv4
+        family: 4,
+        hints: this.dnsServer.ADDRCONFIG | this.dnsServer.V4MAPPED,
+      };
+
       // avoid infinite loops, try with DNS
-      this.dnsServer.lookup(dstHost, (err, addresses) => {
+      this.dnsServer.lookup(dstHost, options, (err, address) => {
         if (err) {
           logger.error(err);
           return;
         }
 
-        this.createTunnel(serverSocket, sniName, addresses[0], dstPort, client);
+        this.createTunnel(serverSocket, sniName, address, dstPort, client, 'Self-call for DNS search');
       });
 
       return;
@@ -222,8 +247,9 @@ class TCPRouter extends Router {
       );
     });
     clientSocket.on('error', (err) => {
+      logger.error(sniName, 'Client socket reported:', err, 'Client info: ', client, 'Dest host:', dstHost,
+          'Dest port:', dstPort, 'Description:', description);
       if (client) this.deregister(client);
-      logger.error(sniName, 'Client socket reported', err);
       serverSocket.end();
     });
     serverSocket.on('error', function(err) {

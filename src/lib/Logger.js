@@ -24,21 +24,22 @@ module.exports = class Logger {
     warn = true,
     withTrace = true,
   }) {
+    const date = new Date().toLocaleString();
     this.debug = function(...args) {
-      debug && console.debug.apply(null, [prefix, ...args]);
+      debug && console.debug.apply(null, [date, prefix, ...args]);
     };
     this.error = function(...args) {
       error &&
-        (withTrace ? console.trace : console.error).apply(null, [
+        (withTrace ? console.trace : console.error).apply(null, [date,
           prefix,
           ...args,
         ]);
     };
     this.info = this.log = function(...args) {
-      info && console.log.apply(null, [prefix, ...args]);
+      info && console.log.apply(null, [date, prefix, ...args]);
     };
     this.warn = function(...args) {
-      warn && console.warn.apply(null, [prefix, ...args]);
+      warn && console.warn.apply(null, [date, prefix, ...args]);
     };
 
     this.debug('Logger enabled with conf: ', {
