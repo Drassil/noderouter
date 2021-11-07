@@ -210,7 +210,7 @@ class TCPRouter extends Router {
     // issues if you need to redirect a local service to the same
     // port of the source
     if (!client && sniName === dstHost && this.localport === dstPort) {
-      logger.log('TCP Router: resolving with DNS');
+      logger.log('TCP Router: resolving with DNS', dstHost);
       // TODO: support for IPV6
       const options = {
         // Setting family as 4 i.e. IPv4
@@ -225,7 +225,9 @@ class TCPRouter extends Router {
           return;
         }
 
-        this.createTunnel(serverSocket, sniName, address, dstPort, client, 'Self-call for DNS search');
+        if (dstHost !== address) {
+          this.createTunnel(serverSocket, sniName, address, dstPort, client, 'Self-call for DNS search');
+        }
       });
 
       return;
